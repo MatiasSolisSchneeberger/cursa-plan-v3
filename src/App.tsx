@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Layout from "./layout/Layout"
 import {PaginaCarrera} from "./pages/PaginaCarrera" // Tu componente de página
+import {Index} from "./pages/Index"
 
 function App() {
 	return (
@@ -8,6 +9,7 @@ function App() {
 			<Routes>
 				{/* Rutas generales (Home, Contacto) sin tema específico */}
 				<Route path="/" element={<Layout />}>
+					<Route index element={<Index />} />
 					{/* --- AQUÍ ESTÁ LA MAGIA --- */}
 					{/* Definimos la ruta padre con el parámetro :carrera */}
 					<Route path="/carrera/:carrera" element={<PaginaCarrera />} />

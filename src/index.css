@@ -1,8 +1,8 @@
 /** @format */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import "tailwindcss";
 
 /* Tipografía Nunito */
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 @custom-variant dark (&:where(.dark, .dark *));
 @theme inline {
@@ -1941,6 +1941,38 @@
 		--info-900: oklch(from var(--info) calc(l - 0.18) calc(c * 0.6) calc(h + 6));
 		--info-950: oklch(from var(--info) calc(l - 0.226) calc(c * 0.47) calc(h + 9));
 	}
+}
+
+.dropdown-content {
+	position-try-fallbacks: "--below-right, --below-left, --above-right, --above-left";
+}
+
+@position-try --below-right {
+	inset: unset;
+
+	top: anchor(bottom);
+	left: anchor(left);
+}
+
+@position-try --below-left {
+	inset: unset;
+
+	top: anchor(bottom);
+	right: anchor(left);
+}
+
+@position-try --above-right {
+	inset: unset;
+
+	top: anchor(top);
+	left: anchor(left);
+}
+
+@position-try --above-left {
+	inset: unset;
+
+	top: anchor(top);
+	right: anchor(right);
 }
 
 .texto-display {
