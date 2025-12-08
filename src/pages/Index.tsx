@@ -1,3 +1,9 @@
+import ListadoCarreras from "../sections/ListadoCarreras"
+
 export function Index() {
-	return <div className="bg-primary-400 w-full h-full"> Hola</div>
+	return (
+		<>
+			<ListadoCarreras />
+		</>
+	)
 }
