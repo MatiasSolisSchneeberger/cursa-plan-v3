@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom"
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "solid" | "flat" | "outlined" | "text"
 	color?: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info"
@@ -93,11 +95,11 @@ export default function Button({
 	if (href) {
 		// Renderiza <a> si tiene href y no está disabled
 		return (
-			<a className={fullClassName} href={href} id={id} {...(props as any)}>
+			<Link className={fullClassName} to={href} id={id} {...(props as any)}>
 				{iconLeft}
 				<span className="px-2">{children}</span>
 				{iconRight}
-			</a>
+			</Link>
 		)
 	} else {
 		// Renderiza <button> en cualquier otro caso

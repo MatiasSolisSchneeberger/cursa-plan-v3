@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom"
+
 interface ButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "solid" | "flat" | "outlined" | "text"
 	color?: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info"
@@ -94,9 +96,9 @@ export default function ButtonIcon({
 
 	if (href) {
 		return (
-			<a className={fullClassName} href={href} id={id} {...(props as any)}>
+			<Link className={fullClassName} to={href} id={id} {...(props as any)}>
 				{children}
-			</a>
+			</Link>
 		)
 	} else {
 		return (

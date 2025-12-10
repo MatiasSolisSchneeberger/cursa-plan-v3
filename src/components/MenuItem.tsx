@@ -1,4 +1,5 @@
 import type {ReactNode} from "react"
+import {Link} from "react-router-dom"
 
 interface MenuItemInterface {
 	children: ReactNode
@@ -50,12 +51,12 @@ export default function MenuItem({
 	return (
 		<li
 			className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center ${
-				href && "hover:bg-background-50 transition-all ease-in-out rounded-2xl"
+				href && "hover:bg-background-100 hover:shadow-sm transition-all ease-in-out rounded-2xl"
 			}`}>
 			{href ? (
-				<a href={href} className="flex flex-row items-center w-full">
+				<Link to={href} className="flex flex-row items-center w-full">
 					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}
-				</a>
+				</Link>
 			) : (
 				<>{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}</>
 			)}
