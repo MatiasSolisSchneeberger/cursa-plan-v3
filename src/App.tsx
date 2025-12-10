@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Layout from "./layout/Layout"
 import {PaginaCarrera} from "./pages/PaginaCarrera" // Tu componente de página
 import {Index} from "./pages/Index"
+import NotFound from "./pages/NotFound"
 
 function App() {
 	return (
@@ -15,6 +16,8 @@ function App() {
 					<Route path="/carrera/:carrera" element={<PaginaCarrera />} />
 					<Route path="/mesas-examenes" element={<div> mesa de examenes</div>} />
 					<Route path="/calendario-academico" element={<div> calendario academico</div>} />
+					<Route path="*" element={<Navigate to="/404" />} />
+					<Route path="/404" element={<NotFound />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
