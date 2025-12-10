@@ -10,6 +10,7 @@ import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
 import DropdownContent from "../components/DropdownContent"
 import ButtonIcon from "../components/ButtonIcon"
+import ThemeButton from "../components/ThemeButton"
 
 const isLogged = false
 
@@ -80,6 +81,10 @@ export function NavHeader() {
 					href: "/ayuda",
 					icon: <IconHelp />,
 				},
+				{
+					name: "Cambiar de tema",
+					button: <ThemeButton />,
+				},
 			],
 		},
 	]
@@ -91,8 +96,8 @@ export function NavHeader() {
 			<LogoPage />
 
 			{/* Botones de Navegacion */}
-			<nav className="hidden lg:flex flex-row gap-2.5 items-center justify-center self-stretch shrink-0 relative overflow-hidden lg:overflow-visible w-min h-min">
-				<span className="flex flex-row gap-2.5 pr-2.5 first:border-r-2 first:border-background-300 dark:first:border-background-700">
+			<nav className="hidden lg:flex flex-row gap-2.5 items-center justify-center self-stretch shrink-0 relative overflow-hidden lg:overflow-visible w-min h-min *:border-r-2 *:border-background-300 dark:*:border-background-700 *:pr-2.5 *:last:border-r-0 *:last:pr-0">
+				<span className="flex flex-row gap-2.5">
 					{menuItems[0].items
 						.filter(({href}) => href !== path)
 						.map(({name, href, icon}) => (
@@ -102,6 +107,9 @@ export function NavHeader() {
 						))}
 				</span>
 				{User()}
+				<span className="flex flex-row gap-2.5">
+					<ThemeButton />
+				</span>
 			</nav>
 			<nav className="inline-block lg:hidden">
 				<Dropdown>
@@ -116,8 +124,8 @@ export function NavHeader() {
 								<MenuGroup key={title} title={title}>
 									{items
 										.filter(({href}) => href !== path)
-										.map(({name, href, icon}) => (
-											<MenuItem key={name} href={href} iconLeft={icon}>
+										.map(({name, href, icon, button}) => (
+											<MenuItem key={name} href={href} iconLeft={icon} button={button}>
 												{name}
 											</MenuItem>
 										))}
