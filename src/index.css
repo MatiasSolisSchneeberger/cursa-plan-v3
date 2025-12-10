@@ -1976,17 +1976,17 @@
 }
 
 .texto-display {
-	@apply font-Nunito text-5xl leading-13 font-semibold;
+	@apply font-Nunito text-5xl leading-13 font-bold;
 }
 .texto-headline {
-	@apply font-Nunito text-3xl leading-9 font-medium;
+	@apply font-Nunito text-3xl leading-9 font-semibold;
 }
 .texto-title {
-	@apply font-Nunito text-base leading-6 font-medium tracking-wide;
+	@apply font-Nunito text-base leading-6 font-semibold tracking-wide;
 }
 .texto-body {
-	@apply font-Nunito text-sm leading-5 font-light tracking-wide;
+	@apply font-Nunito text-sm leading-5 font-medium tracking-wide;
 }
 .texto-label {
-	@apply font-Nunito text-sm leading-4 font-normal tracking-wide;
+	@apply font-Nunito text-sm leading-4 font-medium tracking-wide;
 }
