@@ -12,7 +12,7 @@ import DropdownContent from "../components/DropdownContent"
 import ButtonIcon from "../components/ButtonIcon"
 import ThemeButton from "../components/ThemeButton"
 
-const isLogged = false
+const isLogged = true
 
 const User = () => {
 	return (
@@ -29,7 +29,6 @@ const User = () => {
 			) : (
 				<>
 					<Avatar name="Matias" notification color="danger" />
-					<span>Matias</span>
 				</>
 			)}
 		</span>
@@ -91,12 +90,12 @@ export function NavHeader() {
 	const {pathname: path} = useLocation()
 
 	return (
-		<header className="flex w-full flex-wrap items-center justify-between rounded-3xl bg-background-100 p-2.5 shadow-xl outline-1 outline-background-400 dark:bg-background-900 ">
+		<header className="flex w-full items-center justify-between rounded-3xl bg-background-100 p-2.5 shadow-xl outline-1 outline-background-400 dark:bg-background-900 ">
 			{/* Logo Pagina */}
 			<LogoPage />
 
 			{/* Botones de Navegacion */}
-			<nav className="hidden lg:flex flex-row gap-2.5 items-center justify-center self-stretch shrink-0 relative overflow-hidden lg:overflow-visible w-min h-min *:border-r-2 *:border-background-300 dark:*:border-background-700 *:pr-2.5 *:last:border-r-0 *:last:pr-0">
+			<nav className="hidden xl:flex flex-row gap-2.5 items-center justify-center self-stretch shrink-0 relative overflow-hidden lg:overflow-visible w-min h-min *:border-r-2 *:border-background-300 dark:*:border-background-700 *:pr-2.5 *:last:border-r-0 *:last:pr-0">
 				<span className="flex flex-row gap-2.5">
 					{menuItems[0].items
 						.filter(({href}) => href !== path)
@@ -111,7 +110,7 @@ export function NavHeader() {
 					<ThemeButton />
 				</span>
 			</nav>
-			<nav className="inline-block lg:hidden">
+			<nav className="inline-block xl:hidden">
 				<Dropdown>
 					<DropdownTrigger>
 						<ButtonIcon variant="outlined" color="primary">
