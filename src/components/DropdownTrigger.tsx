@@ -7,7 +7,7 @@ export default function DropdownTrigger({children}: {children: React.ReactNode})
 		<div
 			ref={triggerRef}
 			onClick={toggle}
-			className=" cursor-pointer inline-flex" // Agregué inline-flex para mejor comportamiento
+			className=" cursor-pointer inline-flex w-full" // Agregué inline-flex para mejor comportamiento
 			aria-expanded={open}
 			style={
 				{

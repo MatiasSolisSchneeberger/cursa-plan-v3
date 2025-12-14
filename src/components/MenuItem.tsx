@@ -11,6 +11,7 @@ interface MenuItemInterface {
 	switchComponent?: ReactNode
 	textHelp?: string
 	href?: string
+	onClick?: () => void
 }
 
 const content = ({
@@ -47,19 +48,24 @@ export default function MenuItem({
 	switchComponent,
 	href,
 	textHelp,
+	onClick,
 }: MenuItemInterface) {
 	return (
-		<li
-			className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center ${
-				href && "hover:bg-background-100 hover:shadow-sm transition-all ease-in-out rounded-2xl"
-			}`}>
+		<>
 			{href ? (
-				<Link to={href} className="flex flex-row items-center w-full">
+				<Link
+					to={href}
+					onClick={onClick}
+					className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50/75 dark:hover:bg-background-950/75 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer`}>
 					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}
 				</Link>
 			) : (
-				<>{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}</>
+				<li
+					onClick={onClick}
+					className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center`}>
+					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}
+				</li>
 			)}
-		</li>
+		</>
 	)
 }

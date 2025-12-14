@@ -6,21 +6,7 @@ import Button from "../components/Button"
 import ButtonGroup from "../components/ButtonGroup"
 import PlanDeEstudioView from "../sections/PlanDeEstudioView"
 import {IconLoader2} from "@tabler/icons-react"
-import CardLayout from "../components/CardLayout"
-
-type CarreraData = {
-	id: string
-	nombre: string
-	slug: string
-	emojie: string
-}
-
-type PlanEstudioData = {
-	id: string
-	carrera_id: string
-	anio_inicio: number
-	anio_fin: number
-}
+import type {CarreraData, PlanEstudioData} from "../types/db"
 
 export function PaginaCarrera() {
 	const {carreraSlug} = useParams()
@@ -97,22 +83,9 @@ export function PaginaCarrera() {
 		)
 	if (!carreraInfo) return null
 	return (
-		<section className={`w-full min-h-screen theme-${carreraInfo.slug} flex flex-col items-center gap-6 pb-20`}>
+		<section className={`w-full min-h-screen theme-${carreraInfo.slug} flex flex-col items-center gap-12`}>
 			<HeaderCarrera name={carreraInfo.nombre} icon={carreraInfo.emojie} />
-			<CardLayout
-				title="Plan de Estudio"
-				endContent={
-					<div className="flex flex-row gap-2 *:w-full">
-						<Button variant="outlined" color="primary">
-							Ver Plan
-						</Button>
-						<Button variant="outlined" color="primary">
-							Ver Plan
-						</Button>
-					</div>
-				}>
-				<p>Plan de Estudio</p>
-			</CardLayout>
+
 			{/* --- SELECTOR DE PLAN --- */}
 			{planEstudio && planEstudio.length > 1 && (
 				<div className="w-full flex justify-center px-4">
@@ -137,7 +110,7 @@ export function PaginaCarrera() {
 			)}
 
 			{/* --- VISTA DEL PLAN --- */}
-			<article className="w-full max-w-5xl px-4 mt-4">
+			<article className="w-full">
 				{planActivo ? (
 					<PlanDeEstudioView key={planActivo.id} planId={planActivo.id.toString()} />
 				) : (

@@ -23,7 +23,7 @@ export function useDropdown() {
 	return context
 }
 
-export default function Dropdown({children}: {children: React.ReactNode}) {
+export default function Dropdown({children, className}: {children: React.ReactNode; className?: string}) {
 	const [open, setOpen] = useState(false)
 	const triggerRef = useRef<HTMLDivElement>(null)
 	const contentRef = useRef<HTMLDivElement>(null)
@@ -36,7 +36,7 @@ export default function Dropdown({children}: {children: React.ReactNode}) {
 	// 4. Proveemos el estado a los hijos
 	return (
 		<DropdownContext.Provider value={{open, toggle, close, triggerRef, contentRef, anchorId}}>
-			<div className="relative inline-block text-left">{children}</div>
+			<div className={`relative inline-block text-left ${className}`}>{children}</div>
 		</DropdownContext.Provider>
 	)
 }

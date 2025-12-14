@@ -40,7 +40,7 @@ export default function ListadoCarreras() {
 
 	return (
 		<section className="relative flex w-full shrink-0 flex-col flex-wrap content-start items-center justify-center gap-6 self-stretch">
-			<h2 className="texto-headline text-center text-text-950 dark:text-text-50">Carreras</h2>
+			<h2 className="texto-headline text-center text-text-800 dark:text-text-200">Carreras</h2>
 			<ul className="relative grid w-full shrink-0 grid-cols-1 flex-wrap content-start items-start justify-start gap-6 self-stretch md:grid-cols-2 lg:grid-cols-3">
 				{loading
 					? Array.from({length: 12}).map((_, index) => <CardCarreraSkeleton key={index} />)

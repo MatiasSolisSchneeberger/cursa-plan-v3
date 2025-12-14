@@ -1,5 +1,6 @@
 import {Outlet, useParams} from "react-router-dom"
 import {NavHeader} from "../sections/NavHeader"
+import Footer from "../sections/Footer"
 
 const Layout = () => {
 	// 1. useParams lee la parte dinámica de la URL (ej: :carrera)
@@ -18,8 +19,8 @@ const Layout = () => {
 			{/* Nav */}
 			<NavHeader />
 
-			{/* 4. <Outlet /> es donde React Router inyectará la página específica (Detalle, Materias, etc.) */}
 			<Outlet />
+			<Footer />
 		</main>
 	)
 }

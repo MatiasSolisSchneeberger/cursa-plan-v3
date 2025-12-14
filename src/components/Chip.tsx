@@ -66,7 +66,9 @@ export default function Chip({
 			}}
 			transition={{type: "spring", stiffness: 500, damping: 30}}
 			className={`
-                relative flex w-max cursor-pointer items-center rounded-xl px-2 py-1 outline-1 select-none overflow-hidden
+                relative flex w-max ${
+									canSelected ? "cursor-pointer" : "cursor-default"
+								} items-center rounded-xl px-2 py-1 outline-1 select-none overflow-hidden
                 ${currentStyle}
             `}>
 			{/* Animamos el ícono izquierdo si existe */}

@@ -14,35 +14,35 @@ import {
 	IconTestPipe,
 } from "@tabler/icons-react"
 
-export default function IconCarrera({icon}: {icon: string}) {
+export default function IconCarrera({icon, className}: {icon: string; className?: string}) {
 	switch (icon) {
 		case "microscope":
-			return <IconMicroscope />
+			return <IconMicroscope className={className} />
 		case "ruler-2":
-			return <IconRuler2 />
+			return <IconRuler2 className={className} />
 		case "bolt":
-			return <IconBolt />
+			return <IconBolt className={className} />
 		case "robot":
-			return <IconRobot />
+			return <IconRobot className={className} />
 		case "seedling":
-			return <IconSeedling />
+			return <IconSeedling className={className} />
 		case "atom":
-			return <IconAtom />
+			return <IconAtom className={className} />
 		case "flask":
-			return <IconFlask />
+			return <IconFlask className={className} />
 		case "math":
-			return <IconMath />
+			return <IconMath className={className} />
 		case "device-imac":
-			return <IconDeviceImac />
+			return <IconDeviceImac className={className} />
 		case "butterfly":
-			return <IconButterfly />
+			return <IconButterfly className={className} />
 		case "telescope":
-			return <IconTelescope />
+			return <IconTelescope className={className} />
 		case "ruler":
-			return <IconRuler />
+			return <IconRuler className={className} />
 		case "test-pipe":
-			return <IconTestPipe />
+			return <IconTestPipe className={className} />
 		default:
-			return <IconMicroscope />
+			return <IconMicroscope className={className} />
 	}
 }

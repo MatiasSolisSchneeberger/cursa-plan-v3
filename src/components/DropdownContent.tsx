@@ -77,6 +77,7 @@ export default function DropdownContent({children}: {children: React.ReactNode})
 
 	return (
 		<section
+			onClick={close}
 			ref={contentRef}
 			className="dropdown-content absolute z-50 min-w-max"
 			style={Object.keys(styles).length === 0 ? {opacity: 0} : styles}>

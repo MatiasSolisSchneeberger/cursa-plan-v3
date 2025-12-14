@@ -1,5 +1,5 @@
 /** @format */
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 /* Tipografía Nunito */
@@ -124,7 +124,7 @@
 	--color-info-950: var(--info-950);
 
 	/* Fuentes */
-	--font-Nunito: "Nunito", sans-serif;
+	--font-primary: "Montserrat", sans-serif;
 }
 
 @layer base {
@@ -1947,7 +1947,7 @@
 	position-try-fallbacks: "--below-right, --below-left, --above-right, --above-left";
 }
 
-@position-try --below-right {
+/*@position-try --below-right {
 	inset: unset;
 
 	top: anchor(bottom);
@@ -1973,20 +1973,20 @@
 
 	top: anchor(top);
 	right: anchor(right);
-}
+}*/
 
 .texto-display {
-	@apply font-Nunito text-5xl leading-13 font-bold;
+	@apply font-primary text-5xl leading-13 font-bold;
 }
 .texto-headline {
-	@apply font-Nunito text-3xl leading-9 font-semibold;
+	@apply font-primary text-3xl leading-9 font-semibold;
 }
 .texto-title {
-	@apply font-Nunito text-base leading-6 font-semibold tracking-wide;
+	@apply font-primary text-base leading-6 font-semibold tracking-wide;
 }
 .texto-body {
-	@apply font-Nunito text-sm leading-5 font-medium tracking-wide;
+	@apply font-primary text-sm leading-5 font-medium tracking-wide;
 }
 .texto-label {
-	@apply font-Nunito text-sm leading-4 font-medium tracking-wide;
+	@apply font-primary text-sm leading-4 font-medium tracking-wide;
 }
