@@ -1,0 +1,2262 @@
+{
+    "carrera": "Bioquímica",
+    "id": "1",
+    "emoji": "microscope",
+    "planes": [
+        {
+            "id": "1",
+            "anioInicio": "2010",
+            "anioFin": "2025",
+            "orientaciones": [
+                {
+                    "id": "sin-orientaciones",
+                    "nombre": "Tronco Común",
+                    "anios": [
+                        {
+                            "anio": 1,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 1,
+                                            "nombre": "Álgebra y Geometría Analítica",
+                                            "slug": "algebra-y-geometria-analitica",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 2,
+                                            "nombre": "Química General",
+                                            "slug": "quimica-general",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 3,
+                                            "nombre": "Cálculo Diferencial e Integral",
+                                            "slug": "calculo-diferencial-e-integral",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 4,
+                                            "nombre": "Química Inorgánica",
+                                            "slug": "quimica-inorganica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 5,
+                                            "nombre": "Biología General y Celular",
+                                            "slug": "biologia-general-y-celular",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 2,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 6,
+                                            "nombre": "Mecánica, Calor y Termodinámica",
+                                            "slug": "mecanica-calor-y-termodinamica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 7,
+                                            "nombre": "Química Orgánica I",
+                                            "slug": "quimica-organica-i",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 8,
+                                            "nombre": "Morfología",
+                                            "slug": "morfologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Biología General y Celular"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 9,
+                                            "nombre": "Electricidad, Magnetismo, Óptica y Sonido",
+                                            "slug": "electricidad-magnetismo-optica-y-sonido",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 10,
+                                            "nombre": "Química Orgánica II",
+                                            "slug": "quimica-organica-ii",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 11,
+                                            "nombre": "Química Analítica",
+                                            "slug": "quimica-analitica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Álgebra y Geometría Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 3,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 12,
+                                            "nombre": "Química Biológica I",
+                                            "slug": "quimica-biologica-i",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 13,
+                                            "nombre": "Química Física Biológica",
+                                            "slug": "quimica-fisica-biologica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Mecánica, Calor y Termodinámica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Electricidad, Magnetismo, Óptica y Sonido"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Electricidad, Magnetismo, Óptica y Sonido"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 14,
+                                            "nombre": "Bioestadística",
+                                            "slug": "bioestadistica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Cálculo Diferencial e Integral"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 16,
+                                            "nombre": "Química Biológica II",
+                                            "slug": "quimica-biologica-ii",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 17,
+                                            "nombre": "Genética y Biología Molecular",
+                                            "slug": "genetica-y-biologia-molecular",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 18,
+                                            "nombre": "Química Analítica Instrumental",
+                                            "slug": "quimica-analitica-instrumental",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Electricidad, Magnetismo, Óptica y Sonido"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "6",
+                                    "nroPeriodo": 0,
+                                    "tipoPeriodo": "extracurricular",
+                                    "materias": [
+                                        {
+                                            "id": 15,
+                                            "nombre": "Prueba de Traducción Técnica",
+                                            "slug": "prueba-de-traduccion-tecnica",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 4,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 19,
+                                            "nombre": "Prueba de Manejo de Software",
+                                            "slug": "prueba-de-manejo-de-software",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 20,
+                                            "nombre": "Virología Clínica",
+                                            "slug": "virologia-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 21,
+                                            "nombre": "Microbiología General",
+                                            "slug": "microbiologia-general",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 22,
+                                            "nombre": "Fisiología Humana",
+                                            "slug": "fisiologia-humana",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 23,
+                                            "nombre": "Farmacología",
+                                            "slug": "farmacologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Manejo de Software"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 24,
+                                            "nombre": "Bromatología y Nutrición",
+                                            "slug": "bromatologia-y-nutricion",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Prueba de Traducción de Inglés"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica II"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 25,
+                                            "nombre": "Fisiopatología",
+                                            "slug": "fisiopatologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 5,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 26,
+                                            "nombre": "Inmunología Clínica",
+                                            "slug": "inmunologia-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 27,
+                                            "nombre": "Parasitología Humana",
+                                            "slug": "parasitologia-humana",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 28,
+                                            "nombre": "Bacteriología y Micología Clínica",
+                                            "slug": "bacteriologia-y-micologia-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Inmunología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Virología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Inmunología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Virología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 29,
+                                            "nombre": "Química Clínica",
+                                            "slug": "quimica-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Farmacología"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 30,
+                                            "nombre": "Toxicología y Química Legal",
+                                            "slug": "toxicologia-y-quimica-legal",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Farmacología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiopatología"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "15",
+            "anioInicio": "2026",
+            "anioFin": null,
+            "orientaciones": [
+                {
+                    "id": "sin-orientaciones",
+                    "nombre": "Tronco Común",
+                    "anios": [
+                        {
+                            "anio": 1,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 511,
+                                            "nombre": "Matemática",
+                                            "slug": "matematica",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 512,
+                                            "nombre": "Química General",
+                                            "slug": "quimica-general",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 513,
+                                            "nombre": "Biología General y Celular",
+                                            "slug": "biologia-general-y-celular",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 514,
+                                            "nombre": "Física Aplicada",
+                                            "slug": "fisica-aplicada",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 515,
+                                            "nombre": "Química Inorgánica",
+                                            "slug": "quimica-inorganica",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 516,
+                                            "nombre": "Morfología",
+                                            "slug": "morfologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Biología General y Celular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Biología General y Celular"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "5",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "anual",
+                                    "materias": [
+                                        {
+                                            "id": 517,
+                                            "nombre": "Taller de Integración I",
+                                            "slug": "taller-de-integracion-i",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 2,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 518,
+                                            "nombre": "Química Orgánica I",
+                                            "slug": "quimica-organica-i",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 519,
+                                            "nombre": "Bioestadística",
+                                            "slug": "bioestadistica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 520,
+                                            "nombre": "Química Analítica",
+                                            "slug": "quimica-analitica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Matemática"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 521,
+                                            "nombre": "Química Analítica Instrumental",
+                                            "slug": "quimica-analitica-instrumental",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Matemática"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Física Aplicada"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Física Aplicada"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Inorgánica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 522,
+                                            "nombre": "Química Física Biológica",
+                                            "slug": "quimica-fisica-biologica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Física Aplicada"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 523,
+                                            "nombre": "Química Orgánica II",
+                                            "slug": "quimica-organica-ii",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "5",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "anual",
+                                    "materias": [
+                                        {
+                                            "id": 524,
+                                            "nombre": "Taller de Integración II",
+                                            "slug": "taller-de-integracion-ii",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 3,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 525,
+                                            "nombre": "Química Biológica I",
+                                            "slug": "quimica-biologica-i",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 526,
+                                            "nombre": "Ética Profesional",
+                                            "slug": "etica-profesional",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 527,
+                                            "nombre": "Microbiología General",
+                                            "slug": "microbiologia-general",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 528,
+                                            "nombre": "Farmacología",
+                                            "slug": "farmacologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 529,
+                                            "nombre": "Química Biológica II",
+                                            "slug": "quimica-biologica-ii",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Analítica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 530,
+                                            "nombre": "Fisiología Humana",
+                                            "slug": "fisiologia-humana",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Física Biológica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 531,
+                                            "nombre": "Genética y Biología Molecular",
+                                            "slug": "genetica-y-biologia-molecular",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "5",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "anual",
+                                    "materias": [
+                                        {
+                                            "id": 532,
+                                            "nombre": "Taller de Integración III",
+                                            "slug": "taller-de-integracion-iii",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "anio": 4,
+                            "periodos": [
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 533,
+                                            "nombre": "Fisiopatología",
+                                            "slug": "fisiopatologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Morfología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 534,
+                                            "nombre": "Toxicología y Química Legal",
+                                            "slug": "toxicologia-y-quimica-legal",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Farmacología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Analítica Instrumental"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Orgánica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Farmacología"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 535,
+                                            "nombre": "Inmunología Clínica",
+                                            "slug": "inmunologia-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiología Humana"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica I"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Química Biológica II"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 536,
+                                            "nombre": "Parasitología Humana",
+                                            "slug": "parasitologia-humana",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Inmunología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Inmunología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Fisiología Humana"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "nroPeriodo": 2,
+                                    "tipoPeriodo": "cuatrimestre",
+                                    "materias": [
+                                        {
+                                            "id": 537,
+                                            "nombre": "Salud Pública y Epidemiología",
+                                            "slug": "salud-publica-y-epidemiologia",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Ética Profesional"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Bioestadística"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Ética Profesional"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": 538,
+                                            "nombre": "Bromatología y Nutrición",
+                                            "slug": "bromatologia-y-nutricion",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        },
+                                        {
+                                            "id": 539,
+                                            "nombre": "Virología Clínica",
+                                            "slug": "virologia-clinica",
+                                            "creditos": 0,
+                                            "correlativas": [
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Inmunología Clínica"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Microbiología General"
+                                                },
+                                                {
+                                                    "tipo": "cursar",
+                                                    "condicion": "regular",
+                                                    "requisito": "Genética y Biología Molecular"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "aprobado",
+                                                    "requisito": "Fisiopatología"
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condicion": "regular",
+                                                    "requisito": "Inmunología Clínica"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "5",
+                                    "nroPeriodo": 1,
+                                    "tipoPeriodo": "anual",
+                                    "materias": [
+                                        {
+                                            "id": 540,
+                                            "nombre": "Taller de Integración IV",
+                                            "slug": "taller-de-integracion-iv",
+                                            "creditos": 0,
+                                            "correlativas": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

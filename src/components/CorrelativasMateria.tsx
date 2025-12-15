@@ -11,7 +11,7 @@ interface Props {
 export default function CorrelativasMateria({correlativas}: Props) {
 	// Si no hay datos, no mostramos nada o un mensaje discreto
 	if (!correlativas || correlativas.length === 0) {
-		return <div className="p-2 text-center text-xs text-gray-400 italic">No tiene correlativas</div>
+		return <div className="texto-title text-text-600 dark:text-text-400 text-center">No tiene correlativas</div>
 	}
 
 	// Filtramos en memoria (equivalente a tus WHERE en el SQL)
