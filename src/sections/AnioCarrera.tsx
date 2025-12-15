@@ -1,15 +1,7 @@
 import {useEffect, useState} from "react"
 import supabase from "../utils/supabase"
 
-export default function AnioCarrera({
-	carrera,
-	slug,
-	plan_estudio,
-}: {
-	carrera: string
-	slug: string
-	plan_estudio: string | undefined
-}) {
+export default function AnioCarrera({plan_estudio}: {plan_estudio: string | undefined}) {
 	const [anios, setAnios] = useState<string[]>([])
 
 	if (!plan_estudio) return null
