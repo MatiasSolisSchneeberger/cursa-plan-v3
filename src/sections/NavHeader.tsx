@@ -6,12 +6,10 @@ import {
 	IconHelp,
 	IconHome,
 	IconInfoCircle,
-	IconLogin,
 	IconLogin2,
 	IconLogout,
 	IconMenu,
 	IconMenu2,
-	IconRegistered, // Usaremos este para el hamburguesa
 } from "@tabler/icons-react"
 import {useLocation} from "react-router-dom"
 import Dropdown from "../components/Dropdown"
