@@ -15,7 +15,7 @@ const Layout = () => {
 	return (
 		// 3. Este div "enciende" las variables CSS para todo lo que esté adentro
 		<main
-			className={`${themeClass} transition-color ease-in-out duration-200 justify-center justify-items-center bg-background-200 dark:bg-background-950 text-text-950 dark:text-text-100 max-w-480 space-y-6 p-4 sm:px-12 sm:py-4 md:px-16 md:py-6 lg:px-20 lg:py-4 min-h-screen`}>
+			className={`${themeClass} transition-color ease-in-out duration-200 bg-background-200 dark:bg-background-950 text-text-950 dark:text-text-100 space-y-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pb-4 min-h-screen`}>
 			{/* Nav */}
 			<NavHeader />
 

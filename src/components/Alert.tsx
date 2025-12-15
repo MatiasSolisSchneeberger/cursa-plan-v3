@@ -58,6 +58,7 @@ interface AlertProps {
 	endContent?: React.ReactNode
 	canClose?: boolean
 	onClose?: () => void // Callback opcional por si el padre necesita saber
+	className?: string
 }
 
 export default function Alert({
@@ -68,6 +69,7 @@ export default function Alert({
 	endContent,
 	canClose = true,
 	onClose,
+	className,
 }: AlertProps) {
 	const [isVisible, setIsVisible] = useState(true)
 	const [isClosing, setIsClosing] = useState(false)
@@ -89,7 +91,7 @@ export default function Alert({
 		<aside
 			role="alert"
 			className={`
-                relative flex w-full min-w-2xs max-w-2xl flex-row items-start justify-between gap-3 overflow-hidden rounded-md p-4 shadow-sm transition-all duration-300 ease-in-out
+                relative flex min-w-2xs max-w-2xl flex-row gap-3 overflow-hidden rounded-md p-4 shadow-md transition-all duration-300 ease-in-out ${className}
                 ${styles.bg}
                 ${isClosing ? "opacity-0 -translate-y-2 scale-95" : "opacity-100 translate-y-0 scale-100"}
             `}>
@@ -114,7 +116,7 @@ export default function Alert({
 
 			{/* Botón Cerrar */}
 			{canClose && (
-				<div className="-mr-2 -mt-2 shrink-0">
+				<div className="shrink-0">
 					<ButtonIcon variant="outlined" color={color} onClick={handleClose} aria-label="Cerrar alerta">
 						<IconX size={18} />
 					</ButtonIcon>

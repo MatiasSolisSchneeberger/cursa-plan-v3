@@ -9,35 +9,57 @@ interface AvatarProps {
 }
 
 export default function Avatar({img, name, notification, status, color}: AvatarProps) {
+	const outlineColors = {
+		primary: "outline-primary-100 dark:outline-primary-800",
+		secondary: "outline-secondary-100 dark:outline-secondary-800",
+		tertiary: "outline-tertiary-100 dark:outline-tertiary-800",
+		success: "outline-success-100 dark:outline-success-800",
+		danger: "outline-danger-100 dark:outline-danger-800",
+		warning: "outline-warning-100 dark:outline-warning-800",
+		info: "outline-info-100 dark:outline-info-800",
+		background: "outline-background-100 dark:outline-background-800",
+	}
+
+	const bgColors = {
+		primary: "bg-primary-400 dark:bg-primary-600",
+		secondary: "bg-secondary-400 dark:bg-secondary-600",
+		tertiary: "bg-tertiary-400 dark:bg-tertiary-600",
+		success: "bg-success-400 dark:bg-success-600",
+		danger: "bg-danger-400 dark:bg-danger-600",
+		warning: "bg-warning-400 dark:bg-warning-600",
+		info: "bg-info-400 dark:bg-info-600",
+		background: "bg-background-400 dark:bg-background-600",
+	}
+
+	const outlineClass = outlineColors[color]
+	const bgClass = bgColors[color]
+
 	return (
 		<div className="relative inline-flex shrink-0">
 			{img || name ? (
 				img ? (
-					<img
-						src={img}
-						className={`size-10 rounded-full outline-2 outline-${color}-100 object-cover dark:outline-${color}-800`}
-					/>
+					<img src={img} className={`size-10 rounded-full outline-2 object-cover ${outlineClass}`} />
 				) : (
 					<span
-						className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 outline-${color}-100 bg-primary-400 text-center text-primary-800 dark:outline-${color}-800 dark:bg-primary-600 dark:text-primary-200 select-none`}>
+						className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center text-primary-800 dark:text-primary-200 select-none ${bgClass} ${outlineClass}`}>
 						{name ? name[0].toUpperCase() : ""}
 					</span>
 				)
 			) : (
 				<span
-					className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 outline-${color}-100 bg-primary-400 text-center text-primary-800 dark:outline-${color}-800 dark:bg-primary-600 dark:text-primary-200`}>
+					className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center text-primary-800 dark:text-primary-200 ${bgClass} ${outlineClass}`}>
 					<IconUser />
 				</span>
 			)}
 
 			{notification && (
 				<span
-					className={`absolute top-0 right-0 h-2.5 w-2.5 rounded-full outline-2 outline-${color}-100 bg-danger-600 dark:outline-${color}-800 dark:bg-danger-400`}
+					className={`absolute top-0 right-0 h-2.5 w-2.5 rounded-full outline-2 bg-danger-600 dark:bg-danger-400 ${outlineClass}`}
 				/>
 			)}
 			{status && (
 				<span
-					className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full outline-2 outline-${color}-100 bg-success-600 dark:outline-${color}-800 dark:bg-success-400`}
+					className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full outline-2 bg-success-600 dark:bg-success-400 ${outlineClass}`}
 				/>
 			)}
 		</div>
