@@ -3,6 +3,8 @@ import Layout from "./layout/Layout"
 import {PaginaCarrera} from "./pages/PaginaCarrera" // Tu componente de página
 import {Index} from "./pages/Index"
 import NotFound from "./pages/NotFound"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
 	return (
@@ -18,6 +20,8 @@ function App() {
 					<Route path="/calendario-academico" element={<div> calendario academico</div>} />
 					<Route path="*" element={<Navigate to="/404" />} />
 					<Route path="/404" element={<NotFound />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
