@@ -4,10 +4,9 @@ import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
 import supabase from "../utils/supabase"
 import IconCarrera from "../components/IconCarrera"
-import type {CarreraData} from "../types/db"
 
 export default function Footer() {
-	const [carreras, SetCarreras] = useState<CarreraData[]>([])
+	const [carreras, SetCarreras] = useState<any[]>([])
 
 	const links = [
 		{

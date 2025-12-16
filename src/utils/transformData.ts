@@ -243,9 +243,9 @@ export function transformarCarreraSQL(dataSQL: any): SalidaCarrera | null {
             })
 
             return {
-                id: planNode.id,
-                anioInicio: planNode.anio_inicio,
-                anioFin: planNode.anio_fin,
+                id: plan.id,
+                anioInicio: plan.anio_inicio,
+                anioFin: plan.anio_fin,
                 orientaciones: orientacionesOrdenadas,
             }
         }),

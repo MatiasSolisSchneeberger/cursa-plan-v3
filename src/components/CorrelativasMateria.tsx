@@ -1,11 +1,10 @@
 // src/components/CorrelativasMateria.tsx
-import type {CorrelativaRow} from "../types/db"
 import CardInfoList from "./CardInfoList"
 import MenuGroup from "./MenuGroup"
 import MenuItem from "./MenuItem"
 
 interface Props {
-	correlativas: CorrelativaRow[]
+	correlativas: any[]
 }
 
 export default function CorrelativasMateria({correlativas}: Props) {
@@ -38,7 +37,7 @@ export default function CorrelativasMateria({correlativas}: Props) {
 }
 
 // Subcomponente para renderizar Regular vs Aprobado
-function ListaPorCondicion({items}: {items: CorrelativaRow[]}) {
+function ListaPorCondicion({items}: {items: any[]}) {
 	const regulares = items.filter((c) => c.condicion === "regular")
 	const aprobadas = items.filter((c) => c.condicion === "aprobado")
 
