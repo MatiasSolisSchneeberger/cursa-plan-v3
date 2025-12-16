@@ -40,12 +40,14 @@ export default function Chip({
 	canSelected = false,
 	iconLeft,
 	iconRight,
+	className,
 }: {
 	children: React.ReactNode
 	color?: keyof typeof COLOR_STYLES
 	canSelected?: boolean
 	iconLeft?: React.ReactNode
 	iconRight?: React.ReactNode
+	className?: string
 }) {
 	const [selected, setSelected] = useState(false)
 
@@ -70,6 +72,7 @@ export default function Chip({
 									canSelected ? "cursor-pointer" : "cursor-default"
 								} items-center rounded-xl px-2 py-1 outline-1 select-none overflow-hidden
                 ${currentStyle}
+                ${className}
             `}>
 			{/* Animamos el ícono izquierdo si existe */}
 			{iconLeft && <span className="mr-1 flex items-center">{iconLeft}</span>}

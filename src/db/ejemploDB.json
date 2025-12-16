@@ -66,6 +66,47 @@
                                                             ]
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    "tipo": "rendir",
+                                                    "condiciones": [
+                                                        {
+                                                            "tipo": "materia",
+                                                            "condicion": "regular",
+                                                            "requisitos": [
+                                                                {
+                                                                    "nombre": "",
+                                                                    "slug": ""
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "tipo": "materia",
+                                                            "condicion": "aprobado",
+                                                            "requisitos": [
+                                                                {
+                                                                    "nombre": "",
+                                                                    "slug": ""
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "tipo": "porcentaje",
+                                                            "requisitos": [
+                                                                {
+                                                                    "porcentaje": 0
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "tipo": "nota",
+                                                            "requisitos": [
+                                                                {
+                                                                    "nota": ""
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

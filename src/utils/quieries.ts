@@ -7,13 +7,13 @@ export const GET_CARRERA_QUERY = `
         nombre
         slug
         emojie
-        planes: plan_estudioCollection {
+        planes: plan_estudioCollection(first: 5) {
           edges {
             node {
               id
               anio_inicio
               anio_fin
-              materias_plan: materia_planCollection {
+              materias_plan: materia_planCollection(first: 100) {
                 edges {
                   node {
                     id
@@ -34,7 +34,7 @@ export const GET_CARRERA_QUERY = `
                       nombre
                       slug
                     }
-                    correlativas: correlativasCollection {
+                    correlativas: correlativasCollection(first: 50) {
                       edges {
                         node {
                           tipo: tipo_requisito

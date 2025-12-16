@@ -13,6 +13,7 @@ interface MenuItemInterface {
 	href?: string
 	onClick?: () => void
 	className?: string
+	canHover?: boolean
 }
 
 const content = ({
@@ -50,6 +51,7 @@ export default function MenuItem({
 	href,
 	textHelp,
 	className,
+	canHover,
 	onClick,
 }: MenuItemInterface) {
 	return (
@@ -64,7 +66,11 @@ export default function MenuItem({
 			) : (
 				<li
 					onClick={onClick}
-					className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center ${className}`}>
+					className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center ${
+						canHover
+							? "hover:bg-background-50/75 dark:hover:bg-background-950/75 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer"
+							: ""
+					} ${className}`}>
 					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}
 				</li>
 			)}

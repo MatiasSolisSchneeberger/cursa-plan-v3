@@ -34,7 +34,7 @@ export default function CardInfoList({
 	}
 
 	return (
-		<section className={`rounded-xl flex-1 outline-2 outline-background-300 dark:outline-background-700`}>
+		<section className={`rounded-xl flex-1 outline-2 outline-background-300 dark:outline-background-700 pb-2`}>
 			<h4
 				className={`p-2 rounded-t-xl texto-title text-center ${hederColor} border-b-2 border-background-300 dark:border-background-700`}>
 				{title}

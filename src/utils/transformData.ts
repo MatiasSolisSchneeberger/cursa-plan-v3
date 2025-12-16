@@ -66,7 +66,9 @@ export interface SalidaMateria {
     correlativas: {
         tipo: string
         condicion: string
-        requisito?: string
+        requisito?: string // Nombre de la materia (opcional)
+        porcentaje?: number | null // Nuevo campo
+        notas?: string | null // Nuevo campo
     }[]
 }
 
@@ -103,44 +105,70 @@ export interface SalidaCarrera {
     planes: SalidaPlan[]
 }
 
-export function transformarCarrera(dataGraphQL: any): SalidaCarrera | null {
-    const carreraNode = dataGraphQL?.carrerasCollection?.edges[0]?.node
-    if (!carreraNode) return null
+export function transformarCarreraSQL(dataSQL: any): SalidaCarrera | null {
+    if (!dataSQL) return null
+
+    // SQL devuelve un objeto directo, no "carrerasCollection.edges..."
+    const carrera = dataSQL
 
     return {
-        carrera: carreraNode.nombre,
-        id: carreraNode.id,
-        emoji: carreraNode.emojie,
-        planes: carreraNode.planes.edges.map((p: any) => {
-            const planNode = p.node
+        carrera: carrera.nombre,
+        id: carrera.id,
+        emoji: carrera.emojie,
+        // SQL devuelve arrays directos
+        planes: (carrera.planes || []).map((plan: any) => {
 
-            // 1. Agrupar materias por ID de Orientación
-            const materiasPorOrientacion: Record<string, any> = {}
+            // 1. Obtener materias (ya viene como array plano)
+            const todasLasMaterias = plan.materias_plan || []
 
-            planNode.materias_plan.edges.forEach((m: any) => {
-                const mat = m.node
-
-                // Lógica robusta para Tronco Común vs Orientación
-                const orId = mat.orientacion?.id || "sin-orientaciones"
-                const orNombre = mat.orientacion?.nombre || "Tronco Común"
-                const orSlug = mat.orientacion?.slug || "sin-orientaciones" // Slug seguro
-
-                if (!materiasPorOrientacion[orId]) {
-                    materiasPorOrientacion[orId] = {
-                        id: orId,
-                        nombre: orNombre,
-                        slug: orSlug,
-                        materias: [],
-                    }
+            // 2. Identificar orientaciones
+            const orientacionesMap = new Map()
+            todasLasMaterias.forEach((m: any) => {
+                if (m.orientacion) {
+                    orientacionesMap.set(m.orientacion.id, {
+                        id: m.orientacion.id,
+                        nombre: m.orientacion.nombre,
+                        slug: m.orientacion.slug
+                    })
                 }
-                materiasPorOrientacion[orId].materias.push(mat)
             })
 
-            // 2. Procesar cada Orientación
-            const orientaciones = Object.values(materiasPorOrientacion).map((orData: any) => {
-                // Agrupar por Año
+            let gruposDeMaterias = []
+
+            // 3. Estrategia de Agrupación
+            if (orientacionesMap.size === 0) {
+                // CASO A: Plan único
+                gruposDeMaterias.push({
+                    id: "unico",
+                    nombre: "Plan Completo",
+                    slug: "plan-completo",
+                    materias: todasLasMaterias
+                })
+            } else {
+                // CASO B: Con Orientaciones
+                gruposDeMaterias = Array.from(orientacionesMap.values()).map((ori: any) => {
+                    const materiasMix = todasLasMaterias.filter((m: any) =>
+                        m.orientacion?.id === ori.id || !m.orientacion // Incluimos tronco común
+                    )
+                    return { ...ori, materias: materiasMix }
+                })
+
+                // Tronco común puro (opcional)
+                const soloComunes = todasLasMaterias.filter((m: any) => !m.orientacion)
+                if (soloComunes.length > 0) {
+                    gruposDeMaterias.push({
+                        id: "tronco-comun",
+                        nombre: "Tronco Común",
+                        slug: "tronco-comun",
+                        materias: soloComunes
+                    })
+                }
+            }
+
+            // 4. Procesar grupos (Año -> Periodo)
+            const orientacionesProcesadas = gruposDeMaterias.map((grupo: any) => {
                 const materiasPorAnio: Record<number, any[]> = {}
-                orData.materias.forEach((m: any) => {
+                grupo.materias.forEach((m: any) => {
                     const anio = m.anio || 0
                     if (!materiasPorAnio[anio]) materiasPorAnio[anio] = []
                     materiasPorAnio[anio].push(m)
@@ -149,13 +177,12 @@ export function transformarCarrera(dataGraphQL: any): SalidaCarrera | null {
                 const anios = Object.keys(materiasPorAnio).map((anioKey) => {
                     const anioNum = Number(anioKey)
                     const materiasDelAnio = materiasPorAnio[anioNum]
-
-                    // Agrupar por Periodo
                     const materiasPorPeriodo: Record<string, any> = {}
 
                     materiasDelAnio.forEach((m: any) => {
+                        // OJO: En SQL a veces el join devuelve el objeto directo
                         const periodoId = m.periodo?.id
-                        const periodoNombre = m.periodo?.nombre || "Anual"
+                        const periodoNombre = m.periodo?.periodo || "Anual" // Nota: en tu DB la columna se llama 'periodo'
                         const nroPeriodo = m.nro_periodo || 0
 
                         const pKey = `${periodoId}-${nroPeriodo}-${periodoNombre}`
@@ -173,15 +200,18 @@ export function transformarCarrera(dataGraphQL: any): SalidaCarrera | null {
                             id: m.id,
                             nombre: m.detalle?.nombre || "Sin Nombre",
                             slug: m.detalle?.slug || "",
-                            correlativas: m.correlativas?.edges.map((c: any) => ({
-                                tipo: c.node.tipo,
-                                condicion: c.node.condicion,
-                                requisito: c.node.requisito?.nombre,
-                            })) || [],
+                            creditos: 0,
+                            // SQL devuelve array directo en correlativas
+                            correlativas: (m.correlativas || []).map((c: any) => ({
+                                tipo: c.tipo_requisito,
+                                condicion: c.condicion,
+                                requisito: c.requisito?.nombre,
+                                porcentaje: c.porcentaje,
+                                notas: c.notas
+                            }))
                         })
                     })
 
-                    // Ordenar Periodos
                     const periodosOrdenados = Object.values(materiasPorPeriodo).sort((a: any, b: any) => {
                         const getPeso = (p: any) => {
                             const nombre = p.tipoPeriodo.toLowerCase()
@@ -199,17 +229,16 @@ export function transformarCarrera(dataGraphQL: any): SalidaCarrera | null {
                 })
 
                 return {
-                    id: orData.id,
-                    nombre: orData.nombre,
-                    slug: orData.slug, // Incluimos el slug
+                    id: grupo.id,
+                    nombre: grupo.nombre,
+                    slug: grupo.slug,
                     anios: anios.sort((a, b) => a.anio - b.anio),
                 }
             })
 
-            // Ordenamos: Tronco Común primero, luego alfabéticamente
-            const orientacionesOrdenadas = orientaciones.sort((a, b) => {
-                if (a.id === "sin-orientaciones") return -1
-                if (b.id === "sin-orientaciones") return 1
+            const orientacionesOrdenadas = orientacionesProcesadas.sort((a, b) => {
+                if (a.id === "tronco-comun") return -1
+                if (b.id === "tronco-comun") return 1
                 return a.nombre.localeCompare(b.nombre)
             })
 

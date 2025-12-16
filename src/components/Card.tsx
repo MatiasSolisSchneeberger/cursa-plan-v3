@@ -1,9 +1,13 @@
 export default function Card({
+	id,
 	children,
 	color,
+	className = "",
 }: {
+	id?: string
 	children: React.ReactNode
 	color?: "primary" | "secondary" | "tertiary" | "danger" | "warning" | "success" | "info"
+	className?: string
 }) {
 	let classColor = ""
 	switch (color) {
@@ -34,7 +38,8 @@ export default function Card({
 	}
 	return (
 		<section
-			className={`min-w-sm rounded-3xl p-3 shadow-sm hover:shadow-md transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-3 ${classColor}`}>
+			id={id}
+			className={`min-w-sm rounded-3xl p-3 shadow-sm hover:shadow-md transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-3 ${classColor} ${className}`}>
 			{children}
 		</section>
 	)

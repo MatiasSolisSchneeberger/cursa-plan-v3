@@ -1,0 +1,158 @@
+import type { CarreraJSON } from '../types/db';
+
+// --- FUNCIÓN AUXILIAR PARA AGRUPAR CORRELATIVAS ---
+const formatearCorrelativas = (correlativasRaw: any[]) => {
+    // Mapa principal: Clave = "cursar" | "rendir"
+    const gruposPrincipales = new Map();
+
+    correlativasRaw.forEach((item) => {
+        const tipoRequisito = item.tipo_requisito; // "cursar" o "rendir"
+
+        // 1. Crear el grupo principal si no existe (ej: "cursar")
+        if (!gruposPrincipales.has(tipoRequisito)) {
+            gruposPrincipales.set(tipoRequisito, {
+                tipo: tipoRequisito,
+                condicionesMap: new Map() // Sub-mapa para agrupar por condición interna
+            });
+        }
+
+        const grupo = gruposPrincipales.get(tipoRequisito);
+
+        // 2. Determinar la clave de agrupación interna (ej: "materia-regular", "porcentaje", "nota")
+        let keyInterna = "";
+        let estructuraBase: any = {};
+        let nuevoRequisito: any = {};
+
+        if (item.requisito_materia) {
+            // Es una materia
+            keyInterna = `materia-${item.condicion}`; // ej: "materia-regular"
+            estructuraBase = {
+                tipo: "materia",
+                condicion: item.condicion,
+                requisitos: []
+            };
+            nuevoRequisito = {
+                nombre: item.requisito_materia.nombre,
+                slug: item.requisito_materia.slug
+            };
+        } else if (item.porcentaje) {
+            // Es un porcentaje
+            keyInterna = "porcentaje";
+            estructuraBase = {
+                tipo: "porcentaje",
+                requisitos: []
+            };
+            nuevoRequisito = { porcentaje: item.porcentaje };
+        } else if (item.notas) {
+            // Es una nota o texto
+            keyInterna = "nota";
+            estructuraBase = {
+                tipo: "nota",
+                requisitos: []
+            };
+            nuevoRequisito = { nota: item.notas };
+        }
+
+        // 3. Crear el sub-grupo si no existe y agregar el requisito
+        if (keyInterna) {
+            if (!grupo.condicionesMap.has(keyInterna)) {
+                grupo.condicionesMap.set(keyInterna, estructuraBase);
+            }
+            // Agregamos el item específico a la lista de requisitos
+            grupo.condicionesMap.get(keyInterna).requisitos.push(nuevoRequisito);
+        }
+    });
+
+    // 4. Transformar los Mapas a Arrays para el JSON final
+    return Array.from(gruposPrincipales.values()).map((g: any) => ({
+        tipo: g.tipo,
+        condiciones: Array.from(g.condicionesMap.values())
+    }));
+};
+
+
+// --- TRANSFORMADOR PRINCIPAL ---
+export const transformarDatos = (data: any): CarreraJSON => {
+    return {
+        carrera: data.nombre,
+        id: data.id,
+        planes: data.planes.map((plan: any) => {
+
+            const aniosMap = new Map();
+            const orientacionesSet = new Map();
+
+            plan.materias_plan.forEach((item: any) => {
+
+                // A. Orientaciones
+                if (item.orientacion) {
+                    if (!orientacionesSet.has(item.orientacion.id)) {
+                        orientacionesSet.set(item.orientacion.id, {
+                            nombre: item.orientacion.nombre,
+                            slug: item.orientacion.slug,
+                            id: item.orientacion.id
+                        });
+                    }
+                }
+
+                // B. Años
+                if (!aniosMap.has(item.anio)) {
+                    aniosMap.set(item.anio, { anio: item.anio, periodosMap: new Map() });
+                }
+                const anioObj = aniosMap.get(item.anio);
+
+                // C. Periodos
+                if (!anioObj.periodosMap.has(item.nro_periodo)) {
+                    anioObj.periodosMap.set(item.nro_periodo, {
+                        id: item.nro_periodo,
+                        nroPeriodo: item.nro_periodo,
+                        tipoPeriodo: item.periodo?.periodo || "Cuatrimestre",
+                        materias: []
+                    });
+                }
+
+                const periodoActual = anioObj.periodosMap.get(item.nro_periodo);
+
+                // Evitar duplicados
+                const materiaYaExiste = periodoActual.materias.some((m: any) => m.id === item.materia.id);
+
+                if (!materiaYaExiste) {
+                    periodoActual.materias.push({
+                        id: item.materia.id,
+                        nombre: item.materia.nombre,
+                        slug: item.materia.slug,
+
+                        // Si tiene un número, es true. Si es null, es false.
+                        esOptativa: !!item.nro_optativa,
+                        // Opcional: si quieres mostrar "Optativa 1", guarda el número también
+                        nroOptativa: item.nro_optativa,
+
+                        orientacion: item.orientacion ? {
+                            nombre: item.orientacion.nombre,
+                            slug: item.orientacion.slug
+                        } : null,
+
+                        // AQUÍ LLAMAMOS A LA NUEVA LÓGICA DE AGRUPACIÓN vvv
+                        correlativas: formatearCorrelativas(item.correlativas)
+                    });
+                }
+            });
+
+            // Ordenamiento final
+            const anios = Array.from(aniosMap.values())
+                .sort((a: any, b: any) => a.anio - b.anio)
+                .map((a: any) => ({
+                    ...a,
+                    periodos: Array.from(a.periodosMap.values())
+                        .sort((p1: any, p2: any) => p1.nroPeriodo - p2.nroPeriodo)
+                }));
+
+            return {
+                id: plan.id,
+                anioInicio: plan.anio_inicio,
+                anioFin: plan.anio_fin,
+                listaOrientaciones: Array.from(orientacionesSet.values()),
+                anios: anios
+            };
+        })
+    };
+};

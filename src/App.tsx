@@ -1,6 +1,6 @@
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import Layout from "./layout/Layout"
-import {PaginaCarrera} from "./pages/PaginaCarrera" // Tu componente de página
+import PaginaCarrera from "./pages/PaginaCarrera" // Tu componente de página
 import {Index} from "./pages/Index"
 import NotFound from "./pages/NotFound"
 import Login from "./pages/Login"

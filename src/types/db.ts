@@ -1,54 +1,55 @@
-// src/types/db.ts
-
-export type CarreraData = {
-    id: string
-    nombre: string
-    slug: string
-    emojie: string
+// 1. Lo que viene de Supabase (Refleja tus tablas SQL)
+export interface DBResponse {
+    id: number;
+    nombre: string;
+    slug: string;
+    planes: {
+        id: number;
+        anio_inicio: number;
+        anio_fin: number;
+        materias_plan: {
+            anio: number;
+            nro_periodo: number;
+            periodo: { periodo: string };
+            orientacion: { id: number; nombre: string } | null;
+            materia: { id: number; nombre: string; slug: string; creditos: number }; // Asumo creditos en materias
+            correlativas: {
+                tipo_requisito: string;
+                condicion: string;
+                porcentaje: number;
+                nota: string;
+                requisito_materia: { nombre: string; slug: string } | null;
+            }[];
+        }[];
+    }[];
 }
 
-export type PlanEstudioData = {
-    id: string
-    carrera_id: string
-    anio_inicio: number
-    anio_fin: number
-}
-
-export type CorrelativaRow = {
-    id: number
-    tipo_requisito: "cursar" | "rendir"
-    condicion: "regular" | "aprobado"
-    porcentaje: number | null
-    notas: string | null
-    // Traemos el objeto de la materia requisito para saber su nombre
-    requisito_materia: {
-        nombre: string
-        slug: string
-    } | null
-}
-
-export type MateriaPlanRow = {
-    id: number // ID único de materia_plan (ej: 248)
-    anio: number
-    nro_periodo: number | null
-    orientacion_id: number | null
-    nro_optativa: number | null
-
-    // Datos de la materia actual
-    materias: {
-        id: number
-        nombre: string
-        slug: string
-    }
-    periodo: { id: number; periodo: string } | null
-    orientaciones: OrientacionData | null
-
-    // Lista de correlativas asociadas a ESTE id de materia_plan
-    correlativas: CorrelativaRow[]
-}
-
-export type OrientacionData = {
-    id: number
-    nombre: string
-    slug: string
+// 2. Tu JSON Objetivo (El que subiste en ejemploDB.json)
+export interface CarreraJSON {
+    carrera: string;
+    id: number;
+    planes: {
+        id: number;
+        anioInicio: number;
+        anioFin: number;
+        // Agregamos esto para facilitar crear los botones de filtro
+        listaOrientaciones: { nombre: string; slug: string; id: number }[];
+        anios: {
+            anio: number;
+            periodos: {
+                id: number;
+                nroPeriodo: number;
+                tipoPeriodo: string;
+                materias: {
+                    id: number;
+                    nombre: string;
+                    slug: string;
+                    creditos: number;
+                    // Ahora la materia sabe de quién es. Si es null, es Troncal/Común.
+                    orientacion: { nombre: string; slug: string } | null;
+                    correlativas: any[];
+                }[];
+            }[];
+        }[];
+    }[];
 }
