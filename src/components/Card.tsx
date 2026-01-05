@@ -39,7 +39,7 @@ export default function Card({
 	return (
 		<section
 			id={id}
-			className={`min-w-sm rounded-3xl p-3 shadow-sm hover:shadow-md transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-3 ${classColor} ${className}`}>
+			className={`rounded-3xl p-3 shadow-md hover:shadow-lg transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-3 ${classColor} ${className}`}>
 			{children}
 		</section>
 	)

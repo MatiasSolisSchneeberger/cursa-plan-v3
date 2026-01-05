@@ -59,7 +59,10 @@ export default function MenuItem({
 			{href ? (
 				<Link
 					to={href}
-					onClick={onClick}
+					onClick={() => {
+						window.scrollTo({top: 0, behavior: "smooth"})
+						if (onClick) onClick()
+					}}
 					className={`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50/75 dark:hover:bg-background-950/75 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer ${className}`}>
 					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp})}
 				</Link>

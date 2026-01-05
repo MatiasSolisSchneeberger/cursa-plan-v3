@@ -10,6 +10,7 @@ import {
 	IconLogout,
 	IconMenu,
 	IconMenu2,
+	IconUser,
 } from "@tabler/icons-react"
 import {useLocation} from "react-router-dom"
 import Dropdown from "../components/Dropdown"
@@ -19,7 +20,7 @@ import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
 import DropdownContent from "../components/DropdownContent"
 import ButtonIcon from "../components/ButtonIcon"
-import ThemeButton from "../components/ThemeButton"
+import ThemeButton from "../components/ButtonTheme"
 import {useAuth} from "../context/AuthContext"
 
 const MENU_CONFIG = [
@@ -28,7 +29,7 @@ const MENU_CONFIG = [
 		items: [
 			{name: "Inicio", href: "/", icon: <IconHome />},
 			{name: "Mesa de examenes", href: "/mesas-examenes", icon: <IconMenu />},
-			{name: "Calendario", href: "/calendario-academico", icon: <IconCalendar />},
+			{name: "Calendario", href: "/calendario", icon: <IconCalendar />},
 		],
 	},
 	{
@@ -59,7 +60,7 @@ const UserActions = () => {
 					<Menu>
 						<MenuGroup title="Mi Cuenta">
 							<MenuItem href="/perfil">Perfil</MenuItem>
-							<MenuItem href="#" onClick={() => signOut()} iconLeft={<IconLogout />}>
+							<MenuItem canHover={true} onClick={() => signOut()} iconLeft={<IconLogout />}>
 								Cerrar Sesión
 							</MenuItem>
 						</MenuGroup>
@@ -118,7 +119,7 @@ export function NavHeader() {
 				{/* SECCIÓN DERECHA: ACCIONES Y MENU MÓVIL */}
 				<div className="flex items-center gap-3">
 					{/* ThemeButton: Visible siempre en escritorio, opcional en móvil */}
-					<div className="hidden sm:block">
+					<div className="">
 						<ThemeButton />
 					</div>
 
@@ -141,7 +142,10 @@ export function NavHeader() {
 									{/* Agregamos las acciones de usuario al final del menú móvil para fácil acceso */}
 									{session ? (
 										<MenuGroup title="Perfil">
-											<MenuItem href="#" onClick={() => signOut()} iconLeft={<IconLogout />}>
+											<MenuItem href="/perfil" iconLeft={<IconUser />}>
+												Mi perfil
+											</MenuItem>
+											<MenuItem canHover onClick={() => signOut()} iconLeft={<IconLogout />}>
 												Cerrar Sesión
 											</MenuItem>
 										</MenuGroup>
@@ -158,7 +162,8 @@ export function NavHeader() {
 										<MenuGroup key={group.title} title={group.title}>
 											{group.items.map((item) => (
 												<MenuItem key={item.href} href={item.href} iconLeft={item.icon}>
-													<span className={item.href === path ? "text-primary-600 dark:text-primary-400" : ""}>
+													<span
+														className={item.href === path ? "font-bold text-primary-600 dark:text-primary-400" : ""}>
 														{item.name}
 													</span>
 												</MenuItem>

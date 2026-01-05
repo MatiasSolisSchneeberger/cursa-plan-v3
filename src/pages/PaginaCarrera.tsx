@@ -2,6 +2,7 @@ import {useEffect, useState, useMemo} from "react"
 import {useParams, useSearchParams} from "react-router-dom"
 import {getCarreraBySlug} from "../scripts/getCarreraBySlug"
 import {transformarDatos} from "../scripts/transformData"
+import type {CarreraJSON, PlanJSON, MateriaJSON, AnioJSON, PeriodoJSON} from "../types/db"
 import {IconCheck, IconChevronDown, IconLoader2} from "@tabler/icons-react"
 import HeaderCarrera from "../sections/HeaderCarrera"
 import ButtonGroup from "../components/ButtonGroup"
@@ -12,12 +13,8 @@ import DropdownContent from "../components/DropdownContent"
 import Menu from "../components/Menu"
 import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
-import Card from "../components/Card"
-import CardHeader from "../components/CardHeader"
-import CardBody from "../components/CardBody"
-import CardInfoList from "../components/CardInfoList"
-import CardFooter from "../components/CardFooter"
-import Chip from "../components/Chip"
+import CardMateria from "../components/CardMateria"
+import {usePageTitle} from "../hooks/usePageTitle"
 
 export default function PaginaCarrera() {
 	const {carreraSlug} = useParams<{carreraSlug: string}>()
@@ -27,8 +24,9 @@ export default function PaginaCarrera() {
 	const planAnioParam = searchParams.get("plan")
 	const orientacionSlugParam = searchParams.get("orientacion")
 
-	const [carreraJson, setCarreraJson] = useState<any>(null)
+	const [carreraJson, setCarreraJson] = useState<CarreraJSON | null>(null)
 	const [loading, setLoading] = useState(true)
+	usePageTitle(loading ? "CursaPlan" : `${carreraJson?.carrera || ""} - CursaPlan`)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -45,12 +43,25 @@ export default function PaginaCarrera() {
 		fetchData()
 	}, [carreraSlug])
 
+	// --- SELECCIONAR PLAN MAS NUEVO POR DEFECTO ---
+	useEffect(() => {
+		if (carreraJson && !planAnioParam) {
+			// Encontrar el plan mas nuevo (mayor anioInicio)
+			const newestPlan = carreraJson.planes.reduce((prev, current) =>
+				prev.anioInicio > current.anioInicio ? prev : current
+			)
+			if (newestPlan) {
+				setSearchParams({plan: newestPlan.anioInicio.toString()}, {replace: true})
+			}
+		}
+	}, [carreraJson, planAnioParam, setSearchParams])
+
 	// --- LÓGICA DE SELECCIÓN ---
-	const planActivo = useMemo(() => {
-		if (!carreraJson) return null
+	const planActivo = useMemo<PlanJSON | undefined>(() => {
+		if (!carreraJson) return undefined
 		// Busca el plan por año, o devuelve el primero por defecto
 		return planAnioParam
-			? carreraJson.planes.find((p: any) => p.anioInicio === Number(planAnioParam))
+			? carreraJson.planes.find((p) => p.anioInicio === Number(planAnioParam))
 			: carreraJson.planes[0]
 	}, [carreraJson, planAnioParam])
 
@@ -96,30 +107,33 @@ export default function PaginaCarrera() {
 
 	return (
 		<section className="flex flex-col gap-6">
-			<HeaderCarrera name={carreraJson.carrera} icon={carreraJson.icon} />
+			<HeaderCarrera name={carreraJson?.carrera || ""} icon={carreraJson?.icon || ""} />
 			{/* --- CONTROLES --- */}
-			{/* <pre className="select-all">{JSON.stringify(planActivo, null, 2)}</pre> */}{" "}
-			{carreraJson.planes.length > 1 && (
+			{/*<pre className="select-all">{JSON.stringify(planActivo, null, 2)}</pre>*/}
+
+			{carreraJson?.planes && carreraJson?.planes?.length > 1 && (
 				<article className="flex flex-col gap-3 items-center justify-center">
 					<span className="text-text-800 dark:text-text-200 texto-title">Elegir el plan de estudio:</span>
 					<ButtonGroup>
-						{carreraJson.planes.map((p: any) => (
+						{carreraJson?.planes?.map((p) => (
 							<Button
 								key={p.id}
 								onClick={() => handlePlanChange(p.anioInicio)}
-								variant={planActivo.anioInicio === p.anioInicio ? "flat" : "outlined"}>
+								variant={planActivo.anioInicio === p.anioInicio ? "solid" : "outlined"}
+								iconRight={planActivo.anioInicio === p.anioInicio && <IconCheck />}>
 								{p.anioInicio}
 							</Button>
 						))}
 					</ButtonGroup>
 				</article>
 			)}
+
 			{planActivo.listaOrientaciones.length > 0 && (
 				<article className="flex flex-col gap-3 items-center justify-center">
 					<span className="text-text-800 dark:text-text-200 texto-title">Elegir la orientación:</span>
 					<Dropdown>
 						<DropdownTrigger>
-							<Button variant="outlined" iconRight={<IconChevronDown />}>
+							<Button variant="outlined" color="secondary" iconRight={<IconChevronDown />}>
 								{planActivo.listaOrientaciones.find((ori: any) => ori.slug === orientacionSlugParam)?.nombre ||
 									"Todas las orientaciones"}
 							</Button>
@@ -134,7 +148,7 @@ export default function PaginaCarrera() {
 									Todas las orientaciones
 								</MenuItem>
 								<MenuGroup title="Orientaciones">
-									{planActivo.listaOrientaciones.map((ori: any) => (
+									{planActivo.listaOrientaciones.map((ori) => (
 										<MenuItem
 											href={`?plan=${planActivo.anioInicio}&orientacion=${ori.slug}`}
 											key={ori.id}
@@ -154,27 +168,27 @@ export default function PaginaCarrera() {
 				</article>
 			)}
 			<article className="flex flex-wrap gap-2 items-center justify-center">
-				{planActivo.anios.map((anio: any) => (
-					<Button key={anio.anio} onClick={() => goToAnio(anio.anio)} variant="outlined">
+				{planActivo.anios.map((anio) => (
+					<Button key={anio.anio} color="tertiary" onClick={() => goToAnio(anio.anio)} variant="outlined">
 						{anio.anio}° Año
 					</Button>
 				))}
 			</article>
 			{/* --- GRILLA DE AÑOS --- */}
 			<article className="flex flex-col gap-6">
-				{planActivo.anios.map((anioData: any) => (
-					<section key={anioData.anio} id={anioData.anio} className="flex flex-col gap-4 scroll-mt-28">
+				{planActivo.anios.map((anioData: AnioJSON) => (
+					<section key={anioData.anio} id={anioData.anio.toString()} className="flex flex-col gap-4 scroll-mt-28">
 						<h2 className="texto-headline text-text-900 dark:text-text-100">{anioData.anio}° Año</h2>
 
-						{anioData.periodos.map((periodo: any) => (
+						{anioData.periodos.map((periodo: PeriodoJSON) => (
 							<article key={periodo.nroPeriodo} className="">
-								<h3 className="texto-title text-text-700 dark:text-text-300 mb-2">
-									{periodo.nroPeriodo}° {periodo.tipoPeriodo}
+								<h3 className="texto-title text-text-700 dark:text-text-300 mb-2 capitalize">
+									{periodo.nroPeriodo > 0 && `${periodo.nroPeriodo}°`} {periodo.tipoPeriodo}
 								</h3>
 
 								<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
 									{periodo.materias
-										.filter((materia: any) => {
+										.filter((materia: MateriaJSON) => {
 											// Si no hay filtro de orientación, mostramos todo
 											if (!orientacionSlugParam) return true
 											// Las materias comunes (sin orientación) siempre se muestran
@@ -184,43 +198,10 @@ export default function PaginaCarrera() {
 											return false
 										})
 										// AGREGAMOS EL INDEX AQUÍ vvv
-										.map((materia: any, index: number) => (
+										.map((materia: MateriaJSON, index: number) => (
 											// CAMBIAMOS LA KEY AQUÍ vvv
 
-											<Card key={`${materia.id}-${index}`} id={materia.slug} className="scroll-mt-28">
-												<CardHeader color="primary">{materia.nombre}</CardHeader>
-												<CardBody>
-													{/* --- CARTEL DE OPTATIVA --- */}
-													{materia.esOptativa && (
-														<Chip className="mb-2" color="warning">
-															Optativa {materia.nroOptativa ? `#${materia.nroOptativa}` : ""}
-														</Chip>
-													)}
-													{materia.correlativas.length > 0 && (
-														<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-															{materia.correlativas.map((correlativa: any) => (
-																<CardInfoList key={correlativa.tipo} title={`Para ${correlativa.tipo}:`}>
-																	{correlativa.condiciones.map((condicion: any) => (
-																		<MenuGroup key={condicion.id} title={`Tener ${condicion.condicion}:`}>
-																			{condicion.requisitos.map((requisito: any) => (
-																				<MenuItem
-																					canHover={true}
-																					key={requisito.id}
-																					onClick={() => goToMateria(requisito.slug)}>
-																					{requisito.nombre}
-																				</MenuItem>
-																			))}
-																		</MenuGroup>
-																	))}
-																</CardInfoList>
-															))}
-														</div>
-													)}
-												</CardBody>
-												<CardFooter>
-													<div></div>
-												</CardFooter>
-											</Card>
+											<CardMateria key={`${materia.id}-${index}`} materia={materia} goToMateria={goToMateria} />
 										))}
 								</section>
 							</article>

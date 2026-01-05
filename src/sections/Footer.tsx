@@ -14,12 +14,12 @@ export default function Footer() {
 			url: "/",
 		},
 		{
-			title: "Contacto",
-			url: "/contacto",
+			title: "Calendario",
+			url: "/calendario",
 		},
 		{
-			title: "Acerca de",
-			url: "/acerca-de",
+			title: "Fecha de examenes",
+			url: "/examenes",
 		},
 	]
 
@@ -27,7 +27,7 @@ export default function Footer() {
 		const fetchCarreras = async () => {
 			const {data, error} = await supabase
 				.from("carreras")
-				.select("id, nombre, slug, emojie")
+				.select("id, nombre, slug, icon")
 				.order("slug", {ascending: true})
 
 			if (error) {
@@ -65,7 +65,7 @@ export default function Footer() {
 							iconLeft={
 								<IconCarrera
 									className={`theme-${carrera.slug} text-primary-600 dark:text-primary-400`}
-									icon={carrera.emojie}
+									icon={carrera.icon}
 								/>
 							}>
 							{carrera.nombre}

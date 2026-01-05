@@ -1,3 +1,3 @@
-export default function CardFooter({children}: {children: React.ReactNode}) {
-	return <footer className="h-min w-full rounded-xl">{children}</footer>
+export default function CardFooter({children, className}: {children: React.ReactNode; className?: string}) {
+	return <footer className={`h-min w-full rounded-xl ${className}`}>{children}</footer>
 }

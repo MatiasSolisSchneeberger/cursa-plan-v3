@@ -17,7 +17,8 @@
                             "id": 8,
                             "nombre": "Álgebra y Geometría Analítica",
                             "slug": "algebra-y-geometria-analitica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": []
                         },
@@ -25,7 +26,8 @@
                             "id": 274,
                             "nombre": "Química General",
                             "slug": "quimica-general",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": []
                         }
@@ -40,7 +42,8 @@
                             "id": 44,
                             "nombre": "Cálculo Diferencial e Integral",
                             "slug": "calculo-diferencial-e-integral",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -79,7 +82,8 @@
                             "id": 278,
                             "nombre": "Química Inorgánica",
                             "slug": "quimica-inorganica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -118,7 +122,8 @@
                             "id": 37,
                             "nombre": "Biología General y Celular",
                             "slug": "biologia-general-y-celular",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -170,7 +175,8 @@
                             "id": 195,
                             "nombre": "Mecánica, Calor y Termodinámica",
                             "slug": "mecanica-calor-y-termodinamica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -231,7 +237,8 @@
                             "id": 280,
                             "nombre": "Química Orgánica I",
                             "slug": "quimica-organica-i",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -288,7 +295,8 @@
                             "id": 214,
                             "nombre": "Morfología",
                             "slug": "morfologia",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -334,7 +342,8 @@
                             "id": 87,
                             "nombre": "Electricidad, Magnetismo, Óptica y Sonido",
                             "slug": "electricidad-magnetismo-optica-y-sonido",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -391,7 +400,8 @@
                             "id": 281,
                             "nombre": "Química Orgánica II",
                             "slug": "quimica-organica-ii",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -444,7 +454,8 @@
                             "id": 258,
                             "nombre": "Química Analítica",
                             "slug": "quimica-analitica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -514,7 +525,8 @@
                             "id": 256,
                             "nombre": "Prueba de Traducción Técnica",
                             "slug": "prueba-de-traduccion-tecnica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": []
                         }
@@ -529,7 +541,8 @@
                             "id": 266,
                             "nombre": "Química Biológica I",
                             "slug": "quimica-biologica-i",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -602,7 +615,8 @@
                             "id": 270,
                             "nombre": "Química Física Biológica",
                             "slug": "quimica-fisica-biologica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -679,7 +693,8 @@
                             "id": 30,
                             "nombre": "Bioestadística",
                             "slug": "bioestadistica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -747,7 +762,8 @@
                             "id": 267,
                             "nombre": "Química Biológica II",
                             "slug": "quimica-biologica-ii",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -804,7 +820,8 @@
                             "id": 140,
                             "nombre": "Genética y Biología Molecular",
                             "slug": "genetica-y-biologia-molecular",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -865,7 +882,8 @@
                             "id": 263,
                             "nombre": "Química Analítica Instrumental",
                             "slug": "quimica-analitica-instrumental",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -943,7 +961,8 @@
                             "id": 254,
                             "nombre": "Prueba de Manejo de Software",
                             "slug": "prueba-de-manejo-de-software",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": []
                         },
@@ -951,7 +970,8 @@
                             "id": 337,
                             "nombre": "Virología Clínica",
                             "slug": "virologia-clinica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1024,7 +1044,8 @@
                             "id": 209,
                             "nombre": "Microbiología General",
                             "slug": "microbiologia-general",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1100,7 +1121,8 @@
                             "id": 128,
                             "nombre": "Fisiología Humana",
                             "slug": "fisiologia-humana",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1169,7 +1191,8 @@
                             "id": 112,
                             "nombre": "Farmacología",
                             "slug": "farmacologia",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1242,7 +1265,8 @@
                             "id": 43,
                             "nombre": "Bromatología y Nutrición",
                             "slug": "bromatologia-y-nutricion",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1303,7 +1327,8 @@
                             "id": 130,
                             "nombre": "Fisiopatología",
                             "slug": "fisiopatologia",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1385,7 +1410,8 @@
                             "id": 167,
                             "nombre": "Inmunología Clínica",
                             "slug": "inmunologia-clinica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1454,7 +1480,8 @@
                             "id": 233,
                             "nombre": "Parasitología Humana",
                             "slug": "parasitologia-humana",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1523,7 +1550,8 @@
                             "id": 27,
                             "nombre": "Bacteriología y Micología Clínica",
                             "slug": "bacteriologia-y-micologia-clinica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1600,7 +1628,8 @@
                             "id": 268,
                             "nombre": "Química Clínica",
                             "slug": "quimica-clinica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1688,7 +1717,8 @@
                             "id": 327,
                             "nombre": "Toxicología y Química Legal",
                             "slug": "toxicologia-y-quimica-legal",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1753,7 +1783,8 @@
                             "id": 111,
                             "nombre": "Ética Profesional",
                             "slug": "etica-profesional",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1856,7 +1887,8 @@
                             "id": 153,
                             "nombre": "Hematología Clínica",
                             "slug": "hematologia-clinica",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1919,7 +1951,8 @@
                             "id": 103,
                             "nombre": "Endocrinología y Monitoreo de Drogas",
                             "slug": "endocrinologia-y-monitoreo-de-drogas",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -1990,7 +2023,8 @@
                             "id": 149,
                             "nombre": "Gestión de Laboratorio",
                             "slug": "gestion-de-laboratorio",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2051,7 +2085,8 @@
                             "id": 107,
                             "nombre": "Epistemología y Metodología de la Investigación",
                             "slug": "epistemologia-y-metodologia-de-la-investigacion",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2130,7 +2165,8 @@
                             "id": 141,
                             "nombre": "Genética y Biología Molecular Aplicada",
                             "slug": "genetica-y-biologia-molecular-aplicada",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2177,7 +2213,8 @@
                             "id": 104,
                             "nombre": "Epidemiología y Salud Pública",
                             "slug": "epidemiologia-y-salud-publica",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2260,7 +2297,8 @@
                             "id": 39,
                             "nombre": "Bioquímica de los Alimentos",
                             "slug": "bioquimica-de-los-alimentos",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2327,7 +2365,8 @@
                             "id": 204,
                             "nombre": "Métodos de Conservación de Alimentos",
                             "slug": "metodos-de-conservacion-de-alimentos",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2394,7 +2433,8 @@
                             "id": 334,
                             "nombre": "Urgencias Hospitalarias",
                             "slug": "urgencias-hospitalarias",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 1,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2453,7 +2493,8 @@
                             "id": 60,
                             "nombre": "Determinación de Estructuras Orgánicas",
                             "slug": "determinacion-de-estructuras-organicas",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2500,7 +2541,8 @@
                             "id": 200,
                             "nombre": "Medio Interno y Nefrología",
                             "slug": "medio-interno-y-nefrologia",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2559,7 +2601,8 @@
                             "id": 269,
                             "nombre": "Química Física Avanzada",
                             "slug": "quimica-fisica-avanzada",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2606,7 +2649,8 @@
                             "id": 81,
                             "nombre": "Ecotoxicología y Sanidad Laboral y Ambiental",
                             "slug": "ecotoxicologia-y-sanidad-laboral-y-ambiental",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2665,7 +2709,8 @@
                             "id": 152,
                             "nombre": "Hematología Avanzada",
                             "slug": "hematologia-avanzada",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2724,7 +2769,8 @@
                             "id": 26,
                             "nombre": "Bacteriología Avanzada",
                             "slug": "bacteriologia-avanzada",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2783,7 +2829,8 @@
                             "id": 279,
                             "nombre": "Química Legal y Forense",
                             "slug": "quimica-legal-y-forense",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2858,7 +2905,8 @@
                             "id": 336,
                             "nombre": "Virología Avanzada",
                             "slug": "virologia-avanzada",
-                            "creditos": 0,
+                            "esOptativa": true,
+                            "nroOptativa": 2,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2926,7 +2974,8 @@
                             "id": 207,
                             "nombre": "Micología Avanzada",
                             "slug": "micologia-avanzada",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -2993,7 +3042,8 @@
                             "id": 166,
                             "nombre": "Inmunología Avanzada",
                             "slug": "inmunologia-avanzada",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -3040,7 +3090,8 @@
                             "id": 236,
                             "nombre": "Práctica Hospitalaria",
                             "slug": "practica-hospitalaria",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": [
                                 {
@@ -3102,7 +3153,8 @@
                             "id": 239,
                             "nombre": "Prácticas Electivas",
                             "slug": "practicas-electivas",
-                            "creditos": 0,
+                            "esOptativa": false,
+                            "nroOptativa": null,
                             "orientacion": null,
                             "correlativas": []
                         }

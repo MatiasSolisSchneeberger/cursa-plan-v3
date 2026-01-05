@@ -6,7 +6,7 @@ interface carreraType {
 	id: number
 	nombre: string
 	slug: string
-	emojie: string
+	icon: string
 }
 
 export default function ListadoCarreras() {
@@ -20,7 +20,7 @@ export default function ListadoCarreras() {
 			try {
 				const {data, error} = await supabase
 					.from("carreras")
-					.select("id, nombre, slug, emojie")
+					.select("id, nombre, slug, icon")
 					.order("slug", {ascending: true})
 
 				if (error) {
@@ -44,8 +44,8 @@ export default function ListadoCarreras() {
 			<ul className="relative grid w-full shrink-0 grid-cols-1 flex-wrap content-start items-start justify-start gap-6 self-stretch md:grid-cols-2 lg:grid-cols-3">
 				{loading
 					? Array.from({length: 12}).map((_, index) => <CardCarreraSkeleton key={index} />)
-					: carreras.map(({id, nombre, slug, emojie}) => {
-							return <CardCarrera key={id} icon={emojie} slug={slug} carrera={nombre} />
+					: carreras.map(({id, nombre, slug, icon}) => {
+							return <CardCarrera key={id} icon={icon} slug={slug} carrera={nombre} />
 					  })}
 			</ul>
 		</section>

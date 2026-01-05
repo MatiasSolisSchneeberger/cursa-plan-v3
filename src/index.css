@@ -1948,17 +1948,34 @@
 }
 
 .texto-display {
-	@apply font-primary text-5xl leading-13 font-bold;
+	@apply font-primary text-5xl leading-13 font-extrabold;
 }
 .texto-headline {
-	@apply font-primary text-3xl leading-9 font-semibold;
+	@apply font-primary text-3xl leading-9 font-bold;
 }
 .texto-title {
-	@apply font-primary text-base leading-6 font-semibold tracking-wide;
+	@apply font-primary text-base leading-6 font-bold tracking-wide;
 }
 .texto-body {
-	@apply font-primary text-sm leading-5 font-medium tracking-wide;
+	@apply font-primary text-sm leading-5 font-semibold tracking-wide;
 }
 .texto-label {
-	@apply font-primary text-sm leading-4 font-medium tracking-wide;
+	@apply font-primary text-sm leading-4 font-semibold tracking-wide;
+}
+
+@keyframes shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-5px);
+	}
+	75% {
+		transform: translateX(5px);
+	}
+}
+
+.animate-shake {
+	animation: shake 0.2s ease-in-out 2; /* Se mueve rápido 2 veces */
 }

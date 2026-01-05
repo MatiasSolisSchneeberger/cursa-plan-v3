@@ -25,31 +25,69 @@ export interface DBResponse {
 }
 
 // 2. Tu JSON Objetivo (El que subiste en ejemploDB.json)
+export interface RequisitoMateria {
+    nombre: string
+    slug: string
+}
+
+export interface RequisitoPorcentaje {
+    porcentaje: number
+}
+
+export interface RequisitoNota {
+    nota: string
+}
+
+export type Requisito = RequisitoMateria | RequisitoPorcentaje | RequisitoNota
+
+export interface Condicion {
+    // Puede faltar "id" si no lo generas, pero en el front se usa key={condicion.id} a veces.
+    // Lo ideal es agregarlo en transformData o usar índice.
+    id?: string | number
+    tipo: "materia" | "porcentaje" | "nota"
+    condicion?: string // "regular" | "aprobado"
+    requisitos: Requisito[]
+}
+
+export interface GrupoCorrelativa {
+    tipo: string // "cursar" | "rendir"
+    condiciones: Condicion[]
+}
+
+export interface MateriaJSON {
+    id: number
+    nombre: string
+    slug: string
+    creditos: number
+    esOptativa: boolean
+    nroOptativa: number | null
+    orientacion: { nombre: string; slug: string } | null
+    correlativas: GrupoCorrelativa[]
+}
+
+export interface PeriodoJSON {
+    id: number
+    nroPeriodo: number
+    tipoPeriodo: string
+    materias: MateriaJSON[]
+}
+
+export interface AnioJSON {
+    anio: number
+    periodos: PeriodoJSON[]
+}
+
+export interface PlanJSON {
+    id: number
+    anioInicio: number
+    anioFin: number
+    listaOrientaciones: { nombre: string; slug: string; id: number }[]
+    anios: AnioJSON[]
+}
+
 export interface CarreraJSON {
-    carrera: string;
-    id: number;
-    planes: {
-        id: number;
-        anioInicio: number;
-        anioFin: number;
-        // Agregamos esto para facilitar crear los botones de filtro
-        listaOrientaciones: { nombre: string; slug: string; id: number }[];
-        anios: {
-            anio: number;
-            periodos: {
-                id: number;
-                nroPeriodo: number;
-                tipoPeriodo: string;
-                materias: {
-                    id: number;
-                    nombre: string;
-                    slug: string;
-                    creditos: number;
-                    // Ahora la materia sabe de quién es. Si es null, es Troncal/Común.
-                    orientacion: { nombre: string; slug: string } | null;
-                    correlativas: any[];
-                }[];
-            }[];
-        }[];
-    }[];
+    carrera: string
+    id: number
+    icon?: string
+    planes: PlanJSON[]
 }
