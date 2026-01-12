@@ -140,13 +140,16 @@ export default function PaginaCarrera() {
 						</DropdownTrigger>
 						<DropdownContent>
 							<Menu>
-								<MenuItem
-									onClick={() => handleOrientacionChange("")}
-									iconRight={
-										!orientacionSlugParam ? <IconCheck className="text-success-400 dark:text-success-600" /> : null
-									}>
-									Todas las orientaciones
-								</MenuItem>
+								<MenuGroup>
+									<MenuItem
+										onClick={() => handleOrientacionChange("")}
+										canHover
+										iconRight={
+											!orientacionSlugParam ? <IconCheck className="text-success-400 dark:text-success-600" /> : null
+										}>
+										Todas las orientaciones
+									</MenuItem>
+								</MenuGroup>
 								<MenuGroup title="Orientaciones">
 									{planActivo.listaOrientaciones.map((ori) => (
 										<MenuItem

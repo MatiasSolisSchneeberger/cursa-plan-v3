@@ -2,7 +2,7 @@ import {IconArrowLeft, IconHeart} from "@tabler/icons-react"
 import ButtonIcon from "../components/ButtonIcon"
 import IconCarrera from "../components/IconCarrera"
 import {useAuth} from "../context/AuthContext"
-import supabase from "../utils/supabase"
+/*import supabase from "../utils/supabase"*/
 
 export default function HeaderCarrera({name, icon}: {name: string; icon: string}) {
 	const {session} = useAuth()
@@ -12,7 +12,7 @@ export default function HeaderCarrera({name, icon}: {name: string; icon: string}
 			return
 		}
 
-		const {data, error} = await supabase.from("carrera_fav").insert({})
+		/* const {data, error} = await supabase.from("carrera_fav").insert({}) */
 	}
 
 	return (
