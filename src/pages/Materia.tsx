@@ -12,14 +12,12 @@ import supabase from "../utils/supabase"
 export default function Materia() {
 	const {materiaSlug, planSlug, carreraSlug} = useParams()
 	const [loading, setLoading] = useState(true)
-	const [notFound, setNotFound] = useState(false)
 	const [materia, setMateria] = useState<any>(null)
 	const [nextExam, setNextExam] = useState<any>(null)
 
 	useEffect(() => {
 		const fetchMateria = async () => {
 			setLoading(true)
-			setNotFound(false)
 
 			const {data, error} = await supabase
 				.from("materia_plan")
@@ -45,7 +43,7 @@ export default function Materia() {
 			}
 
 			if (!data) {
-				setNotFound(true)
+				// handle not found if needed, or just leave it blank for now
 			} else {
 				setMateria(data as any)
 
@@ -60,7 +58,6 @@ export default function Materia() {
 		if (materiaSlug && planSlug && carreraSlug) {
 			fetchMateria()
 		} else {
-			setNotFound(true)
 			setLoading(false)
 		}
 	}, [materiaSlug, planSlug, carreraSlug])
@@ -68,7 +65,7 @@ export default function Materia() {
 	// Generamos la configuración de tabs inyectándole la data
 	const tabsConfig = useMemo(() => {
 		if (!materia) return []
-		return getMateriaTabs(materia, nextExam)
+		return getMateriaTabs(materia)
 	}, [materia, nextExam])
 
 	// --- LOGIC FOR TAB SELECTION ---

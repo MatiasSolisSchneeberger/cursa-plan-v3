@@ -53,8 +53,8 @@ const disponibilidadMaterias: {
 	{texto: "Desbloqueado", color: "success", icon: <IconCheck size={20} />},
 ]
 export default function CardMateria({materia, carreraSlug, planAnio}: CardMateriaProps) {
-	const [estadoMateria, setEstadoMateria] = useState<EstadoMateria | null>(
-		estados.find((e) => e.texto === materia.estadoMateria) || estados[0],
+	const [estadoMateria, setEstadoMateria] = useState<EstadoMateria>(
+		() => estados.find((e) => e.texto === materia.estadoMateria) || estados[0],
 	)
 	const [showCorrelativas, setShowCorrelativas] = useState(false)
 
@@ -99,12 +99,12 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 								key={estado.texto}
 								color={estado.color}
 								// Type annotation fixed as per previous lint correct
-								onClick={(e: any) => {
+								onClick={(e) => {
 									e.preventDefault()
 									e.stopPropagation()
 									setEstadoMateria(estado)
 								}}
-								selected={estadoMateria?.texto === estado.texto}
+								selected={estadoMateria.texto === estado.texto}
 								iconLeft={estado.icon}
 								canSelected>
 								{estado.texto}

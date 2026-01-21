@@ -4,7 +4,7 @@ import {CalendarioTab} from "./tabs/CalendarioTab"
 import {IconCalendar, IconFile, IconInfoCircle} from "@tabler/icons-react"
 import type {TabConfig} from "../../types/config"
 
-export const getMateriaTabs = (materiaData: any, nextExam: any): TabConfig[] => {
+export const getMateriaTabs = (materiaData: any): TabConfig[] => {
 	return [
 		{
 			id: "info",

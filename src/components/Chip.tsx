@@ -53,7 +53,7 @@ export default function Chip({
 	iconLeft,
 	iconRight,
 	className,
-	onClick,
+	onClick = () => {},
 	selected,
 	disabled,
 	title,
@@ -65,7 +65,7 @@ export default function Chip({
 	iconRight?: React.ReactNode
 	className?: string
 	selected?: boolean
-	onClick?: () => void
+	onClick?: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void
 	disabled?: boolean
 	title?: string
 }) {
@@ -99,7 +99,7 @@ export default function Chip({
 
 			<span className="">
 				<AnimatePresence mode="popLayout" initial={false}>
-					{selected ? (
+					{selected ?
 						<motion.span
 							key="check"
 							initial={{scale: 0, opacity: 0}}
@@ -108,8 +108,7 @@ export default function Chip({
 							transition={{duration: 0.2}}>
 							<IconCheck size={16} stroke={3} />
 						</motion.span>
-					) : (
-						iconRight && (
+					:	iconRight && (
 							<motion.span
 								key="icon-right"
 								initial={{scale: 0, opacity: 0}}
@@ -119,7 +118,7 @@ export default function Chip({
 								{iconRight}
 							</motion.span>
 						)
-					)}
+					}
 				</AnimatePresence>
 			</span>
 		</motion.span>

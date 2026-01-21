@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, useId, Dispatch, SetStateAction} from "react"
+import {createContext, useContext, useState, useId, type Dispatch, type SetStateAction} from "react"
 import type {ReactNode} from "react"
 import {
 	useFloating,
@@ -10,8 +10,8 @@ import {
 	useDismiss,
 	useRole,
 	useInteractions,
-	Placement,
-	Strategy,
+	type Placement,
+	type Strategy,
 } from "@floating-ui/react"
 
 interface DropdownContextType {

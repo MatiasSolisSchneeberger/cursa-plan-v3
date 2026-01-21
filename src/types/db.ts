@@ -62,6 +62,7 @@ export interface MateriaJSON {
     esOptativa: boolean
     nroOptativa: number | null
     orientacion: { nombre: string; slug: string } | null
+    estadoMateria?: string
     correlativas: GrupoCorrelativa[]
 }
 

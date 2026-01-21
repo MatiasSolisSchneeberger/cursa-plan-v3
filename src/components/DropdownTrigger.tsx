@@ -1,5 +1,5 @@
 import {useDropdown} from "./Dropdown"
-import {cloneElement, isValidElement, ReactNode} from "react"
+import {type ReactNode} from "react"
 
 export default function DropdownTrigger({children}: {children: ReactNode}) {
 	const {refs, getReferenceProps, open, anchorId} = useDropdown()
