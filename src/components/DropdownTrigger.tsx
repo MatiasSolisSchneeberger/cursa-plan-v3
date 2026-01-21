@@ -1,18 +1,23 @@
 import {useDropdown} from "./Dropdown"
+import {cloneElement, isValidElement, ReactNode} from "react"
 
-export default function DropdownTrigger({children}: {children: React.ReactNode}) {
-	const {toggle, open, triggerRef, anchorId} = useDropdown()
+export default function DropdownTrigger({children}: {children: ReactNode}) {
+	const {refs, getReferenceProps, open, anchorId} = useDropdown()
+
+	// If children is a single valid element, we can clone it to pass refs and props directly
+	// avoiding an extra wrapper div if preferred. However, sticking to the wrapper
+	// ensures consistency and avoids issues if children is a fragment or string.
+	// The previous implementation used a wrapper div, so I'll keep it but attach refs properly.
 
 	return (
 		<div
-			ref={triggerRef}
-			onClick={toggle}
-			className=" cursor-pointer inline-flex w-full" // Agregué inline-flex para mejor comportamiento
-			aria-expanded={open}
+			ref={refs.setReference}
+			{...getReferenceProps()}
+			className="inline-flex w-full cursor-pointer"
+			data-state={open ? "open" : "closed"}
 			style={
 				{
-					// Asignamos el nombre del ancla al elemento DOM
-					anchorName: anchorId,
+					anchorName: anchorId, // Keep for potential future usage or fallback
 				} as React.CSSProperties
 			}>
 			{children}

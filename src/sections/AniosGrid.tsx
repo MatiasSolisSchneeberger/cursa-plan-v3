@@ -1,0 +1,49 @@
+import CardMateria from "../components/CardMateria"
+import type {AnioJSON, MateriaJSON, PeriodoJSON} from "../types/db"
+
+interface AniosGridProps {
+	anios: AnioJSON[]
+	orientacionSlug: string | null
+	carreraSlug: string
+	planAnio: number
+}
+
+export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio}: AniosGridProps) {
+	return (
+		<article className="flex flex-col gap-8">
+			{anios.map((anioData: AnioJSON) => (
+				<section key={anioData.anio} id={anioData.anio.toString()} className="flex flex-col gap-4 scroll-mt-28">
+					<h2 className="texto-headline text-text-900 dark:text-text-100">{anioData.anio}° Año</h2>
+
+					{anioData.periodos.map((periodo: PeriodoJSON) => (
+						<article key={periodo.nroPeriodo} className="">
+							<h3 className="texto-title text-text-700 dark:text-text-300 mb-2 capitalize">
+								{periodo.nroPeriodo > 0 && `${periodo.nroPeriodo}°`} {periodo.tipoPeriodo}
+							</h3>
+							<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+								{periodo.materias
+									.filter((materia: MateriaJSON) => {
+										// Si no hay filtro de orientación, mostramos todo
+										if (!orientacionSlug) return true
+										// Las materias comunes (sin orientación) siempre se muestran
+										if (!materia.orientacion) return true
+										// Si hay filtro, mostramos solo las que coinciden
+										if (materia.orientacion.slug === orientacionSlug) return true
+										return false
+									})
+									.map((materia: MateriaJSON) => (
+										<CardMateria
+											key={materia.id} // Assuming materia has an ID, using index before was a bit risky but acceptable if needed. Verified types: MateriaJSON has id.
+											materia={materia}
+											carreraSlug={carreraSlug}
+											planAnio={planAnio}
+										/>
+									))}
+							</section>
+						</article>
+					))}
+				</section>
+			))}
+		</article>
+	)
+}

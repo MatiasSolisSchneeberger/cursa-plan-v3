@@ -1,9 +1,40 @@
 import {IconX} from "@tabler/icons-react"
 import ButtonIcon from "./ButtonIcon"
-import {useState} from "react"
+import {useState, useEffect} from "react"
 
-// Definimos los estilos fijos para que Tailwind los detecte
-const colorStyles = {
+/**
+ * Tipos de colores disponibles para la alerta.
+ * Corresponden a las claves del objeto `colorStyles`.
+ */
+type AlertColor = "primary" | "secondary" | "tertiary" | "danger" | "warning" | "success" | "info"
+
+/**
+ * Propiedades del componente Alert.
+ */
+interface AlertProps {
+	/** Color temático de la alerta. Define el fondo, borde y color de texto. */
+	color: AlertColor
+	/** Icono principal que se muestra a la izquierda. */
+	icon: React.ReactNode
+	/** Título principal de la alerta. */
+	title: string
+	/** Descripción detallada o texto de ayuda (opcional). */
+	description?: string
+	/** Contenido adicional renderizado al final del texto (ej. botones de acción). */
+	endContent?: React.ReactNode
+	/** Determina si la alerta puede ser cerrada por el usuario. Por defecto es `true`. */
+	canClose?: boolean
+	/** Callback que se ejecuta cuando la alerta se cierra completamente (después de la animación). */
+	onClose?: () => void
+	/** Clases CSS adicionales para el contenedor principal. */
+	className?: string
+}
+
+/**
+ * Estilos predefinidos para cada variante de color.
+ * Se definen fuera del componente para evitar recrearlos en cada render.
+ */
+const colorStyles: Record<AlertColor, {bg: string; border: string; title: string; text: string}> = {
 	primary: {
 		bg: "bg-primary-100 dark:bg-primary-900/30",
 		border: "bg-primary-600",
@@ -48,19 +79,10 @@ const colorStyles = {
 	},
 }
 
-type AlertColor = keyof typeof colorStyles
-
-interface AlertProps {
-	color: AlertColor
-	icon: React.ReactNode
-	title: string // Cambié 'text' por 'title' para ser más semántico
-	description?: string // Cambié 'textHelp' por 'description'
-	endContent?: React.ReactNode
-	canClose?: boolean
-	onClose?: () => void // Callback opcional por si el padre necesita saber
-	className?: string
-}
-
+/**
+ * Componente Alert para mostrar mensajes de estado, advertencias o información.
+ * Soporta variantes de color, cierre animado y contenido personalizado.
+ */
 export default function Alert({
 	color = "primary",
 	icon,
@@ -69,16 +91,23 @@ export default function Alert({
 	endContent,
 	canClose = true,
 	onClose,
-	className,
+	className = "",
 }: AlertProps) {
 	const [isVisible, setIsVisible] = useState(true)
 	const [isClosing, setIsClosing] = useState(false)
+
+	// Manejo seguro del unmount si el componente se desmonta antes de terminar la animación
+	useEffect(() => {
+		return () => {
+			// Cleanup si es necesario (generalmente React maneja esto bien, pero es buena práctica no setState en unmount)
+		}
+	}, [])
 
 	const styles = colorStyles[color] || colorStyles.primary
 
 	const handleClose = () => {
 		setIsClosing(true)
-		// Esperamos a que termine la animación (300ms) para desmontar
+		// Esperamos a que termine la animación (300ms) para notificar y ocultar
 		setTimeout(() => {
 			setIsVisible(false)
 			if (onClose) onClose()
@@ -91,33 +120,43 @@ export default function Alert({
 		<aside
 			role="alert"
 			className={`
-                relative flex min-w-2xs max-w-2xl flex-row gap-3 overflow-hidden rounded-md p-4 shadow-md transition-all duration-300 ease-in-out ${className}
+                relative flex w-full min-w-0 max-w-full flex-row gap-3 overflow-hidden rounded-md p-4 shadow-sm transition-all duration-300 ease-in-out
                 ${styles.bg}
                 ${isClosing ? "opacity-0 -translate-y-2 scale-95" : "opacity-100 translate-y-0 scale-100"}
+                ${className}
             `}>
 			{/* Barra lateral de color decorativa */}
 			<div className={`absolute left-0 top-0 h-full w-1 ${styles.border}`} />
 
 			{/* Icono Principal */}
-			<div className="shrink-0 pt-0.5">
-				<ButtonIcon className="pointer-events-none" color={color}>
+			<div className="flex shrink-0 items-start pt-0.5">
+				<ButtonIcon
+					className="pointer-events-none cursor-default !bg-transparent !p-0"
+					color={color}
+					variant="text"
+					tabIndex={-1}>
 					{icon}
 				</ButtonIcon>
 			</div>
 
 			{/* Contenido de Texto */}
-			<section className="flex flex-1 flex-col gap-1">
+			<section className="flex min-w-0 flex-1 flex-col gap-1">
 				<h3 className={`font-semibold leading-tight ${styles.title}`}>{title}</h3>
-				{description && <p className={`text-sm ${styles.text}`}>{description}</p>}
+				{description && <p className={`text-sm leading-relaxed ${styles.text}`}>{description}</p>}
 
 				{/* Contenido extra (botones de acción, links, etc) */}
-				{endContent && <div className="mt-2 flex flex-row items-center justify-end">{endContent}</div>}
+				{endContent && <div className="mt-3 flex flex-row items-center justify-end gap-2">{endContent}</div>}
 			</section>
 
 			{/* Botón Cerrar */}
 			{canClose && (
 				<div className="shrink-0">
-					<ButtonIcon variant="outlined" color={color} onClick={handleClose} aria-label="Cerrar alerta">
+					<ButtonIcon
+						variant="text"
+						color={color}
+						onClick={handleClose}
+						aria-label="Cerrar alerta"
+						className="hover:bg-black/5 dark:hover:bg-white/10">
 						<IconX size={18} />
 					</ButtonIcon>
 				</div>

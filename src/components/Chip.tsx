@@ -1,5 +1,4 @@
 import {IconCheck} from "@tabler/icons-react"
-import {useState} from "react"
 import {motion, AnimatePresence} from "framer-motion"
 
 // Definimos los estilos en un objeto para limpiar el código
@@ -54,6 +53,10 @@ export default function Chip({
 	iconLeft,
 	iconRight,
 	className,
+	onClick,
+	selected,
+	disabled,
+	title,
 }: {
 	children: React.ReactNode
 	color?: keyof typeof COLOR_STYLES
@@ -61,19 +64,17 @@ export default function Chip({
 	iconLeft?: React.ReactNode
 	iconRight?: React.ReactNode
 	className?: string
+	selected?: boolean
+	onClick?: () => void
+	disabled?: boolean
+	title?: string
 }) {
-	const [selected, setSelected] = useState(false)
-
-	const handleSelect = () => {
-		if (canSelected) setSelected(!selected)
-	}
-
 	const currentStyle = selected ? COLOR_STYLES[color].selected : COLOR_STYLES[color].default
 
 	return (
 		<motion.span
 			layout // 1. Esto anima el cambio de ancho del contenedor
-			onClick={handleSelect}
+			onClick={onClick}
 			initial={false}
 			animate={{
 				// Animamos suavemente el color de fondo y borde
@@ -86,7 +87,9 @@ export default function Chip({
 								} items-center rounded-xl px-2 py-1 outline-1 select-none overflow-hidden
                 ${currentStyle}
                 ${className}
-            `}>
+                ${disabled ? "cursor-not-allowed opacity-50" : ""}
+            `}
+			title={title}>
 			{/* Animamos el ícono izquierdo si existe */}
 			{iconLeft && <span className="mr-1 flex items-center">{iconLeft}</span>}
 

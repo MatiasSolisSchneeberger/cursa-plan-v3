@@ -1,6 +1,6 @@
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import Layout from "./layout/Layout"
-import PaginaCarrera from "./pages/PaginaCarrera" // Tu componente de página
+import Carrera from "./pages/Carrera"
 import {Index} from "./pages/Index"
 import NotFound from "./pages/NotFound"
 import Login from "./pages/auth/Login"
@@ -8,6 +8,7 @@ import Register from "./pages/auth/Register"
 import Profile from "./pages/Profile"
 import Calendar from "./pages/Calendar"
 import MesasExamenes from "./pages/MesasExamenes"
+import Materia from "./pages/Materia"
 
 function App() {
 	return (
@@ -16,8 +17,9 @@ function App() {
 				{/* Rutas generales (Home, Contacto) sin tema específico */}
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Index />} />
-					{/* --- AQUÍ ESTÁ LA MAGIA --- */}
-					<Route path="/carreras/:carreraSlug" element={<PaginaCarrera />} />
+
+					<Route path="/carreras/:carreraSlug" element={<Carrera />} />
+					<Route path="/carreras/:carreraSlug/:planSlug/:materiaSlug" element={<Materia />} />
 
 					<Route path="/mesas-examenes" element={<MesasExamenes />} />
 					<Route path="/calendario" element={<Calendar />} />

@@ -1,3 +1,5 @@
+import {cn} from "../utils/cn"
+
 export default function Card({
 	id,
 	children,
@@ -39,7 +41,11 @@ export default function Card({
 	return (
 		<section
 			id={id}
-			className={`rounded-3xl p-3 shadow-md hover:shadow-lg transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-3 ${classColor} ${className}`}>
+			className={cn(
+				"rounded-3xl p-3 shadow-md hover:shadow-lg transition-all outline-2 outline-background-300 dark:outline-background-700 flex flex-col gap-4",
+				classColor,
+				className,
+			)}>
 			{children}
 		</section>
 	)

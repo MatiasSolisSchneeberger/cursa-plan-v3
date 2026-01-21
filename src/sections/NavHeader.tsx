@@ -140,32 +140,30 @@ export function NavHeader() {
 							<DropdownContent>
 								<Menu>
 									{/* Agregamos las acciones de usuario al final del menú móvil para fácil acceso */}
-									{session ? (
+									{session ?
 										<MenuGroup title="Perfil">
-											<MenuItem href="/perfil" iconLeft={<IconUser />}>
+											<MenuItem href="/perfil" iconLeft={<IconUser />} isActive={path === "/perfil"}>
 												Mi perfil
 											</MenuItem>
 											<MenuItem canHover onClick={() => signOut()} iconLeft={<IconLogout />}>
 												Cerrar Sesión
 											</MenuItem>
 										</MenuGroup>
-									) : (
-										<MenuGroup title="Perfil">
-											<MenuItem href="/login" iconRight={<IconLogin2 />}>
+									:	<MenuGroup title="Perfil">
+											<MenuItem href="/login" iconRight={<IconLogin2 />} isActive={path === "/login"}>
 												Iniciar Sesión
 											</MenuItem>
-											<MenuItem href="/register">Registrarse</MenuItem>
+											<MenuItem href="/register" isActive={path === "/register"}>
+												Registrarse
+											</MenuItem>
 										</MenuGroup>
-									)}
+									}
 									{/* Renderizamos TODOS los grupos del menú */}
 									{MENU_CONFIG.map((group) => (
 										<MenuGroup key={group.title} title={group.title}>
 											{group.items.map((item) => (
-												<MenuItem key={item.href} href={item.href} iconLeft={item.icon}>
-													<span
-														className={item.href === path ? "font-bold text-primary-600 dark:text-primary-400" : ""}>
-														{item.name}
-													</span>
+												<MenuItem key={item.href} href={item.href} iconLeft={item.icon} isActive={item.href === path}>
+													{item.name}
 												</MenuItem>
 											))}
 										</MenuGroup>
