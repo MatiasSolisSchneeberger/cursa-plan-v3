@@ -102,7 +102,7 @@ export default function Carrera() {
 
 			<div className="flex flex-col justify-center items-center gap-2">
 				<span className="texto-label">Guardar carrera (plan de estudio)</span>
-				<LikeButton planId={planActivo.id.toString()} />
+				<LikeButton planId={planActivo.id} />
 			</div>
 
 			{/* --- SELECTOR DE ORIENTACIÓN --- */}
