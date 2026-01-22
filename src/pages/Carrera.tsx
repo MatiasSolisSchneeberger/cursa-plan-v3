@@ -11,6 +11,8 @@ import OrientacionSelector from "../sections/OrientacionSelector"
 import AniosGrid from "../sections/AniosGrid"
 import Cargando from "../sections/Cargando"
 import LikeButton from "../components/LikeButton"
+import Alert from "../components/Alert"
+import {IconCode} from "@tabler/icons-react"
 
 export default function Carrera() {
 	const {carreraSlug} = useParams<{carreraSlug: string}>()
@@ -104,6 +106,17 @@ export default function Carrera() {
 				<span className="texto-label">Guardar carrera (plan de estudio)</span>
 				<LikeButton planId={planActivo.id} />
 			</div>
+
+			<Alert
+				color="warning"
+				icon={<IconCode />}
+				title="Sección en Construcción"
+				description="La informacion que se muestra a continuación puede tener errores. Revisar con la resolucion oficial de la facultad.
+                Estamos trabajando para tener la informacion correcta.
+                "
+				canClose={true}
+				className="col-span-full"
+			/>
 
 			{/* --- SELECTOR DE ORIENTACIÓN --- */}
 			<OrientacionSelector
