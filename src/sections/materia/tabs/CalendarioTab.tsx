@@ -12,6 +12,7 @@ import {fechaProxima} from "../../../scripts/fechaProxima"
 import supabase from "../../../utils/supabase"
 import ToolTip from "../../../components/ToolTip"
 import {IconInfoCircle} from "@tabler/icons-react"
+import Cargando from "../../Cargando"
 
 export const CalendarioTab = () => {
 	const {materiaSlug} = useParams()
@@ -70,7 +71,7 @@ export const CalendarioTab = () => {
 				Calendario
 			</CardHeader>
 			<CardBody className="grid grid-cols-subgrid gap-3 col-span-4 md:col-span-5 xl:col-span-9">
-				{loading && <div className="col-span-full p-4">Cargando fechas...</div>}
+				{loading && <Cargando className="col-span-full h-min" />}
 
 				{!loading && futureDates.length === 0 && (
 					<div className="col-span-full p-4 text-gray-500">No hay fechas de examen próximas.</div>
