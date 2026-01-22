@@ -10,6 +10,7 @@ import PlanSelector from "../sections/PlanSelector"
 import OrientacionSelector from "../sections/OrientacionSelector"
 import AniosGrid from "../sections/AniosGrid"
 import Cargando from "../sections/Cargando"
+import LikeButton from "../components/LikeButton"
 
 export default function Carrera() {
 	const {carreraSlug} = useParams<{carreraSlug: string}>()
@@ -98,6 +99,11 @@ export default function Carrera() {
 			{carreraJson?.planes && (
 				<PlanSelector planes={carreraJson.planes} currentPlanAnio={planActivo.anioInicio} onSelect={handlePlanChange} />
 			)}
+
+			<div className="flex flex-col justify-center items-center gap-2">
+				<span className="texto-label">Guardar carrera (plan de estudio)</span>
+				<LikeButton planId={planActivo.id.toString()} />
+			</div>
 
 			{/* --- SELECTOR DE ORIENTACIÓN --- */}
 			<OrientacionSelector
