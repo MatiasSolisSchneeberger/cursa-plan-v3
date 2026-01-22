@@ -1,10 +1,20 @@
 import {Link} from "react-router-dom"
 import IconCarrera from "./IconCarrera"
 
-export default function CardCarrera({icon, carrera, slug}: {icon: string; carrera: string; slug: string}) {
+export default function CardCarrera({
+	icon,
+	carrera,
+	slug,
+	link,
+}: {
+	icon: string
+	carrera: string
+	slug: string
+	link?: string
+}) {
 	return (
 		<Link
-			to={`/carreras/${slug}`}
+			to={link || `/carreras/${slug}`}
 			onClick={() => {
 				window.scrollTo({top: 0, behavior: "smooth"})
 			}}
