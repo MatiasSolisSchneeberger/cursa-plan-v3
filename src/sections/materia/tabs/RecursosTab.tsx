@@ -1,6 +1,8 @@
 import Card from "../../../components/Card"
 import CardBody from "../../../components/CardBody"
 import CardHeader from "../../../components/CardHeader"
+import Alert from "../../../components/Alert"
+import {IconCone} from "@tabler/icons-react"
 
 export default function RecursosTab({titulo, filtroActivo}: {titulo: string; filtroActivo?: string}) {
 	return (
@@ -9,6 +11,14 @@ export default function RecursosTab({titulo, filtroActivo}: {titulo: string; fil
 				{titulo} - {filtroActivo}
 			</CardHeader>
 			<CardBody className="grid grid-cols-subgrid gap-3 col-span-4 md:col-span-5 xl:col-span-9">
+				<Alert
+					color="warning"
+					icon={<IconCone />}
+					title="Próximamente"
+					description="Esta sección de recursos está en desarrollo. Pronto podrás acceder a material de estudio aquí."
+					canClose={false}
+					className="col-span-full"
+				/>
 				{Array.from({length: 5}).map((_, index) => (
 					<span key={index} className="aspect-video col-span-2 md:col-span-5 xl:col-span-3 bg-gray-200">
 						Imagen

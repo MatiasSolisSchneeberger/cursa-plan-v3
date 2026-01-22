@@ -44,6 +44,7 @@ export default function Footer() {
 		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
 			<aside>
 				<LogoPage />
+				{/* TODO: Mejorar descripción o slogan del sitio */}
 				<span>Esta es una pagina para los alumnos </span>
 				<span>© {new Date().getFullYear()} Cursa Plan. Todos los derechos reservados.</span>
 			</aside>

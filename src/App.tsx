@@ -7,7 +7,6 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import Profile from "./pages/Profile"
 import Calendar from "./pages/Calendar"
-import MesasExamenes from "./pages/MesasExamenes"
 import Materia from "./pages/Materia"
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
 					<Route path="/carreras/:carreraSlug" element={<Carrera />} />
 					<Route path="/carreras/:carreraSlug/:planSlug/:materiaSlug" element={<Materia />} />
 
-					<Route path="/mesas-examenes" element={<MesasExamenes />} />
 					<Route path="/calendario" element={<Calendar />} />
 
 					<Route path="*" element={<Navigate to="/404" />} />

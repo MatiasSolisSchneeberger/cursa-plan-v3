@@ -100,10 +100,11 @@ export default function Login() {
 				</CardBody>
 				<CardFooter>
 					<div className="flex flex-col md:flex-row gap-2">
-						<Button variant="outlined" className="w-full" onClick={() => alert("sos un boludo")}>
+						{/* TODO: Implementar flujo de recuperación de contraseña */}
+						<Button variant="outlined" className="w-full" onClick={() => alert("Funcionalidad en desarrollo.")}>
 							¿Te olvidaste la contraseña?
 						</Button>
-						<Button variant="outlined" className="w-full" onClick={() => alert("andá a registrarte, queres?")}>
+						<Button variant="outlined" className="w-full" href="/register">
 							¿No tienes cuenta?
 						</Button>
 					</div>

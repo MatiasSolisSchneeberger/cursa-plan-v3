@@ -52,7 +52,7 @@ export default function CarrerasFav() {
 	const isLoading = loading || loadingAuth
 
 	return (
-		<section className="relative flex w-full shrink-0 flex-col flex-wrap content-start items-center justify-center gap-6 self-stretch">
+		<section className="relative flex w-full shrink-0 flex-col flex-wrap content-center items-center justify-center gap-6 self-stretch">
 			<h2 className="texto-headline text-center text-text-800 dark:text-text-200">Tus carreras favoritas</h2>
 			{isLoading ?
 				<CardCarreraSkeleton />

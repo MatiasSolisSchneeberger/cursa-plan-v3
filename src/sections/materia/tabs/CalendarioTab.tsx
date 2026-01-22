@@ -74,6 +74,7 @@ export const CalendarioTab = () => {
 				{loading && <Cargando className="col-span-full h-min" />}
 
 				{!loading && futureDates.length === 0 && (
+					/* TODO */
 					<div className="col-span-full p-4 text-gray-500">No hay fechas de examen próximas.</div>
 				)}
 

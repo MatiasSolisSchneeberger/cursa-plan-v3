@@ -4,6 +4,8 @@ import CardHeader from "../../../components/CardHeader"
 import CardInfoList from "../../../components/CardInfoList"
 import MenuGroup from "../../../components/MenuGroup"
 import MenuItem from "../../../components/MenuItem"
+import Alert from "../../../components/Alert"
+import {IconCone} from "@tabler/icons-react"
 
 interface Props {
 	materiaData: any
@@ -16,6 +18,14 @@ export const InfoTab = ({materiaData}: Props) => {
 				Información
 			</CardHeader>
 			<CardBody className="grid grid-cols-subgrid gap-3 col-span-4 md:col-span-5 xl:col-span-9">
+				<Alert
+					color="warning"
+					icon={<IconCone />}
+					title="Sección en Construcción"
+					description="La información mostrada aquí es de ejemplo. Estamos trabajando para conectar los datos reales de la materia."
+					canClose={false}
+					className="col-span-full"
+				/>
 				<CardInfoList title="Información" className="col-span-4 md:col-span-5 xl:col-span-3" color="secondary">
 					<MenuGroup>
 						<MenuItem>{materiaData.materias.nombre}</MenuItem>

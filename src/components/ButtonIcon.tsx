@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom"
+import {cn} from "../utils/cn"
 
 interface ButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "solid" | "flat" | "outlined" | "text"
@@ -92,7 +93,7 @@ export default function ButtonIcon({
 
 	const currentSizeClass = sizeClasses[size] || sizeClasses[40]
 
-	const fullClassName = `${styleClasses()} ${baseClasses} ${currentSizeClass} ${className}`
+	const fullClassName = cn(styleClasses(), baseClasses, currentSizeClass, className)
 
 	if (href) {
 		return (

@@ -159,7 +159,7 @@ export default function Register() {
 
 				<CardFooter>
 					<div className="flex flex-col md:flex-row gap-2">
-						<Button variant="outlined" className="w-full" href="/auth/login">
+						<Button variant="outlined" className="w-full" href="/login">
 							¿Ya tienes cuenta?
 						</Button>
 					</div>

@@ -8,7 +8,6 @@ import {
 	IconInfoCircle,
 	IconLogin2,
 	IconLogout,
-	IconMenu,
 	IconMenu2,
 	IconUser,
 } from "@tabler/icons-react"
@@ -28,15 +27,14 @@ const MENU_CONFIG = [
 		title: "Principal",
 		items: [
 			{name: "Inicio", href: "/", icon: <IconHome />},
-			{name: "Mesa de examenes", href: "/mesas-examenes", icon: <IconMenu />},
 			{name: "Calendario", href: "/calendario", icon: <IconCalendar />},
 		],
 	},
 	{
 		title: "Soporte",
 		items: [
-			{name: "Acerca de", href: "/acerca-de", icon: <IconInfoCircle />},
-			{name: "Ayuda", href: "/ayuda", icon: <IconHelp />},
+			{name: "Acerca de", href: "/acerca-de", icon: <IconInfoCircle />}, // TODO: Crear pagina de "Acerca de"
+			{name: "Ayuda", href: "/ayuda", icon: <IconHelp />}, // TODO: Crear pagina de "Ayuda"
 		],
 	},
 ]

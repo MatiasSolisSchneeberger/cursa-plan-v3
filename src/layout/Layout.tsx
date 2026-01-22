@@ -2,6 +2,7 @@ import {Outlet, useParams} from "react-router-dom"
 import {NavHeader} from "../sections/NavHeader"
 import Footer from "../sections/Footer"
 import ButtonUp from "../components/ButtonUp"
+import DevModeAlert from "../components/DevModeAlert"
 
 const Layout = () => {
 	// 1. useParams lee la parte dinámica de la URL (ej: :carrera)
@@ -22,6 +23,7 @@ const Layout = () => {
 			<ButtonUp />
 
 			<Outlet />
+			<DevModeAlert />
 			<Footer />
 		</main>
 	)
