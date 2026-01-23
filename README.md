@@ -75,7 +75,10 @@ La aplicación estará corriendo en `http://localhost:5173`.
 4. Haz Push a la rama (`git push origin feature/NuevaFuncionalidad`).
 5. Abre un Pull Request.
 
-Hecho con ❤️ por Matias Solis Schneeberger
-
 ## 📜 Historia del Proyecto
 Esta es la versión v3 de CursaPlan. Las iteraciones anteriores fueron desarrolladas en Astro. Aunque Astro es una tecnología excelente, la necesidad de una mayor interactividad y manejo de estado complejo motivó la migración completa a React (SPA) para esta versión.
+
+Hecho con ❤️ por [Matias Solis Schneeberger](www.linkedin.com/in/matias-solis-schneeberger-40a6842ab)
+
+## 📝 Licencia
+Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE.md) para más detalles.
