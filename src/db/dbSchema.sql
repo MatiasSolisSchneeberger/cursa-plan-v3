@@ -15,7 +15,7 @@ CREATE TABLE public.carreras (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
   nombre text NOT NULL,
   slug text NOT NULL,
-  emojie text NOT NULL,
+  icon text NOT NULL,
   CONSTRAINT carreras_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.carreras_fav (
@@ -28,21 +28,22 @@ CREATE TABLE public.carreras_fav (
 );
 CREATE TABLE public.correlativas (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
-  materia smallint,
+  materia_id smallint,
   tipo_requisito text CHECK (tipo_requisito = ANY (ARRAY['cursar'::text, 'rendir'::text])),
   requisito bigint,
   condicion text CHECK (condicion = ANY (ARRAY['regular'::text, 'aprobado'::text])),
   porcentaje integer CHECK (porcentaje < 100),
   notas text,
   CONSTRAINT correlativas_pkey PRIMARY KEY (id),
-  CONSTRAINT correlativas_materia_fkey FOREIGN KEY (materia) REFERENCES public.materia_plan(id),
-  CONSTRAINT correlativas_requisito_fkey FOREIGN KEY (requisito) REFERENCES public.materias(id)
+  CONSTRAINT correlativas_requisito_fkey FOREIGN KEY (requisito) REFERENCES public.materias(id),
+  CONSTRAINT correlativas_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materia_plan(id)
 );
 CREATE TABLE public.fechas_examenes (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
-  materia_id bigint NOT NULL UNIQUE,
+  materia_id bigint NOT NULL,
   fecha date NOT NULL,
-  CONSTRAINT fechas_examenes_pkey PRIMARY KEY (id)
+  CONSTRAINT fechas_examenes_pkey PRIMARY KEY (id),
+  CONSTRAINT fechas_examenes_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materias(id)
 );
 CREATE TABLE public.feriados (
   id bigint NOT NULL,
@@ -67,21 +68,21 @@ CREATE TABLE public.materia_plan (
   id smallint GENERATED ALWAYS AS IDENTITY NOT NULL,
   plan_id bigint NOT NULL,
   orientacion_id bigint,
-  materia_id bigint NOT NULL,
+  materia_id bigint,
   anio smallint,
   nro_periodo smallint,
   nro_optativa smallint,
   periodo_id bigint,
   CONSTRAINT materia_plan_pkey PRIMARY KEY (id),
   CONSTRAINT materia_plan_orientacion_id_fkey FOREIGN KEY (orientacion_id) REFERENCES public.tipos_orientaciones(id),
+  CONSTRAINT materia_plan_plan_id_fkey FOREIGN KEY (plan_id) REFERENCES public.plan_estudio(id),
   CONSTRAINT materia_plan_periodo_id_fkey FOREIGN KEY (periodo_id) REFERENCES public.tipos_periodo(id),
-  CONSTRAINT materia_plan_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materias(id),
-  CONSTRAINT materia_plan_plan_id_fkey FOREIGN KEY (plan_id) REFERENCES public.plan_estudio(id)
+  CONSTRAINT materia_plan_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materias(id)
 );
 CREATE TABLE public.materias (
   id bigint NOT NULL,
-  nombre text,
-  slug text,
+  nombre text NOT NULL,
+  slug text NOT NULL,
   CONSTRAINT materias_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.plan_estudio (
