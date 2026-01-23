@@ -132,7 +132,7 @@
 		--primary-l: 49.976%;
 		--primary-c: 0.0961;
 		--primary-h: 247.87;
-
+		/*--primary: #316797;*/
 		--theme-profesorado-en-matematica: calc(((360 / 13) * 1));
 		--theme-ingenieria-en-agrimensura: calc(((360 / 13) * 2));
 		--theme-ingenieria-electrica: calc(((360 / 13) * 3));
