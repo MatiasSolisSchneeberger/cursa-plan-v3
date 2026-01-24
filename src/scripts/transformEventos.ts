@@ -14,13 +14,9 @@ const parseDate = (dateStr: string): Date => {
 
 // --- MAPA DE COLORES PARA FERIADOS ---
 const FERIADO_COLORS: Record<string, CalendarColor> = {
-    "Feriado Nacional": "danger",
-    "Feriado Trasladable": "danger", // O warning si prefieres distinguir
-    "Feriado Turístico": "warning",
-    "Día No Laborable": "secondary",
-    "Asueto Provincial": "info",
-    "Asueto Específico": "info",
-    "Festividad Local": "tertiary",
+    "Feriado Inamovible": "danger",
+    "Feriado Trasladable": "warning", // O warning si prefieres distinguir
+    "Día No Laborable": "info",
 }
 
 // --- TRANSFORMADORES ---
