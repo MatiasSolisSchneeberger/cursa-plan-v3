@@ -8,10 +8,12 @@ import Register from "./pages/auth/Register"
 import Profile from "./pages/Profile"
 import Calendar from "./pages/Calendar"
 import Materia from "./pages/Materia"
+import {Analytics} from "@vercel/analytics/react"
 
 function App() {
 	return (
 		<BrowserRouter>
+			<Analytics />
 			<Routes>
 				{/* Rutas generales (Home, Contacto) sin tema específico */}
 				<Route path="/" element={<Layout />}>
