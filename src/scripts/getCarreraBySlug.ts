@@ -12,6 +12,7 @@ export const getCarreraBySlug = async (slug: string) => {
                 anio_inicio,
                 anio_fin,
                 materias_plan:materia_plan (
+                    id,
                     anio,
                     nro_periodo,
                     nro_optativa,

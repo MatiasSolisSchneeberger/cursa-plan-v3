@@ -118,6 +118,7 @@ export const transformarDatos = (data: any): CarreraJSON => {
                 if (!materiaYaExiste) {
                     periodoActual.materias.push({
                         id: item.materia.id,
+                        idMateriaPlan: item.id,
                         nombre: item.materia.nombre,
                         slug: item.materia.slug,
 

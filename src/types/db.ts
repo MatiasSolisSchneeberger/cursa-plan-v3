@@ -8,6 +8,7 @@ export interface DBResponse {
         anio_inicio: number;
         anio_fin: number;
         materias_plan: {
+            id: number;
             anio: number;
             nro_periodo: number;
             periodo: { periodo: string };
@@ -56,6 +57,7 @@ export interface GrupoCorrelativa {
 
 export interface MateriaJSON {
     id: number
+    idMateriaPlan: number
     nombre: string
     slug: string
     creditos: number

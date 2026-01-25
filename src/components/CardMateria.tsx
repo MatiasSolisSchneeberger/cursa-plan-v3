@@ -61,10 +61,10 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 
 	const {getEstado, actualizarAvance} = useSimulador()
 
-	const estadoActualTexto = getEstado(materia.id)
+	const estadoActualTexto = getEstado(materia.idMateriaPlan)
 
 	return (
-		<Card>
+		<Card className="">
 			<CardHeader color="primary">{materia.nombre}</CardHeader>
 			<CardBody className="flex flex-col gap-2">
 				<aside className="flex flex-col gap-2 *:border-b-2 *:pb-2 *:last:pb-0 *:border-background-300 dark:*:border-background-700 *:last:border-b-0">
@@ -111,7 +111,7 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 										e.preventDefault()
 										e.stopPropagation()
 										if (session) {
-											actualizarAvance(materia.id, estadoConfig.texto)
+											actualizarAvance(materia.idMateriaPlan, estadoConfig.texto)
 										}
 									}}
 									selected={isSelected}
