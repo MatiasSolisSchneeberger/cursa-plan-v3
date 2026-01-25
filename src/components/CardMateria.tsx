@@ -23,8 +23,11 @@ import MenuGroup from "./MenuGroup"
 import MenuItem from "./MenuItem"
 import Button from "./Button"
 
-type EstadoMateria = {
-	texto: string
+import type {EstadoMateria as EstadoMateriaType} from "../types/materia"
+import {useSimulador} from "../context/SimuladorContext"
+
+type EstadoMateriaConfig = {
+	texto: EstadoMateriaType
 	color: "tertiary" | "info" | "warning" | "success" | "primary" | "secondary" | "danger"
 	icon: React.ReactNode
 }
@@ -35,7 +38,7 @@ interface CardMateriaProps {
 	planAnio: number
 }
 
-const estados: EstadoMateria[] = [
+const estados: EstadoMateriaConfig[] = [
 	{texto: "Sin cursar", color: "tertiary", icon: <IconCircleDashed size={20} />},
 	{texto: "Cursando", color: "info", icon: <IconHourglass size={20} />},
 	{texto: "Regular", color: "warning", icon: <IconCircleDashedCheck size={20} />},
@@ -53,12 +56,12 @@ const disponibilidadMaterias: {
 	{texto: "Desbloqueado", color: "success", icon: <IconCheck size={20} />},
 ]
 export default function CardMateria({materia, carreraSlug, planAnio}: CardMateriaProps) {
-	const [estadoMateria, setEstadoMateria] = useState<EstadoMateria>(
-		() => estados.find((e) => e.texto === materia.estadoMateria) || estados[0],
-	)
 	const [showCorrelativas, setShowCorrelativas] = useState(false)
-
 	const {session} = useAuth()
+
+	const {getEstado, actualizarAvance} = useSimulador()
+
+	const estadoActualTexto = getEstado(materia.id)
 
 	return (
 		<Card>
@@ -93,23 +96,33 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 							</Chip>
 						))}
 					</span>
+
+					{/* Selector de estado */}
 					<span className="flex flex-wrap gap-2">
-						{estados.map((estado) => (
-							<Chip
-								key={estado.texto}
-								color={estado.color}
-								// Type annotation fixed as per previous lint correct
-								onClick={(e) => {
-									e.preventDefault()
-									e.stopPropagation()
-									setEstadoMateria(estado)
-								}}
-								selected={estadoMateria.texto === estado.texto}
-								iconLeft={estado.icon}
-								canSelected>
-								{estado.texto}
-							</Chip>
-						))}
+						{estados.map((estadoConfig) => {
+							const isSelected = estadoActualTexto === estadoConfig.texto
+
+							return (
+								<Chip
+									key={estadoConfig.texto}
+									color={estadoConfig.color}
+									// Type annotation fixed as per previous lint correct
+									onClick={(e) => {
+										e.preventDefault()
+										e.stopPropagation()
+										if (session) {
+											actualizarAvance(materia.id, estadoConfig.texto)
+										}
+									}}
+									selected={isSelected}
+									iconLeft={estadoConfig.icon}
+									canSelected
+									disabled={!session}
+									title={!session ? "Inicia sesión para ver esta información" : ""}>
+									{estadoConfig.texto}
+								</Chip>
+							)
+						})}
 					</span>
 				</aside>
 
