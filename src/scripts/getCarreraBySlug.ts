@@ -15,7 +15,7 @@ export const getCarreraBySlug = async (slug: string) => {
                     anio,
                     nro_periodo,
                     nro_optativa,
-                    periodo: tipos_periodo ( slug, nombre ),
+                    periodo: tipos_periodo ( id, slug, nombre ),
                     orientacion:tipos_orientaciones ( id, nombre , slug),
                     materia:materias ( id, nombre, slug ),
                     correlativas (

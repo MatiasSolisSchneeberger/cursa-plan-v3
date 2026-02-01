@@ -69,7 +69,11 @@ export interface MateriaJSON {
 export interface PeriodoJSON {
     id: number
     nroPeriodo: number
-    tipoPeriodo: string
+    tipoPeriodo: {
+        id: number
+        nombre: string
+        slug: string
+    }
     materias: MateriaJSON[]
 }
 

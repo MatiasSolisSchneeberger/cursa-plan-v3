@@ -1,7 +1,7 @@
 import {IconX} from "@tabler/icons-react"
-import ButtonIcon from "./ButtonIcon"
 import {useState, useEffect} from "react"
 import {cn} from "../utils/cn"
+import Button from "./Button"
 
 /**
  * Tipos de colores disponibles para la alerta.
@@ -131,13 +131,9 @@ export default function Alert({
 
 			{/* Icono Principal */}
 			<div className="flex shrink-0 items-start pt-0.5">
-				<ButtonIcon
-					className="pointer-events-none cursor-default bg-transparent p-0"
-					color={color}
-					variant="text"
-					tabIndex={-1}>
+				<Button isIconOnly className="pointer-events-none cursor-default" color={color} variant="flat" tabIndex={-1}>
 					{icon}
-				</ButtonIcon>
+				</Button>
 			</div>
 
 			{/* Contenido de Texto */}
@@ -152,14 +148,15 @@ export default function Alert({
 			{/* Botón Cerrar */}
 			{canClose && (
 				<div className="shrink-0">
-					<ButtonIcon
+					<Button
+						isIconOnly
 						variant="text"
 						color={color}
 						onClick={handleClose}
 						aria-label="Cerrar alerta"
 						className="hover:bg-black/5 dark:hover:bg-white/10">
 						<IconX size={18} />
-					</ButtonIcon>
+					</Button>
 				</div>
 			)}
 		</aside>
