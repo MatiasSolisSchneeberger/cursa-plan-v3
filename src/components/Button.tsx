@@ -106,12 +106,12 @@ export default function Button({
 	const sizeClasses = () => sizeStyles[size] || ""
 
 	const buttonClasses = cn(
-		"texto-label relative transition-all flex flex-row items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-text-700 dark:focus-visible:outline-text-300 focus-visible:outline-offset-2",
+		"texto-label relative transition-all flex flex-row items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-text-700 dark:focus-visible:outline-text-300 focus-visible:outline-offset-2 not-disabled:active:scale-95 ease-in-out not-disabled:hover:shadow-sm",
 		styleClasses(),
 		sizeClasses(),
 		className,
 		disabled && "opacity-50 cursor-not-allowed",
-		!isIconOnly && "px-3"
+		!isIconOnly && "px-3",
 	)
 
 	// El componente en sí
@@ -126,8 +126,7 @@ export default function Button({
 				className={buttonClasses}
 				to={href}
 				id={id}
-				target={target}
-				{...(props as any)}>
+				target={target}>
 				{iconLeft}
 				<span className="px-2">{children}</span>
 				{iconRight}
@@ -138,7 +137,11 @@ export default function Button({
 	// Renderiza <button> en cualquier otro caso
 	return (
 		<button className={buttonClasses} onClick={onClick} disabled={disabled} id={id} {...props}>
-			<span className="pr-2">{isLoading ? <IconLoader2 /> : iconLeft}</span>
+			<span className="pr-2">
+				{isLoading ?
+					<IconLoader2 />
+				:	iconLeft}
+			</span>
 			<span>{children}</span>
 			<span className="pl-2">{iconRight}</span>
 		</button>

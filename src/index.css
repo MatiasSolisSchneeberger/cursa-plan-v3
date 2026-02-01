@@ -157,6 +157,8 @@
 		--success: oklch(from var(--primary) l calc(c + 0.05) 157.08);
 		--info: oklch(from var(--primary) l calc(c + 0.05) 220.61);
 
+		/* --primary-hex: #316797; */
+
 		/* primary */
 		--primary-50: oklch(from var(--primary) calc(l + 0.468) calc(c * 0.066) calc(h + 12));
 		--primary-100: oklch(from var(--primary) calc(l + 0.441) calc(c * 0.145) calc(h + 4));
