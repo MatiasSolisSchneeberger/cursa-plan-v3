@@ -36,7 +36,7 @@ export function transformarFeriados(data: any[]): CalendarEvent[] {
 
 export function transformarClases(data: any[]): CalendarEvent[] {
     return data.map((item) => {
-        const periodoNombre = item.periodo?.periodo || "Periodo"
+        const periodoNombre = item.periodo?.nombre || "Periodo"
         // Ej: "1° Cuatrimestre"
         const periodoStr = item.nro_periodo ? `${item.nro_periodo}° ${periodoNombre}` : periodoNombre
 
@@ -76,7 +76,7 @@ export function transformarExamenes(data: any[]): CalendarEvent[] {
 
 export function transformarInscripciones(data: any[]): CalendarEvent[] {
     return data.map((item) => {
-        const periodoNombre = item.periodo?.periodo || "Periodo"
+        const periodoNombre = item.periodo?.nombre || "Periodo"
         // Ej: "1° Cuatrimestre"
         const periodoStr = item.nro_periodo ? `${item.nro_periodo}° ${periodoNombre}` : periodoNombre
 
