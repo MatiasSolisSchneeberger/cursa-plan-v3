@@ -25,18 +25,26 @@ export default function Carrera() {
 	const planAnioParam = searchParams.get("plan")
 	const orientacionSlugParam = searchParams.get("orientacion")
 
-	usePageTitle(isLoading ? "CursaPlan" : `${carreraJson?.carrera || ""} - CursaPlan`)
+	/**
+	 * Actualiza el título de la página.
+	 * usePageTitle automáticamente agrega " - CursaPlan" al final si no se especifica lo contrario.
+	 */
+	usePageTitle(isLoading ? "CursaPlan" : carreraJson?.carrera || "", true)
 
 	// --- LÓGICA DE SELECCIÓN DE PLAN ---
+	/**
+	 * Determina el plan de estudios activo basado en los parámetros de búsqueda o por defecto.
+	 */
 	const planActivo = useMemo(() => {
-		if (!carreraJson) return undefined
+		if (!carreraJson || !carreraJson.planes || carreraJson.planes.length === 0) return undefined
 
 		// 1. Si existe parámetro URL, buscamos ese plan
 		if (planAnioParam) {
-			return carreraJson.planes.find((p) => p.anioInicio === Number(planAnioParam))
+			const found = carreraJson.planes.find((p) => p.anioInicio === Number(planAnioParam))
+			if (found) return found
 		}
 
-		// 2. Si no, tomamos el más reciente por defecto (ordenando por año)
+		// 2. Si no, tomamos el más reciente por defecto (ordenando por año descendente)
 		// Usamos [...copia] para no mutar el array original que viene de React Query (que es inmutable)
 		return [...carreraJson.planes].sort((a, b) => b.anioInicio - a.anioInicio)[0]
 	}, [carreraJson, planAnioParam])
@@ -56,10 +64,19 @@ export default function Carrera() {
 	}, [planActivo, planAnioParam, setSearchParams])
 
 	// --- HANDLERS ---
+
+	/**
+	 * Maneja el cambio de plan de estudios.
+	 * @param anio - El año de inicio del nuevo plan.
+	 */
 	const handlePlanChange = (anio: number) => {
 		setSearchParams({plan: anio.toString()})
 	}
 
+	/**
+	 * Maneja la selección o deselección de una orientación.
+	 * @param slug - El slug de la orientación seleccionada.
+	 */
 	const handleOrientacionChange = (slug: string) => {
 		if (!planActivo) return
 
@@ -77,18 +94,37 @@ export default function Carrera() {
 	}
 
 	// --- FUNCIONES ---
+
+	/**
+	 * Desplaza la vista hacia la sección del año especificado.
+	 * @param anio - El número del año al que desplazarse.
+	 */
 	const goToAnio = (anio: number) => {
-		document.getElementById(anio.toString())?.scrollIntoView({behavior: "smooth"})
+		const element = document.getElementById(anio.toString())
+		if (element) {
+			element.scrollIntoView({behavior: "smooth"})
+		}
 	}
 
 	// --- RENDER ---
 	if (isLoading) return <Cargando />
 
-	if (isError) {
+	if (isError || !carreraJson) {
 		return (
 			<section className="w-full h-[calc(100vh-12rem)] flex items-center justify-center gap-3">
 				<span className="text-text-900 dark:text-text-100 texto-label">
-					Ups! Algo salió mal. Parece que no se encontró la información.
+					Ups! Algo salió mal. Parece que no se encontró la información de la carrera.
+				</span>
+			</section>
+		)
+	}
+
+	// Si no hay plan activo (caso raro si carreraJson existe pero no tiene planes), manejamos
+	if (!planActivo) {
+		return (
+			<section className="w-full h-[calc(100vh-12rem)] flex items-center justify-center gap-3">
+				<span className="text-text-900 dark:text-text-100 texto-label">
+					No se encontraron planes de estudio para esta carrera.
 				</span>
 			</section>
 		)
@@ -96,7 +132,7 @@ export default function Carrera() {
 
 	return (
 		<section className="flex flex-col gap-6">
-			<HeaderCarrera name={carreraJson?.carrera || ""} icon={carreraJson?.icon || ""} />
+			<HeaderCarrera name={carreraJson.carrera} icon={carreraJson.icon || ""} />
 
 			{/* --- SELECTOR DE PLAN --- */}
 			<PlanSelector planes={carreraJson.planes} currentPlanAnio={planActivo.anioInicio} onSelect={handlePlanChange} />
