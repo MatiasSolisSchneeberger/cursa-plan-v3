@@ -11,7 +11,7 @@ export interface DBResponse {
             id: number;
             anio: number;
             nro_periodo: number;
-            periodo: { periodo: string };
+            periodo: { slug: string; nombre: string };
             orientacion: { id: number; nombre: string } | null;
             materia: { id: number; nombre: string; slug: string; creditos: number }; // Asumo creditos en materias
             correlativas: {

@@ -56,7 +56,7 @@ export default function Calendar() {
 					case "clases": {
 						const {data, error} = await supabase.from("calendario_clases").select(`
                             id, nro_periodo, fecha_inicio, fecha_fin, nota,
-                            periodo: tipos_periodo(periodo)
+                            periodo: tipos_periodo(slug, nombre)
                         `)
 						if (error) throw error
 						transformedEvents = transformarClases(data || [])
@@ -74,7 +74,7 @@ export default function Calendar() {
 					case "inscripciones": {
 						const {data, error} = await supabase.from("inscripciones").select(`
                             id, nro_periodo, fecha_inicio, fecha_fin,
-                            periodo: tipos_periodo(periodo)
+                            periodo: tipos_periodo(slug, nombre)
                         `)
 						if (error) throw error
 						transformedEvents = transformarInscripciones(data || [])

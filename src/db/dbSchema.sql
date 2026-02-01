@@ -1,6 +1,16 @@
 -- WARNING: This schema is for context only and is not meant to be run.
 -- Table order and constraints may not be valid for execution.
 
+CREATE TABLE public.avances (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  user_id uuid NOT NULL,
+  materia_plan_id smallint NOT NULL,
+  estado text NOT NULL DEFAULT '"Sin cursar"'::text CHECK (estado = ANY (ARRAY['Sin cursar'::text, 'Cursando'::text, 'Regular'::text, 'Aprobado'::text, 'Libre'::text])),
+  updated_at timestamp with time zone NOT NULL,
+  CONSTRAINT avances_pkey PRIMARY KEY (id),
+  CONSTRAINT avance_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id),
+  CONSTRAINT avance_materia_plan_id_fkey FOREIGN KEY (materia_plan_id) REFERENCES public.materia_plan(id)
+);
 CREATE TABLE public.calendario_clases (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
   nro_periodo bigint NOT NULL,
@@ -73,6 +83,7 @@ CREATE TABLE public.materia_plan (
   nro_periodo smallint,
   nro_optativa smallint,
   periodo_id bigint,
+  nota text,
   CONSTRAINT materia_plan_pkey PRIMARY KEY (id),
   CONSTRAINT materia_plan_orientacion_id_fkey FOREIGN KEY (orientacion_id) REFERENCES public.tipos_orientaciones(id),
   CONSTRAINT materia_plan_plan_id_fkey FOREIGN KEY (plan_id) REFERENCES public.plan_estudio(id),
@@ -113,7 +124,8 @@ CREATE TABLE public.tipos_orientaciones (
 );
 CREATE TABLE public.tipos_periodo (
   id bigint NOT NULL,
-  periodo text,
+  slug text NOT NULL UNIQUE,
+  nombre text UNIQUE,
   CONSTRAINT tipos_periodo_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.turnos_examenes (
