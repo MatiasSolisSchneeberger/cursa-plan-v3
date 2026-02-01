@@ -1,49 +1,74 @@
-import {IconMoon, IconSun} from "@tabler/icons-react"
-import {useEffect} from "react"
+import {useEffect, useState} from "react"
+import {IconMoon, IconSun, IconDeviceDesktop} from "@tabler/icons-react"
 import Button from "./Button"
 
-export default function ThemeButton() {
+type Theme = "light" | "dark" | "system"
+
+export default function ButtonTheme() {
+	// 1. Inicializamos el estado leyendo localStorage o por defecto 'system'
+	const [theme, setTheme] = useState<Theme>(() => {
+		if (typeof window !== "undefined") {
+			return (localStorage.getItem("theme") as Theme) || "system"
+		}
+		return "system"
+	})
+
+	// 2. Este efecto se encarga de aplicar los cambios al DOM y guardar
 	useEffect(() => {
-		const mediaQuery = window.matchMedia("(prefers-color-scheme: light)")
+		const root = document.documentElement
 
-		const aplicarTemaSistema = () => {
-			if (mediaQuery.matches) {
-				document.body.classList.remove("dark")
+		// Función para aplicar clases
+		const applyTheme = (targetTheme: Theme) => {
+			if (targetTheme === "dark") {
+				root.classList.add("dark")
+			} else if (targetTheme === "light") {
+				root.classList.remove("dark")
 			} else {
-				document.body.classList.add("dark")
+				// Caso 'system': miramos la preferencia del SO
+				if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					root.classList.add("dark")
+				} else {
+					root.classList.remove("dark")
+				}
 			}
 		}
 
-		aplicarTemaSistema()
+		applyTheme(theme)
 
-		const handleChange = (e: MediaQueryListEvent) => {
-			if (e.matches) {
-				document.body.classList.remove("dark")
-			} else {
-				document.body.classList.add("dark")
-			}
+		// 3. Guardar en localStorage
+		if (theme === "system") {
+			localStorage.removeItem("theme")
+		} else {
+			localStorage.setItem("theme", theme)
 		}
+	}, [theme])
 
-		mediaQuery.addEventListener("change", handleChange)
+	// Lógica para el botón (ciclo: Light -> Dark -> System -> Light)
+	const toggleTheme = () => {
+		if (theme === "light") setTheme("dark")
+		else if (theme === "dark") setTheme("system")
+		else setTheme("light")
+	}
 
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.ctrlKey && e.key.toLowerCase() === "d") {
-				e.preventDefault()
-				document.body.classList.toggle("dark")
-			}
-		}
-
-		window.addEventListener("keydown", handleKeyDown)
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown)
-			mediaQuery.removeEventListener("change", handleChange)
-		}
-	}, [])
+	// Icono dinámico según el estado
+	const getIcon = () => {
+		if (theme === "light") return <IconSun size={20} />
+		if (theme === "dark") return <IconMoon size={20} />
+		return <IconDeviceDesktop size={20} /> // Icono para "System"
+	}
 
 	return (
-		<Button variant="outlined" isIconOnly onClick={() => document.body.classList.toggle("dark")}>
-			<IconSun className="block dark:hidden" />
-			<IconMoon className="hidden dark:block" />
+		<Button
+			isIconOnly
+			onClick={toggleTheme}
+			title={`Tema actual: ${
+				theme === "system" ? "Automático"
+				: theme === "dark" ? "Oscuro"
+				: "Claro"
+			}`}
+			variant="outlined"
+			color="tertiary">
+			{getIcon()}
 		</Button>
 	)
 }

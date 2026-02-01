@@ -27,9 +27,27 @@
     <link rel="stylesheet" href="./src/index.css">
 
     <title>CursaPlan</title>
+
+    <script>
+        (function () {
+            // 1. Buscar si hay algo guardado
+            const savedTheme = localStorage.getItem('theme');
+
+            // 2. Comprobar preferencia del sistema
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // 3. Decidir si aplicar modo oscuro
+            // Si el usuario eligió 'dark' explícitamente O (no eligió nada Y el sistema es dark)
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
 </head>
 
-<body id="root" class="dark">
+<body id="root">
     <script type="module" src="/src/main.tsx"></script>
 </body>
 
