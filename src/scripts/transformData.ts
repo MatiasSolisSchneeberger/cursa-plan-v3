@@ -101,16 +101,27 @@ export const transformarDatos = (data: any): CarreraJSON => {
                 const anioObj = aniosMap.get(item.anio);
 
                 // C. Periodos
-                if (!anioObj.periodosMap.has(item.nro_periodo)) {
-                    anioObj.periodosMap.set(item.nro_periodo, {
-                        id: item.nro_periodo,
+                const periodoId = item.periodo?.id || 0;
+                const periodoKey = `${item.nro_periodo}-${periodoId}`;
+
+                if (!anioObj.periodosMap.has(periodoKey)) {
+                    anioObj.periodosMap.set(periodoKey, {
+                        id: item.nro_periodo, // Keep nro_periodo for sorting
                         nroPeriodo: item.nro_periodo,
-                        tipoPeriodo: item.periodo?.periodo || "Cuatrimestre",
+                        tipoPeriodo: item.periodo ? {
+                            id: item.periodo.id,
+                            slug: item.periodo.slug,
+                            nombre: item.periodo.nombre
+                        } : {
+                            id: 0,
+                            slug: "no-definido", // fallback default
+                            nombre: "No definido"
+                        },
                         materias: []
                     });
                 }
 
-                const periodoActual = anioObj.periodosMap.get(item.nro_periodo);
+                const periodoActual = anioObj.periodosMap.get(periodoKey);
 
                 // Evitar duplicados
                 const materiaYaExiste = periodoActual.materias.some((m: any) => m.id === item.materia.id);

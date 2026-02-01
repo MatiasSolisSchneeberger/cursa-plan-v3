@@ -8,6 +8,16 @@ interface AniosGridProps {
 	planAnio: number
 }
 
+// Helper para formatear el título del periodo
+const formatPeriodoTitle = (periodo: PeriodoJSON) => {
+	const {nombre, slug} = periodo.tipoPeriodo
+	const isSpecial = slug.includes("anual") || slug.includes("extracurricular")
+
+	if (isSpecial) return nombre
+	if (periodo.nroPeriodo > 0) return `${periodo.nroPeriodo}° ${nombre}`
+	return nombre
+}
+
 export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio}: AniosGridProps) {
 	return (
 		<article className="flex flex-col gap-8">
@@ -18,7 +28,7 @@ export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio
 					{anioData.periodos.map((periodo: PeriodoJSON) => (
 						<article key={periodo.nroPeriodo} className="">
 							<h3 className="texto-title text-text-700 dark:text-text-300 mb-2 capitalize">
-								{periodo.nroPeriodo > 0 && `${periodo.nroPeriodo}°`} {periodo.tipoPeriodo}
+								{formatPeriodoTitle(periodo)}
 							</h3>
 							<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
 								{periodo.materias
