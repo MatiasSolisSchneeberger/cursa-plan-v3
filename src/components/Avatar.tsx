@@ -9,6 +9,17 @@ interface AvatarProps {
 }
 
 export default function Avatar({img, name, notification, status, color}: AvatarProps) {
+	const textColors = {
+		primary: "text-primary-800 dark:text-primary-200",
+		secondary: "text-secondary-800 dark:text-secondary-200",
+		tertiary: "text-tertiary-800 dark:text-tertiary-200",
+		success: "text-success-800 dark:text-success-200",
+		danger: "text-danger-800 dark:text-danger-200",
+		warning: "text-warning-800 dark:text-warning-200",
+		info: "text-info-800 dark:text-info-200",
+		background: "text-background-800 dark:text-background-200",
+	}
+
 	const outlineColors = {
 		primary: "outline-primary-100 dark:outline-primary-800",
 		secondary: "outline-secondary-100 dark:outline-secondary-800",
@@ -33,24 +44,23 @@ export default function Avatar({img, name, notification, status, color}: AvatarP
 
 	const outlineClass = outlineColors[color]
 	const bgClass = bgColors[color]
+	const textColor = textColors[color]
 
 	return (
 		<div className="relative inline-flex shrink-0">
-			{img || name ? (
-				img ? (
+			{img || name ?
+				img ?
 					<img src={img} className={`size-10 rounded-full outline-2 object-cover ${outlineClass}`} />
-				) : (
-					<span
-						className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center text-primary-800 dark:text-primary-200 select-none ${bgClass} ${outlineClass}`}>
+				:	<span
+						className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center select-none ${textColor} ${bgClass} ${outlineClass}`}>
 						{name ? name[0].toUpperCase() : ""}
 					</span>
-				)
-			) : (
-				<span
-					className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center text-primary-800 dark:text-primary-200 ${bgClass} ${outlineClass}`}>
+
+			:	<span
+					className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center ${textColor} ${bgClass} ${outlineClass}`}>
 					<IconUser />
 				</span>
-			)}
+			}
 
 			{notification && (
 				<span

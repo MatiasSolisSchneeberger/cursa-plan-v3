@@ -21,6 +21,7 @@ import DropdownContent from "../components/DropdownContent"
 import ButtonIcon from "../components/ButtonIcon"
 import ThemeButton from "../components/ButtonTheme"
 import {useAuth} from "../context/AuthContext"
+import Chip from "../components/Chip"
 
 const MENU_CONFIG = [
 	{
@@ -51,7 +52,7 @@ const UserActions = () => {
 				<DropdownTrigger>
 					{/* Ajuste visual: Cursor pointer para indicar que es clickeable */}
 					<div className="cursor-pointer">
-						<Avatar name={user?.username} color="primary" />
+						<Avatar name={user?.username} color={import.meta.env.DEV ? "warning" : "primary"} />
 					</div>
 				</DropdownTrigger>
 				<DropdownContent>
@@ -92,8 +93,10 @@ export function NavHeader() {
 		<header className="sticky top-0 z-50 w-full pt-4">
 			<nav className="mx-auto flex w-full outline-2 outline-background-300 dark:outline-background-800 items-center justify-between rounded-3xl bg-background-100/50 p-3 shadow-lg backdrop-blur-md dark:bg-background-900/50">
 				{/* SECCIÓN IZQUIERDA: LOGO */}
-				<div className="flex items-center">
+				<div className="flex items-center gap-3">
 					<LogoPage />
+
+					{import.meta.env.DEV && <Chip color="warning">dev</Chip>}
 				</div>
 
 				{/* SECCIÓN CENTRAL: NAVEGACIÓN ESCRITORIO (Oculto en móvil) */}
