@@ -8,7 +8,7 @@ interface SimuladorContextType {
 	avances: Avance[]
 	loading: boolean
 	actualizarAvance: (materiaId: number, nuevoEstado: EstadoMateria) => Promise<void>
-	getEstado: (materiaId: number) => EstadoMateria
+	getEstado: (materiaId: number) => EstadoMateria | undefined
 }
 
 const SimuladorContext = createContext<SimuladorContextType | undefined>(undefined)
@@ -69,13 +69,13 @@ export function SimuladorProvider({children}: {children: React.ReactNode}) {
 
 		// Actualizamos optimísticamente el UI (para que se sienta instantáneo)
 		setAvances((prev) => {
-			const existe = prev.find((a) => a.materia_plan_id === materiaPlanId)
+			const existe = prev.find((a) => a.materia_plan_id === materiaId)
 			if (existe) {
-				return prev.map((a) => (a.materia_plan_id === materiaPlanId ? {...a, estado: nuevoEstado} : a))
+				return prev.map((a) => (a.materia_plan_id === materiaId ? {...a, estado: nuevoEstado} : a))
 			}
 			// Nota: Al crear uno nuevo optimista, no tenemos el materia_id genérico instantáneo
 			// pero al recargar la página se corregirá. Para el uso normal está bien.
-			return [...prev, {materia_plan_id: materiaPlanId, estado: nuevoEstado}]
+			return [...prev, {materia_plan_id: materiaId, estado: nuevoEstado, materia_id: 0}]
 		})
 
 		// Guardamos en BD
