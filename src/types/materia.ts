@@ -2,5 +2,6 @@ export type EstadoMateria = "Sin cursar" | "Cursando" | "Regular" | "Aprobado" |
 
 export interface Avance {
     materia_plan_id: number
+    materia_id: number
     estado: EstadoMateria
 }

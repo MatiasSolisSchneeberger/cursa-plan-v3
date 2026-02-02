@@ -29,11 +29,30 @@ export function SimuladorProvider({children}: {children: React.ReactNode}) {
 			}
 
 			try {
-				const {data, error} = await supabase.from("avances").select("materia_plan_id, estado")
+				const {data, error} = await supabase
+					.from("avances")
+					.select(
+						`
+                        materia_plan_id, 
+                        estado,
+                        plan:materia_plan!inner (
+                            materia_id
+                        )
+                    `,
+					)
+					.eq("user_id", session.user.id)
 
 				if (error) throw error
 
-				if (data) setAvances(data as Avance[])
+				if (data) {
+					// Aplanamos el resultado para guardarlo fácil
+					const avancesFormateados = data.map((a: any) => ({
+						materia_plan_id: a.materia_plan_id,
+						estado: a.estado,
+						materia_id: a.plan?.materia_id, // Guardamos el ID genérico
+					}))
+					setAvances(avancesFormateados)
+				}
 			} catch (error) {
 				console.error("Error cargando avances:", error)
 			} finally {
@@ -50,8 +69,13 @@ export function SimuladorProvider({children}: {children: React.ReactNode}) {
 
 		// Actualizamos optimísticamente el UI (para que se sienta instantáneo)
 		setAvances((prev) => {
-			const filtrado = prev.filter((a) => a.materia_plan_id !== materiaId)
-			return [...filtrado, {materia_plan_id: materiaId, estado: nuevoEstado}]
+			const existe = prev.find((a) => a.materia_plan_id === materiaPlanId)
+			if (existe) {
+				return prev.map((a) => (a.materia_plan_id === materiaPlanId ? {...a, estado: nuevoEstado} : a))
+			}
+			// Nota: Al crear uno nuevo optimista, no tenemos el materia_id genérico instantáneo
+			// pero al recargar la página se corregirá. Para el uso normal está bien.
+			return [...prev, {materia_plan_id: materiaPlanId, estado: nuevoEstado}]
 		})
 
 		// Guardamos en BD
@@ -69,7 +93,12 @@ export function SimuladorProvider({children}: {children: React.ReactNode}) {
 	}
 
 	const getEstado = (materiaId: number) => {
-		return avances.find((a) => a.materia_plan_id === materiaId)?.estado || "Sin cursar"
+		const avance = avances.find(
+			(a) =>
+				a.materia_plan_id === materiaId || // Coincidencia exacta (Plan)
+				a.materia_id === materiaId, // Coincidencia genérica (Requisito)
+		)
+		return avance?.estado
 	}
 
 	return (

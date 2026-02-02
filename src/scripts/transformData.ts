@@ -23,17 +23,19 @@ const formatearCorrelativas = (correlativasRaw: any[]) => {
         let estructuraBase: any = {};
         let nuevoRequisito: any = {};
 
-        if (item.requisito_materia) {
-            // Es una materia
+        if (item.requisito_plan) {
+            // Es una materia (obtenida via materia_plan)
             keyInterna = `materia-${item.condicion}`; // ej: "materia-regular"
             estructuraBase = {
                 tipo: "materia",
                 condicion: item.condicion,
                 requisitos: []
             };
+            // item.requisito_plan tiene { id, materia: { nombre, slug } }
             nuevoRequisito = {
-                nombre: item.requisito_materia.nombre,
-                slug: item.requisito_materia.slug
+                id: item.requisito_plan.id,
+                nombre: item.requisito_plan.materia.nombre,
+                slug: item.requisito_plan.materia.slug
             };
         } else if (item.porcentaje) {
             // Es un porcentaje

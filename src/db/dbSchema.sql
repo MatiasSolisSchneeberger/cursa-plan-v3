@@ -40,13 +40,13 @@ CREATE TABLE public.correlativas (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
   materia_id smallint,
   tipo_requisito text CHECK (tipo_requisito = ANY (ARRAY['cursar'::text, 'rendir'::text])),
-  requisito bigint,
+  requisito smallint,
   condicion text CHECK (condicion = ANY (ARRAY['regular'::text, 'aprobado'::text])),
   porcentaje integer CHECK (porcentaje < 100),
   notas text,
   CONSTRAINT correlativas_pkey PRIMARY KEY (id),
-  CONSTRAINT correlativas_requisito_fkey FOREIGN KEY (requisito) REFERENCES public.materias(id),
-  CONSTRAINT correlativas_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materia_plan(id)
+  CONSTRAINT correlativas_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materia_plan(id),
+  CONSTRAINT correlativas_requisito_fkey FOREIGN KEY (requisito) REFERENCES public.materia_plan(id)
 );
 CREATE TABLE public.fechas_examenes (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,

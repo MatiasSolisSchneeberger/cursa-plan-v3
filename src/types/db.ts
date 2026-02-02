@@ -19,7 +19,11 @@ export interface DBResponse {
                 condicion: string;
                 porcentaje: number;
                 nota: string;
-                requisito_materia: { nombre: string; slug: string } | null;
+                // CAMBIO: Ahora apunta a materia_plan, que TIENE una materia
+                requisito_plan: {
+                    id: number;
+                    materia: { nombre: string; slug: string }
+                } | null;
             }[];
         }[];
     }[];
@@ -27,6 +31,7 @@ export interface DBResponse {
 
 // 2. Tu JSON Objetivo (El que subiste en ejemploDB.json)
 export interface RequisitoMateria {
+    id: number // Agregamos ID de la materia plan
     nombre: string
     slug: string
 }

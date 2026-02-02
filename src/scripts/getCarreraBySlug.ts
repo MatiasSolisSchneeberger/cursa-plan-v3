@@ -19,12 +19,15 @@ export const getCarreraBySlug = async (slug: string) => {
                     periodo: tipos_periodo ( id, slug, nombre ),
                     orientacion:tipos_orientaciones ( id, nombre , slug),
                     materia:materias ( id, nombre, slug ),
-                    correlativas (
+                    correlativas:correlativas!materia_id (
                         tipo_requisito,
                         condicion,
                         porcentaje,
                         notas,
-                        requisito_materia:materias!requisito ( nombre, slug )
+                        requisito_plan:materia_plan!requisito (
+                            id,
+                            materia:materias ( nombre, slug )
+                        )
                 )
                 )
             )
