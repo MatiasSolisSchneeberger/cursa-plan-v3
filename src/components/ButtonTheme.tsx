@@ -50,6 +50,24 @@ export default function ButtonTheme() {
 		else setTheme("light")
 	}
 
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.ctrlKey && (e.key === "d" || e.key === "D")) {
+				e.preventDefault()
+				setTheme((prev) => {
+					if (prev === "light") return "dark"
+					if (prev === "dark") return "system"
+					return "light"
+				})
+			}
+		}
+		window.addEventListener("keydown", handleKeyDown)
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown)
+		}
+	}, [])
+
 	// Icono dinámico según el estado
 	const getIcon = () => {
 		if (theme === "light") return <IconSun size={20} />
