@@ -91,7 +91,7 @@ export function NavHeader() {
 
 	return (
 		<header className="sticky top-0 z-50 w-full pt-4">
-			<nav className="mx-auto flex w-full outline-2 outline-background-300 dark:outline-background-800 items-center justify-between rounded-3xl bg-background-100/50 p-3 shadow-lg backdrop-blur-md dark:bg-background-900/50">
+			<nav className="mx-auto flex w-full outline-2 outline-background-300 dark:outline-background-800 items-center justify-between rounded-3xl bg-background-100/30 p-3 shadow-lg backdrop-blur-md dark:bg-background-900/30">
 				{/* SECCIÓN IZQUIERDA: LOGO */}
 				<div className="flex items-center gap-3">
 					<LogoPage />
