@@ -70,8 +70,49 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 	const currentId = materia.idMateriaPlan || materia.id
 	const estadoActualTexto = getEstado(currentId)
 
-	// Helper para buscar config
+	// Función helper para verificar si un grupo de correlativas está satisfecho
 	const getConfig = (estado: string) => estados.find((e) => e.texto === estado)
+
+	const isGroupSatisfied = (tipoGrupo: string) => {
+		const grupo = materia.correlativas?.find((g) => g.tipo === tipoGrupo)
+		if (!grupo) return true // Si no hay requisitos de ese tipo, está satisfecho
+
+		// Verificamos cada condición del grupo
+		return grupo.condiciones.every((cond) => {
+			if (cond.tipo === "materia") {
+				// Verificamos cada requisito dentro de la condición
+				return cond.requisitos.every((req) => {
+					if ("id" in req) {
+						const est = getEstado(req.id)
+						if (!est || est === "Sin cursar") return false
+
+						const condicionRequerida = cond.condicion?.toLowerCase()
+						// Si no tiene condición explicita, asumimos que con tener algún estado positivo basta?
+						// O asumimos Regular? Por seguridad y consistencia con lo anterior:
+						if (condicionRequerida === "aprobado") {
+							return est === "Aprobado"
+						} else {
+							// Default o 'regular' -> Regular o Aprobado
+							return est === "Regular" || est === "Aprobado"
+						}
+					}
+					// Si es otro tipo de requisito (nota, porcentaje), asumimos true por ahora o lo ignoramos
+					return true
+				})
+			}
+			return true
+		})
+	}
+
+	const cursarSatisfied = isGroupSatisfied("cursar")
+	const rendirSatisfied = isGroupSatisfied("rendir")
+
+	const isBloqueado = !cursarSatisfied
+	const isSoloCursar = cursarSatisfied && !rendirSatisfied
+	const isDesbloqueado = cursarSatisfied && rendirSatisfied
+	// Nota: Podría haber un caso donde rendirSatisfied es true pero cursarSatisfied false?
+	// Teóricamente no debería pasar en un plan lógico, pero si pasa, isBloqueado ganaría si definimos jerarquía.
+	// Asumimos modelo incremental: Cursar -> Rendir.
 
 	return (
 		<Card className="">
@@ -92,18 +133,26 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 					</span>
 				)}
 				<span className="flex flex-wrap gap-2">
-					{disponibilidadMaterias.map((disponibilidad) => (
-						<Chip
-							key={disponibilidad.texto}
-							color={disponibilidad.color}
-							className="text-xs"
-							iconLeft={disponibilidad.icon}
-							disabled={!session}
-							onClick={(e) => e.preventDefault()}
-							title={!session ? "Inicia sesión para ver esta información" : ""}>
-							{disponibilidad.texto}
-						</Chip>
-					))}
+					{disponibilidadMaterias.map((disponibilidad) => {
+						let isSelected = false
+						if (disponibilidad.texto === "Bloqueado") isSelected = isBloqueado
+						if (disponibilidad.texto === "Solo Cursar") isSelected = isSoloCursar
+						if (disponibilidad.texto === "Desbloqueado") isSelected = isDesbloqueado
+
+						return (
+							<Chip
+								key={disponibilidad.texto}
+								color={disponibilidad.color}
+								className="text-xs"
+								iconLeft={disponibilidad.icon}
+								disabled={!session}
+								selected={isSelected}
+								onClick={(e) => e.preventDefault()}
+								title={!session ? "Inicia sesión para ver esta información" : ""}>
+								{disponibilidad.texto}
+							</Chip>
+						)
+					})}
 				</span>
 
 				{/* Selector de estado */}
@@ -154,9 +203,9 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 
 				{/* Listado de correlativas */}
 				{showCorrelativas && (
-					<section className="flex flex-wrap gap-2">
+					<section className="flex flex-col gap-2">
 						{materia.correlativas.map((grupo) => (
-							<CardInfoList key={grupo.tipo} color="secondary" title={`Para ${grupo.tipo}`}>
+							<CardInfoList key={grupo.tipo} color="secondary" className="" title={`Para ${grupo.tipo}`}>
 								{grupo.condiciones.map((cond, i) => (
 									<MenuGroup
 										key={i}
@@ -169,16 +218,33 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 										}>
 										{cond.requisitos.map((req, j) => {
 											let chipEstado = null
+											let isSatisfied = false
 
 											// Lógica para mostrar estado del requisito
 											if ("id" in req) {
 												const est = getEstado(req.id) // El context busca en ambos campos
 												if (est && est !== "Sin cursar") {
 													const conf = getConfig(est)
+
+													// Lógica de jerarquía: Regular < Aprobado
+													const condicionRequerida = cond.condicion?.toLowerCase()
+													if (condicionRequerida) {
+														if (condicionRequerida === "regular") {
+															if (est === "Regular" || est === "Aprobado") {
+																isSatisfied = true
+															}
+														} else if (condicionRequerida === "aprobado") {
+															if (est === "Aprobado") {
+																isSatisfied = true
+															}
+														}
+													}
+
 													if (conf) {
 														chipEstado = (
 															<Chip
 																color={conf.color}
+																selected={isSatisfied}
 																className="text-[10px] h-5 px-2 py-0 min-h-0 ml-2 pointer-events-none">
 																{conf.texto}
 															</Chip>
