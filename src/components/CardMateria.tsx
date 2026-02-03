@@ -2,7 +2,6 @@ import {useState} from "react"
 
 import {
 	IconArrowRight,
-	IconCheck,
 	IconChevronDown,
 	IconCircleCheck,
 	IconCircleDashed,
@@ -12,6 +11,7 @@ import {
 	IconLockOpen,
 	IconChevronUp,
 	IconXboxX,
+	IconInfoCircle,
 } from "@tabler/icons-react"
 
 import Card from "./Card"
@@ -23,6 +23,7 @@ import MenuGroup from "./MenuGroup"
 import MenuItem from "./MenuItem"
 import Button from "./Button"
 import CardFooter from "./CardFooter"
+import ToolTip from "./ToolTip"
 
 import type {EstadoMateria as EstadoMateriaType} from "../types/materia"
 import type {MateriaJSON} from "../types/db"
@@ -57,7 +58,7 @@ const disponibilidadMaterias: {
 }[] = [
 	{texto: "Bloqueado", color: "danger", icon: <IconLock size={20} />},
 	{texto: "Solo Cursar", color: "warning", icon: <IconLockOpen size={20} />},
-	{texto: "Desbloqueado", color: "success", icon: <IconCheck size={20} />},
+	{texto: "Desbloqueado", color: "success", icon: <IconCircleCheck size={20} />},
 ]
 export default function CardMateria({materia, carreraSlug, planAnio}: CardMateriaProps) {
 	const [showCorrelativas, setShowCorrelativas] = useState(false)
@@ -114,6 +115,27 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 	// Teóricamente no debería pasar en un plan lógico, pero si pasa, isBloqueado ganaría si definimos jerarquía.
 	// Asumimos modelo incremental: Cursar -> Rendir.
 
+	// Check for special conditions (not approved/regular)
+	const hasSpecialConditions = materia.correlativas?.some((grupo) =>
+		grupo.condiciones.some((cond) => {
+			if (cond.tipo === "materia") {
+				const condicionRequerida = cond.condicion?.toLowerCase()
+				// If condition is explicitly defined and is not 'regular' or 'aprobado'
+				if (
+					condicionRequerida &&
+					condicionRequerida !== "regular" &&
+					condicionRequerida !== "aprobado" &&
+					condicionRequerida !== "requisito"
+				) {
+					return true
+				}
+				return false
+			}
+			// If it's not a 'materia' condition (e.g. credits, average, etc) it is a special condition
+			return true
+		}),
+	)
+
 	return (
 		<Card className="">
 			<CardHeader color="primary">{materia.nombre}</CardHeader>
@@ -153,6 +175,13 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 							</Chip>
 						)
 					})}
+					{hasSpecialConditions && (
+						<ToolTip tooltip="Esta materia tiene correlativas que no se consideran para el cálculo automático. Ya sea porcentaje o algo más específico">
+							<Chip color="info" selected showSelectedIcon={false} onClick={(e) => e.preventDefault()}>
+								<IconInfoCircle size={20} />
+							</Chip>
+						</ToolTip>
+					)}
 				</span>
 
 				{/* Selector de estado */}
@@ -174,6 +203,7 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 								iconLeft={estadoConfig.icon}
 								canSelected
 								disabled={!session}
+								className={estadoActualTexto === estadoConfig.texto ? "" : "opacity-75"}
 								title={!session ? "Inicia sesión para ver esta información" : ""}>
 								{estadoConfig.texto}
 							</Chip>

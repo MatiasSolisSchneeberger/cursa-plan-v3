@@ -1,5 +1,5 @@
 import type {ReactNode} from "react"
-import {useState, useRef} from "react"
+import {useState} from "react"
 import {
 	useFloating,
 	autoUpdate,
@@ -8,6 +8,7 @@ import {
 	shift,
 	arrow,
 	useHover,
+	useClick,
 	useFocus,
 	useDismiss,
 	useRole,
@@ -19,21 +20,22 @@ import {AnimatePresence, motion} from "framer-motion"
 
 export default function ToolTip({children, tooltip}: {children: ReactNode; tooltip: ReactNode}) {
 	const [isOpen, setIsOpen] = useState(false)
-	const arrowRef = useRef(null)
+	const [arrowEl, setArrowEl] = useState<SVGSVGElement | null>(null)
 
 	const {x, y, strategy, refs, context} = useFloating({
 		open: isOpen,
 		onOpenChange: setIsOpen,
-		middleware: [offset(10), flip(), shift({padding: 5}), arrow({element: arrowRef})],
+		middleware: [offset(10), flip(), shift({padding: 5}), arrow({element: arrowEl})],
 		whileElementsMounted: autoUpdate,
 	})
 
 	const hover = useHover(context, {move: false})
 	const focus = useFocus(context)
+	const click = useClick(context)
 	const dismiss = useDismiss(context)
 	const role = useRole(context, {role: "tooltip"})
 
-	const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, dismiss, role])
+	const {getReferenceProps, getFloatingProps} = useInteractions([hover, focus, click, dismiss, role])
 
 	return (
 		<>
@@ -55,9 +57,9 @@ export default function ToolTip({children, tooltip}: {children: ReactNode; toolt
 							animate={{opacity: 1, scale: 1, y: 0}}
 							exit={{opacity: 0, scale: 0.95, y: 5}}
 							transition={{duration: 0.2, ease: "easeOut"}}
-							className="z-50 bg-background-900 text-text-100 px-3 py-2 rounded-md shadow-lg max-w-xs text-sm">
+							className="z-50 bg-info-300 dark:bg-info-700 dark:text-text-100 text-text-900 px-3 py-2 rounded-xl shadow-xl max-w-xs">
 							{tooltip}
-							<FloatingArrow ref={arrowRef} context={context} className="fill-background-900" />
+							<FloatingArrow ref={setArrowEl} context={context} className="fill-info-300 dark:fill-info-700" />
 						</motion.div>
 					)}
 				</AnimatePresence>

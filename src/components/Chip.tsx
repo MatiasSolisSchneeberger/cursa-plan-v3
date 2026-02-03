@@ -57,6 +57,10 @@ export default function Chip({
 	selected,
 	disabled,
 	title,
+	// New props
+	iconSelected,
+	showSelectedIcon = true,
+	isIconOnly = false,
 }: {
 	children: React.ReactNode
 	color?: keyof typeof COLOR_STYLES
@@ -68,6 +72,10 @@ export default function Chip({
 	onClick?: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void
 	disabled?: boolean
 	title?: string
+	// New props definition
+	iconSelected?: React.ReactNode
+	showSelectedIcon?: boolean
+	isIconOnly?: boolean
 }) {
 	const currentStyle = selected ? COLOR_STYLES[color].selected : COLOR_STYLES[color].default
 
@@ -82,31 +90,34 @@ export default function Chip({
 			}}
 			transition={{type: "spring", stiffness: 500, damping: 30}}
 			className={`
-                relative flex w-max ${
-									canSelected ? "cursor-pointer" : "cursor-default"
-								} items-center rounded-xl px-2 py-1 outline-1 select-none overflow-hidden
+                relative flex w-max items-center rounded-xl py-1 outline-1 select-none overflow-hidden
+                ${isIconOnly ? "aspect-square justify-center p-1" : "px-2"}
+                ${canSelected ? "cursor-pointer" : "cursor-default"}
                 ${currentStyle}
                 ${className}
                 ${disabled ? "cursor-not-allowed opacity-50" : ""}
             `}
 			title={title}>
 			{/* Animamos el ícono izquierdo si existe */}
-			{iconLeft && <span className="mr-1 flex items-center">{iconLeft}</span>}
+			{iconLeft && <span className={`${isIconOnly ? "" : "mr-1"} flex items-center`}>{iconLeft}</span>}
 
-			<motion.span layout="position" className="px-1 texto-label">
-				{children}
-			</motion.span>
+			{!isIconOnly && (
+				<motion.span layout="position" className="px-1 texto-label">
+					{children}
+				</motion.span>
+			)}
 
 			<span className="">
 				<AnimatePresence mode="popLayout" initial={false}>
-					{selected ?
+					{selected && showSelectedIcon ?
 						<motion.span
 							key="check"
 							initial={{scale: 0, opacity: 0}}
 							animate={{scale: 1, opacity: 1}}
 							exit={{scale: 0, opacity: 0}}
-							transition={{duration: 0.2}}>
-							<IconCheck size={16} stroke={3} />
+							transition={{duration: 0.2}}
+							className="flex items-center">
+							{iconSelected || <IconCheck size={16} stroke={3} />}
 						</motion.span>
 					:	iconRight && (
 							<motion.span
