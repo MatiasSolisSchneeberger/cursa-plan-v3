@@ -27,6 +27,23 @@ export default function Register() {
 
 	const navigate = useNavigate()
 
+	// --- Funciones ---
+	const checkPasswordStrength = (pass: string) => {
+		const rules = [
+			{regex: /.{8,}/, message: "La contraseña debe tener al menos 8 caracteres."},
+			{regex: /[A-Z]/, message: "La contraseña debe tener al menos una letra mayúscula."},
+			{regex: /[0-9]/, message: "La contraseña debe tener al menos un número."},
+			{regex: /[!@#$%^&*(),.?":{}|<>]/, message: "La contraseña debe tener al menos un carácter especial (!@#$...)."},
+		]
+
+		for (const rule of rules) {
+			if (!rule.regex.test(pass)) {
+				return rule.message
+			}
+		}
+		return null
+	}
+
 	useEffect(() => {
 		if (session) {
 			navigate("/", {
@@ -36,19 +53,23 @@ export default function Register() {
 		}
 	}, [session, navigate])
 
+	const validateForm = !email || !password || !full_name || !username || !confirmPassword
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setErrorMsg(null)
 		setSuccessMsg(null)
 
-		if (!email || !password || !full_name || !username || !confirmPassword) {
+		// Basic client-side validation acts as a fallback or for custom logic
+		if (validateForm) {
 			setErrorMsg("Por favor, completa todos los campos")
 			setErrorKey((prev) => prev + 1)
 			return
 		}
 
-		if (password.length < 6) {
-			setErrorMsg("La contraseña debe tener al menos 6 caracteres")
+		const passwordError = checkPasswordStrength(password)
+		if (passwordError) {
+			setErrorMsg(passwordError)
 			setErrorKey((prev) => prev + 1)
 			return
 		}
@@ -87,7 +108,7 @@ export default function Register() {
 	return (
 		<section className="flex items-center justify-center flex-col">
 			<Card className="w-full md:w-1/3 flex flex-col gap-6">
-				<CardHeader color="primary">Crear tu cuenta</CardHeader>
+				<CardHeader color="secondary">Crear tu cuenta</CardHeader>
 				<CardBody className="border-b-2 pb-6 border-background-300">
 					{errorMsg && (
 						<Alert
@@ -116,42 +137,57 @@ export default function Register() {
 						<Input
 							label="Nombre Real"
 							type="text"
+							name="full_name"
+							autoComplete="name"
 							placeholder="Tu nombre completo"
 							onChange={(e) => setFullName(e.target.value)}
 							value={full_name}
+							required
 						/>
 						{/* Input Username */}
 						<Input
 							label="Username"
 							type="text"
+							name="username"
+							autoComplete="username"
 							placeholder="Tu nombre de usuario"
 							onChange={(e) => setUsername(e.target.value)}
 							value={username}
+							required
 						/>
 						<Input
 							label="Correo Electrónico"
 							type="email"
+							name="email"
+							autoComplete="email"
 							placeholder="tu@email.com"
 							onChange={(e) => setEmail(e.target.value)}
 							value={email}
+							required
 						/>
 						<Input
 							label="Contraseña"
 							type="password"
+							name="password"
+							autoComplete="new-password"
 							placeholder="********"
 							showPassword={true}
 							onChange={(e) => setPassword(e.target.value)}
 							value={password}
+							required
 						/>
 						<Input
 							label="Confirmar Contraseña"
 							type="password"
+							name="confirmPassword"
+							autoComplete="new-password"
 							placeholder="********"
 							showPassword={true}
 							onChange={(e) => setConfirmPassword(e.target.value)}
 							value={confirmPassword}
+							required
 						/>
-						<Button type="submit" disabled={loading} variant="flat" className="mt-2">
+						<Button type="submit" disabled={loading || validateForm} variant="solid" className="mt-2">
 							{loading ? "Registrando..." : "Registrarse"}
 						</Button>
 					</form>

@@ -87,7 +87,13 @@ export default function Login() {
 					)}
 					<form onSubmit={handleSubmit} className="flex flex-col gap-2">
 						<Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-						<Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+						<Input
+							label="Password"
+							type="password"
+							value={password}
+							showPassword
+							onChange={(e) => setPassword(e.target.value)}
+						/>
 						<Button
 							className="w-full"
 							variant="solid"

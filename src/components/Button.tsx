@@ -112,6 +112,7 @@ export default function Button({
 		className,
 		disabled && "opacity-50 cursor-not-allowed",
 		!isIconOnly && "px-3",
+		isIconOnly && "aspect-square",
 	)
 
 	// El componente en sí
