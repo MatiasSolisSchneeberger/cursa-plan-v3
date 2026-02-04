@@ -2,7 +2,7 @@ import {IconBook, IconInfoCircle, IconSettings} from "@tabler/icons-react"
 import type {TabConfig} from "../../types/config"
 import {PerfilTab} from "./tabs/PerfilTab"
 
-export const getPerfilConfig = (userData: any): TabConfig[] => {
+export const getPerfilConfig = (): TabConfig[] => {
 	return [
 		{
 			id: "info",
