@@ -9,7 +9,8 @@ import Profile from "./pages/Profile"
 import Calendar from "./pages/Calendar"
 import Materia from "./pages/Materia"
 import {Analytics} from "@vercel/analytics/react"
-import MarkdownPage from "./pages/MarkdownPage"
+import MdxPage from "./pages/MdxPage"
+import Contact from "./pages/Contacto"
 
 function App() {
 	return (
@@ -25,17 +26,17 @@ function App() {
 
 					<Route path="/calendario" element={<Calendar />} />
 
+					<Route path="*" element={<Navigate to="/404" />} />
 					<Route path="/404" element={<NotFound />} />
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
-
-					{/* Otras paginas */}
-					<Route path="/:filename" element={<MarkdownPage />} />
+					<Route path="/contacto" element={<Contact />} />
 
 					{/* Rutas privadas */}
 					<Route path="/perfil" element={<Profile />} />
-					<Route path="*" element={<Navigate to="/404" />} />
+
+					<Route path="/:filename" element={<MdxPage />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

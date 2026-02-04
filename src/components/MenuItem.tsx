@@ -62,7 +62,7 @@ export default function MenuItem({
 	onClick,
 }: MenuItemInterface) {
 	const activeClass =
-		isActive ? "bg-primary-50 font-bold text-primary-800 dark:text-primary-200 dark:bg-primary-900" : ""
+		isActive ? "bg-primary-100 font-bold text-primary-800 dark:text-primary-200 dark:bg-primary-900" : ""
 	return (
 		<>
 			{href ?

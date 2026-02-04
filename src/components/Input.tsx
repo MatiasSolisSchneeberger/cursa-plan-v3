@@ -19,7 +19,12 @@ export default function Input({label, className, showPassword, type, ...props}: 
 
 	return (
 		<div className="flex flex-col gap-1 w-full">
-			{label && <label className="texto-body text-text-800 dark:text-text-200">{label}</label>}
+			{(label || props.required) && (
+				<label className="texto-body text-text-800 dark:text-text-200">
+					{label}
+					{props.required && <span className="text-danger-600 dark:text-danger-400"> *</span>}
+				</label>
+			)}
 			<div className="flex flex-row gap-3">
 				<input
 					type={inputType}

@@ -1,3 +1,5 @@
+import {cn} from "../utils/cn"
+
 export default function CardHeader({
 	children,
 	color,
@@ -41,7 +43,12 @@ export default function CardHeader({
 	}
 
 	return (
-		<header className={`h-min w-full texto-headline text-center p-2 rounded-xl ${classColor} ${className}`}>
+		<header
+			className={cn(
+				"h-min w-full font-primary text-3xl leading-9 font-bold text-center p-2 rounded-xl",
+				classColor,
+				className,
+			)}>
 			{children}
 		</header>
 	)
