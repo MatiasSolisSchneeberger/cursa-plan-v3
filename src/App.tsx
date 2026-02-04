@@ -9,6 +9,7 @@ import Profile from "./pages/Profile"
 import Calendar from "./pages/Calendar"
 import Materia from "./pages/Materia"
 import {Analytics} from "@vercel/analytics/react"
+import MarkdownPage from "./pages/MarkdownPage"
 
 function App() {
 	return (
@@ -24,14 +25,17 @@ function App() {
 
 					<Route path="/calendario" element={<Calendar />} />
 
-					<Route path="*" element={<Navigate to="/404" />} />
 					<Route path="/404" element={<NotFound />} />
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 
+					{/* Otras paginas */}
+					<Route path="/:filename" element={<MarkdownPage />} />
+
 					{/* Rutas privadas */}
 					<Route path="/perfil" element={<Profile />} />
+					<Route path="*" element={<Navigate to="/404" />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

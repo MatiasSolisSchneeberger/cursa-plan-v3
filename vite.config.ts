@@ -11,4 +11,5 @@ export default defineConfig({
         tailwindcss(),
         tsconfigPaths(),
     ],
+    assetsInclude: ['**/*.md']
 })

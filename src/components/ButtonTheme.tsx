@@ -72,7 +72,7 @@ export default function ButtonTheme() {
 	const getIcon = () => {
 		if (theme === "light") return <IconSun size={20} />
 		if (theme === "dark") return <IconMoon size={20} />
-		return <IconDeviceDesktop size={20} /> // Icono para "System"
+		return <IconDeviceDesktop size={20} />
 	}
 
 	return (

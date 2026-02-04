@@ -18,8 +18,20 @@ export default function Footer() {
 			url: "/calendario",
 		},
 		{
-			title: "Fecha de examenes",
-			url: "/examenes",
+			title: "Sobre Nosotros",
+			url: "/sobre-nosotros",
+		},
+		{
+			title: "Terminos y Condiciones",
+			url: "/terminos-y-condiciones",
+		},
+		{
+			title: "Política de Privacidad",
+			url: "/politica-de-privacidad",
+		},
+		{
+			title: "Preguntas Frecuentes",
+			url: "/preguntas-frecuentes",
 		},
 	]
 
