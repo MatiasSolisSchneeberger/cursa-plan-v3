@@ -9,9 +9,11 @@ import {
 	IconMath,
 	IconDeviceImac,
 	IconButterfly,
-	IconTelescope,
 	IconRuler,
 	IconTestPipe,
+	IconPrismLight,
+	IconFlask2Filled,
+	IconBook2,
 } from "@tabler/icons-react"
 
 export default function IconCarrera({icon, className}: {icon: string; className?: string}) {
@@ -37,12 +39,14 @@ export default function IconCarrera({icon, className}: {icon: string; className?
 		case "butterfly":
 			return <IconButterfly className={className} />
 		case "telescope":
-			return <IconTelescope className={className} />
+			return <IconPrismLight className={className} />
 		case "ruler":
 			return <IconRuler className={className} />
 		case "test-pipe":
 			return <IconTestPipe className={className} />
+		case "flask-2-filled":
+			return <IconFlask2Filled className={className} />
 		default:
-			return <IconMicroscope className={className} />
+			return <IconBook2 className={className} />
 	}
 }
