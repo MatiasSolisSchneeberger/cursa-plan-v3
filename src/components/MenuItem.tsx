@@ -62,7 +62,9 @@ export default function MenuItem({
 	onClick,
 }: MenuItemInterface) {
 	const activeClass =
-		isActive ? "bg-primary-100 font-bold text-primary-800 dark:text-primary-200 dark:bg-primary-900" : ""
+		isActive ?
+			"bg-primary-100 hover:bg-primary-50 dark:bg-primary-900 dark:hover:bg-primary-800 font-bold text-primary-800 dark:text-primary-200"
+		:	""
 	return (
 		<>
 			{href ?
@@ -73,7 +75,7 @@ export default function MenuItem({
 						if (onClick) onClick()
 					}}
 					className={cn(
-						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50/75 dark:hover:bg-background-950/75 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer`,
+						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50 dark:hover:bg-background-950 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer`,
 						className,
 						activeClass,
 					)}>
@@ -84,7 +86,7 @@ export default function MenuItem({
 					className={cn(
 						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 rounded-xl items-center ${
 							canHover ?
-								"hover:bg-background-50/75 dark:hover:bg-background-950/75 hover:shadow-sm transition-all ease-in-out hover:cursor-pointer"
+								"hover:bg-background-50 dark:hover:bg-background-950 hover:shadow-sm transition-all ease-in-out hover:cursor-pointer"
 							:	""
 						} ${className} ${activeClass}`,
 					)}>

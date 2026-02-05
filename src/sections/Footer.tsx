@@ -4,34 +4,63 @@ import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
 import supabase from "../utils/supabase"
 import IconCarrera from "../components/IconCarrera"
+import {
+	IconCalendar,
+	IconFile,
+	IconFilePencil,
+	IconHome,
+	IconInfoCircleFilled,
+	IconQuestionMark,
+	IconUsers,
+} from "@tabler/icons-react"
+
+interface Carrera {
+	id: number
+	nombre: string
+	slug: string
+	icon: string
+}
 
 export default function Footer() {
-	const [carreras, SetCarreras] = useState<any[]>([])
+	const [carreras, SetCarreras] = useState<Carrera[]>([])
+
+	const urlActual = window.location.pathname
 
 	const links = [
 		{
 			title: "Home",
 			url: "/",
+			icon: <IconHome />,
 		},
 		{
 			title: "Calendario",
 			url: "/calendario",
+			icon: <IconCalendar />,
 		},
 		{
 			title: "Sobre Nosotros",
 			url: "/sobre-nosotros",
+			icon: <IconInfoCircleFilled />,
 		},
 		{
 			title: "Terminos y Condiciones",
 			url: "/terminos-y-condiciones",
+			icon: <IconFile />,
 		},
 		{
 			title: "Política de Privacidad",
 			url: "/politica-de-privacidad",
+			icon: <IconFilePencil />,
 		},
 		{
 			title: "Preguntas Frecuentes",
 			url: "/preguntas-frecuentes",
+			icon: <IconQuestionMark />,
+		},
+		{
+			title: "Contacto",
+			url: "/contacto",
+			icon: <IconUsers />,
 		},
 	]
 
@@ -62,25 +91,25 @@ export default function Footer() {
 			</aside>
 			<section className="">
 				<MenuGroup title="Enlaces">
-					{links.map((link) => (
-						<MenuItem key={link.title} href={link.url}>
-							{link.title}
-						</MenuItem>
-					))}
+					{links.map((link) => {
+						if (link.url !== urlActual) {
+							return (
+								<MenuItem key={link.title} href={link.url} iconLeft={link.icon}>
+									{link.title}
+								</MenuItem>
+							)
+						}
+					})}
 				</MenuGroup>
 			</section>
 			<section>
 				<MenuGroup title="Carreras">
 					{carreras?.map((carrera) => (
 						<MenuItem
+							className={`theme-${carrera.slug} text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900`}
 							key={carrera.id}
 							href={`/carreras/${carrera.slug}`}
-							iconLeft={
-								<IconCarrera
-									className={`theme-${carrera.slug} text-primary-600 dark:text-primary-400`}
-									icon={carrera.icon}
-								/>
-							}>
+							iconLeft={<IconCarrera icon={carrera.icon} className="text-primary-600 dark:text-primary-400" />}>
 							{carrera.nombre}
 						</MenuItem>
 					))}

@@ -4,6 +4,7 @@ import App from "./App.tsx"
 import {AuthProvider} from "./context/AuthContext.tsx"
 import {SimuladorProvider} from "./context/SimuladorContext.tsx"
 import {QueryClientProvider, QueryClient} from "@tanstack/react-query"
+import {ThemeProvider} from "./context/ThemeContext.tsx"
 
 const queryClient = new QueryClient()
 
@@ -12,7 +13,9 @@ createRoot(document.getElementById("root")!).render(
 		<AuthProvider>
 			<SimuladorProvider>
 				<QueryClientProvider client={queryClient}>
-					<App />
+					<ThemeProvider>
+						<App />
+					</ThemeProvider>
 				</QueryClientProvider>
 			</SimuladorProvider>
 		</AuthProvider>

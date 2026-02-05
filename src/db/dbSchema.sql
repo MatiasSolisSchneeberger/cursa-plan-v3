@@ -96,6 +96,16 @@ CREATE TABLE public.materias (
   slug text NOT NULL,
   CONSTRAINT materias_pkey PRIMARY KEY (id)
 );
+CREATE TABLE public.mensajes (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  nombre text NOT NULL,
+  email text NOT NULL,
+  mensaje text NOT NULL,
+  leido boolean NOT NULL DEFAULT false,
+  etiqueta text NOT NULL DEFAULT 'general'::text,
+  CONSTRAINT mensajes_pkey PRIMARY KEY (id)
+);
 CREATE TABLE public.plan_estudio (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
   carrera_id bigint,

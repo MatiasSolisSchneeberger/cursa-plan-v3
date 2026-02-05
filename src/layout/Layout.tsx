@@ -1,5 +1,5 @@
 import {Outlet, useParams} from "react-router-dom"
-import {NavHeader} from "../sections/NavHeader"
+import NavHeader from "../sections/NavHeader"
 import Footer from "../sections/Footer"
 import ButtonUp from "../components/ButtonUp"
 import DevModeAlert from "../components/DevModeAlert"

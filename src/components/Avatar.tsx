@@ -2,7 +2,7 @@ import {IconUser} from "@tabler/icons-react"
 
 interface AvatarProps {
 	img?: string
-	name: string
+	name?: string
 	notification?: boolean
 	status?: boolean
 	color: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info" | "background"

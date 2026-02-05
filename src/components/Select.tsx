@@ -20,7 +20,6 @@ interface SelectProps {
 	label: string
 	groupOptions: GroupOption[]
 	value: string
-	// CAMBIO IMPORTANTE: Ahora devolvemos el valor directo (string), no el evento completo
 	onChange: (value: string) => void
 	placeholder?: string
 	required?: boolean
@@ -87,7 +86,7 @@ export default function Select({
 				<span
 					className={cn(
 						"texto-label block truncate pr-8", // pr-8 para no pisar el icono
-						!selectedOption ? "text-text-400 dark:text-text-600" : "text-text-900 dark:text-text-100",
+						!selectedOption ? "text-text-600 dark:text-text-400" : "text-text-900 dark:text-text-100",
 					)}>
 					{selectedOption ? selectedOption.label : placeholder}
 				</span>
