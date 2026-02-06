@@ -12,17 +12,25 @@ interface OrientacionSelectorProps {
 	plan: PlanJSON
 	currentOrientacionSlug: string | null
 	onSelect: (slug: string) => void
+	showTitle?: boolean
+	className?: string
 }
 
-export default function OrientacionSelector({plan, currentOrientacionSlug, onSelect}: OrientacionSelectorProps) {
+export default function OrientacionSelector({
+	plan,
+	currentOrientacionSlug,
+	onSelect,
+	showTitle = true,
+	className = "",
+}: OrientacionSelectorProps) {
 	if (!plan.listaOrientaciones || plan.listaOrientaciones.length === 0) return null
 
 	const currentOrientacionName =
 		plan.listaOrientaciones.find((ori) => ori.slug === currentOrientacionSlug)?.nombre || "Todas las orientaciones"
 
 	return (
-		<article className="flex flex-col gap-3 items-center justify-center">
-			<span className="text-text-800 dark:text-text-200 texto-title">Elegir la orientación:</span>
+		<article className={`flex gap-3 items-center justify-center ${showTitle ? "flex-col" : "flex-row"} ${className}`}>
+			{showTitle && <span className="text-text-800 dark:text-text-200 texto-title">Elegir la orientación:</span>}
 			<Dropdown>
 				<DropdownTrigger>
 					<Button variant="outlined" color="secondary" iconRight={<IconChevronDown />}>
@@ -49,9 +57,9 @@ export default function OrientacionSelector({plan, currentOrientacionSlug, onSel
 									// Alternatively we could use href if we wanted direct links,
 									// but preserving the onSelect callback pattern for consistency
 									iconRight={
-										ori.slug === currentOrientacionSlug ? (
+										ori.slug === currentOrientacionSlug ?
 											<IconCheck className="text-success-400 dark:text-success-600" />
-										) : null
+										:	null
 									}>
 									{ori.nombre}
 								</MenuItem>

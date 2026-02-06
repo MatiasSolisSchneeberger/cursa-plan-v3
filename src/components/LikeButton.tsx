@@ -95,12 +95,18 @@ export default function LikeButton({planId, className}: LikeButtonProps) {
 	if (authLoading) return null // O un skeleton pequeño si prefieres
 
 	return (
-		<Button isIconOnly variant="outlined" className={className} onClick={toggleLike}>
-			{fetching ?
-				<IconLoader className="animate-spin" />
-			: isLiked ?
-				<IconHeartFilled className="text-danger-600 hover:text-danger-400" />
-			:	<IconHeart />}
+		<Button
+			color={isLiked ? "danger" : "secondary"}
+			variant={isLiked ? "flat" : "outlined"}
+			className={className}
+			onClick={toggleLike}
+			iconRight={
+				fetching ? <IconLoader className="animate-spin" />
+				: isLiked ?
+					<IconHeartFilled className="text-danger-600 dark:text-danger-400" />
+				:	<IconHeart />
+			}>
+			<span className="">{isLiked ? "Quitar de favoritos" : "Agregar a favoritos"}</span>
 		</Button>
 	)
 }

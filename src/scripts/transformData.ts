@@ -78,6 +78,7 @@ export const transformarDatos = (data: any): CarreraJSON => {
     return {
         carrera: data.nombre,
         id: data.id,
+        icon: data.icon,
         planes: data.planes.map((plan: any) => {
 
             const aniosMap = new Map();

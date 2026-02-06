@@ -7,6 +7,7 @@ export const getCarreraBySlug = async (slug: string) => {
             id,
             nombre,
             slug,
+            icon,
             planes:plan_estudio (
                 id,
                 anio_inicio,

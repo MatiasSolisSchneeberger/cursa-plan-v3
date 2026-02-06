@@ -3,11 +3,8 @@ import {useParams, useSearchParams} from "react-router-dom"
 import HeaderCarrera from "../sections/HeaderCarrera"
 import Button from "../components/Button"
 import {usePageTitle} from "../hooks/usePageTitle"
-import PlanSelector from "../sections/PlanSelector"
-import OrientacionSelector from "../sections/OrientacionSelector"
 import AniosGrid from "../sections/AniosGrid"
 import Cargando from "../sections/Cargando"
-import LikeButton from "../components/LikeButton"
 import Alert from "../components/Alert"
 import {IconCode} from "@tabler/icons-react"
 import {useCarrera} from "../hooks/useCarrera"
@@ -130,17 +127,21 @@ export default function Carrera() {
 		)
 	}
 
+	console.log(carreraJson)
+
 	return (
 		<section className="flex flex-col gap-6">
-			<HeaderCarrera name={carreraJson.carrera} icon={carreraJson.icon || ""} />
-
-			{/* --- SELECTOR DE PLAN --- */}
-			<PlanSelector planes={carreraJson.planes} currentPlanAnio={planActivo.anioInicio} onSelect={handlePlanChange} />
-
-			<div className="flex flex-col justify-center items-center gap-2">
-				<span className="texto-label">Guardar carrera (plan de estudio)</span>
-				<LikeButton planId={planActivo.id} />
-			</div>
+			<HeaderCarrera
+				name={carreraJson.carrera}
+				icon={carreraJson.icon}
+				planes={carreraJson.planes}
+				currentPlanAnio={planActivo.anioInicio}
+				onPlanSelect={handlePlanChange}
+				plan={planActivo}
+				currentOrientacionSlug={orientacionSlugParam}
+				onOrientacionSelect={handleOrientacionChange}
+				planId={planActivo.id}
+			/>
 
 			<Alert
 				color="warning"
@@ -151,13 +152,6 @@ export default function Carrera() {
                 "
 				canClose={true}
 				className="col-span-full"
-			/>
-
-			{/* --- SELECTOR DE ORIENTACIÓN --- */}
-			<OrientacionSelector
-				plan={planActivo}
-				currentOrientacionSlug={orientacionSlugParam}
-				onSelect={handleOrientacionChange}
 			/>
 
 			{/* --- BOTONES DE AÑOS --- */}
