@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import {IconHeart, IconHeartFilled, IconLoader} from "@tabler/icons-react"
 import supabase from "../utils/supabase"
 // 1. IMPORTA TU HOOK DE CONTEXTO
-import {useAuth} from "../context/AuthContext"
+import {useAuth} from "../context/AuthContextData"
 import Button from "./Button"
 
 interface LikeButtonProps {
@@ -19,6 +19,25 @@ export default function LikeButton({planId, className}: LikeButtonProps) {
 
 	// 3. EFECTO PARA VERIFICAR SI YA DIÓ LIKE
 	useEffect(() => {
+		const checkLikeStatus = async (userId: string) => {
+			try {
+				const {data, error} = await supabase
+					.from("carreras_fav")
+					.select("id")
+					.eq("user_id", userId) // Usamos el ID seguro que recibimos
+					.eq("plan_id", planId)
+					.maybeSingle()
+
+				if (!error && data) {
+					setIsLiked(true)
+				} else {
+					setIsLiked(false)
+				}
+			} catch (error) {
+				console.error("Error verificando like:", error)
+			}
+		}
+
 		// Si la autenticación aún está cargando, no hacemos nada
 		if (authLoading) return
 
@@ -31,25 +50,6 @@ export default function LikeButton({planId, className}: LikeButtonProps) {
 		// Si ya tenemos usuario, buscamos
 		checkLikeStatus(session.user.id)
 	}, [planId, session, authLoading])
-
-	const checkLikeStatus = async (userId: string) => {
-		try {
-			const {data, error} = await supabase
-				.from("carreras_fav")
-				.select("id")
-				.eq("user_id", userId) // Usamos el ID seguro que recibimos
-				.eq("plan_id", planId)
-				.maybeSingle()
-
-			if (!error && data) {
-				setIsLiked(true)
-			} else {
-				setIsLiked(false)
-			}
-		} catch (error) {
-			console.error("Error verificando like:", error)
-		}
-	}
 
 	// 4. MANEJAR EL CLICK
 	const toggleLike = async () => {

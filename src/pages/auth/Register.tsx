@@ -9,7 +9,7 @@ import Card from "../../components/Card"
 import CardHeader from "../../components/CardHeader"
 import CardFooter from "../../components/CardFooter"
 import CardBody from "../../components/CardBody"
-import {useAuth} from "../../context/AuthContext"
+import {useAuth} from "../../context/AuthContextData"
 
 export default function Register() {
 	const [email, setEmail] = useState<string>("")

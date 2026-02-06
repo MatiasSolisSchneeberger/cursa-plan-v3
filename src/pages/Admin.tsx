@@ -1,9 +1,9 @@
 import {useSearchParams} from "react-router-dom"
 import ConfigLayout from "../layout/ConfigLayout"
-import {getPerfilConfig} from "../sections/perfil/perfilConfig"
 import {useAuth} from "../context/AuthContextData"
+import {getAdminTabs} from "../sections/admin/adminConfig"
 
-export default function Profile() {
+export default function Admin() {
 	const {loading} = useAuth()
 	const [searchParams, setSearchParams] = useSearchParams()
 	const tabParam = searchParams.get("tab")
@@ -11,14 +11,14 @@ export default function Profile() {
 	if (loading) {
 		return <div>Cargando...</div>
 	}
-	const activeTab = tabParam || "info"
+	const activeTab = tabParam || "main"
 
 	const handleTabChange = (id: string) => {
 		setSearchParams({tab: id}, {replace: true})
 	}
 
 	const renderContent = () => {
-		const tabsConfig = getPerfilConfig()
+		const tabsConfig = getAdminTabs({})
 		const parentTab = tabsConfig.find((t) => t.id === activeTab)
 		if (parentTab) return parentTab.component
 
@@ -32,7 +32,7 @@ export default function Profile() {
 	}
 
 	return (
-		<ConfigLayout title="Perfil" tabs={getPerfilConfig()} activeTab={activeTab} onTabChange={handleTabChange}>
+		<ConfigLayout title="Admin" tabs={getAdminTabs({})} activeTab={activeTab} onTabChange={handleTabChange}>
 			{renderContent()}
 		</ConfigLayout>
 	)

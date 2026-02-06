@@ -1,17 +1,9 @@
-import {createContext, useContext, useEffect, useState} from "react"
+import {useEffect, useState} from "react"
 import supabase from "../utils/supabase"
-import {useAuth} from "./AuthContext"
+import {useAuth} from "./AuthContextData"
+import {SimuladorContext} from "./SimuladorContextData"
 
 import type {EstadoMateria, Avance} from "../types/materia"
-
-interface SimuladorContextType {
-	avances: Avance[]
-	loading: boolean
-	actualizarAvance: (materiaId: number, nuevoEstado: EstadoMateria) => Promise<void>
-	getEstado: (materiaId: number) => EstadoMateria | undefined
-}
-
-const SimuladorContext = createContext<SimuladorContextType | undefined>(undefined)
 
 export function SimuladorProvider({children}: {children: React.ReactNode}) {
 	const {session} = useAuth()
@@ -106,10 +98,4 @@ export function SimuladorProvider({children}: {children: React.ReactNode}) {
 			{children}
 		</SimuladorContext.Provider>
 	)
-}
-
-export const useSimulador = () => {
-	const context = useContext(SimuladorContext)
-	if (!context) throw new Error("useSimulador debe usarse dentro de SimuladorProvider")
-	return context
 }

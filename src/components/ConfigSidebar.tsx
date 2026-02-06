@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom"
 import Card from "./Card"
 import CardHeader from "./CardHeader"
 import CardBody from "./CardBody"
@@ -16,15 +17,20 @@ interface Props {
 	tabs: TabConfig[]
 	activeTab: string
 	onTabChange: (id: string) => void
-	backLink: string
+	backLink?: string // Made optional effectively, though primarily we use history back
 }
 
-export default function ConfigSidebar({title, tabs, activeTab, onTabChange, backLink}: Props) {
+export default function ConfigSidebar({title, tabs, activeTab, onTabChange}: Props) {
+	const navigate = useNavigate()
+
 	const SidebarContent = (
 		<>
-			{/* Botón Volver (Estático) */}
+			{/* Botón Volver (Dinámico) */}
 			<MenuGroup>
-				<MenuItem href={backLink} iconLeft={<IconArrowLeft className="text-primary-600 dark:text-primary-400" />}>
+				<MenuItem
+					onClick={() => navigate(-1)}
+					iconLeft={<IconArrowLeft className="text-primary-600 dark:text-primary-400" />}
+					canHover>
 					<span className="text-primary-600 dark:text-primary-400">Volver</span>
 				</MenuItem>
 			</MenuGroup>
@@ -49,7 +55,7 @@ export default function ConfigSidebar({title, tabs, activeTab, onTabChange, back
 			{/* Renderizado Movil (Dropdown) */}
 			<Dropdown className="md:hidden w-full mb-4" key={`mobile-menu-${activeTab}`}>
 				<DropdownTrigger>
-					<CardHeader color="primary" className="flex justify-between items-center gap-2">
+					<CardHeader color="secondary" className="flex justify-between items-center gap-2">
 						<Button color="secondary" variant="outlined" isIconOnly>
 							<IconChevronDown size={20} />
 						</Button>
@@ -63,7 +69,7 @@ export default function ConfigSidebar({title, tabs, activeTab, onTabChange, back
 
 			{/* Renderizado Desktop (Sidebar normal) */}
 			<Card className=" relative z-20 hidden md:block h-full">
-				<CardHeader color="primary">{title}</CardHeader>
+				<CardHeader color="secondary">{title}</CardHeader>
 
 				{/* overflow-visible es CRUCIAL para que el menú flotante no se corte */}
 				<CardBody className="p-0 overflow-visible h-full">{SidebarContent}</CardBody>

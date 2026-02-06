@@ -12,6 +12,10 @@ import {
 	IconChevronUp,
 	IconXboxX,
 	IconInfoCircle,
+	IconCheck,
+	IconLetterR,
+	IconLetterA,
+	IconLetterRSmall,
 } from "@tabler/icons-react"
 
 import Card from "./Card"
@@ -28,8 +32,8 @@ import ToolTip from "./ToolTip"
 import type {EstadoMateria as EstadoMateriaType} from "../types/materia"
 import type {MateriaJSON} from "../types/db"
 
-import {useAuth} from "../context/AuthContext"
-import {useSimulador} from "../context/SimuladorContext"
+import {useAuth} from "../context/AuthContextData"
+import {useSimulador} from "../context/SimuladorContextData"
 
 type EstadoMateriaConfig = {
 	texto: EstadoMateriaType
@@ -245,6 +249,14 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 													cond.condicion.charAt(0).toUpperCase() + cond.condicion.slice(1)
 												:	"Requisito"
 											:	cond.tipo.charAt(0).toUpperCase() + cond.tipo.slice(1)
+										}
+										className={
+											cond.condicion === "regular" ? "[&>span]:text-warning-500"
+											: cond.condicion === "aprobado" ?
+												"[&>span]:text-success-500"
+											: cond.condicion === "optativo" ?
+												"[&>span]:text-info-500"
+											:	""
 										}>
 										{cond.requisitos.map((req, j) => {
 											let chipEstado = null
@@ -284,7 +296,15 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 											}
 
 											return (
-												<MenuItem key={j} chip={chipEstado}>
+												<MenuItem
+													key={j}
+													chip={chipEstado}
+													iconLeft={
+														cond.condicion === "regular" ? <IconLetterR size={20} />
+														: cond.condicion === "aprobado" ?
+															<IconLetterA size={20} />
+														:	null
+													}>
 													{"nombre" in req ?
 														req.nombre
 													: "porcentaje" in req ?

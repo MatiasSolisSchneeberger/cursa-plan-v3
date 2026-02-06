@@ -98,12 +98,7 @@ export default function Materia() {
 	if (!materia || loading) return <Cargando />
 
 	return (
-		<ConfigLayout
-			title={materia.materias.nombre}
-			tabs={tabsConfig}
-			activeTab={activeTab}
-			onTabChange={handleTabChange}
-			backLink={`/carreras/${carreraSlug}?plan=${planSlug}`}>
+		<ConfigLayout title={materia.materias.nombre} tabs={tabsConfig} activeTab={activeTab} onTabChange={handleTabChange}>
 			{renderContent()}
 		</ConfigLayout>
 	)

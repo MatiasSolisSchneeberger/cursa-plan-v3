@@ -14,6 +14,8 @@ import Contact from "./pages/Contacto"
 import ContraseñaOlvidada from "./pages/auth/ContraseñaOlvidada"
 import ActualizarContraseña from "./pages/auth/ActualizarContraseña"
 import Novedades from "./pages/Novedades"
+import ProtectedRoute from "./components/ProtectedRoute"
+import Admin from "./pages/Admin"
 
 function App() {
 	return (
@@ -43,7 +45,13 @@ function App() {
 					<Route path="/contacto" element={<Contact />} />
 
 					{/* Rutas privadas */}
-					<Route path="/perfil" element={<Profile />} />
+					<Route element={<ProtectedRoute />}>
+						<Route path="/perfil" element={<Profile />} />
+					</Route>
+
+					<Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+						<Route path="/admin" element={<Admin />} />
+					</Route>
 				</Route>
 			</Routes>
 		</BrowserRouter>

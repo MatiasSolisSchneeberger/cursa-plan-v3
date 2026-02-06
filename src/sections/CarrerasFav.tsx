@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react"
 import supabase from "../utils/supabase"
-import {useAuth} from "../context/AuthContext"
+import {useAuth} from "../context/AuthContextData"
 import CardCarrera, {CardCarreraSkeleton} from "../components/CardCarrera"
+import type {CarrerasFav} from "../types/carrerasFav"
 
 export default function CarrerasFav() {
 	const [loading, setLoading] = useState(true)
-	const [carrerasFav, setCarrerasFav] = useState<any>([])
+	const [carrerasFav, setCarrerasFav] = useState<CarrerasFav[]>([])
 	const {session, loading: loadingAuth} = useAuth()
 
 	useEffect(() => {

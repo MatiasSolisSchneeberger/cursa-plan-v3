@@ -6,7 +6,7 @@ interface Props {
 	tabs: TabConfig[]
 	activeTab: string
 	onTabChange: (id: string) => void
-	backLink: string
+	backLink?: string
 	children: React.ReactNode
 }
 

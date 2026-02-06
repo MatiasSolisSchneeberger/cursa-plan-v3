@@ -7,7 +7,7 @@ import CardHeader from "../../components/CardHeader"
 import CardBody from "../../components/CardBody"
 import Input from "../../components/Input"
 import CardFooter from "../../components/CardFooter"
-import {useAuth} from "../../context/AuthContext"
+import {useAuth} from "../../context/AuthContextData"
 import Alert from "../../components/Alert"
 import {IconAlertCircle, IconLoader2} from "@tabler/icons-react"
 

@@ -13,7 +13,7 @@ import {
 	IconSettings,
 } from "@tabler/icons-react"
 
-import {useAuth} from "../context/AuthContext"
+import {useAuth} from "../context/AuthContextData"
 import Button from "../components/Button"
 import Menu from "../components/Menu"
 import MenuItem from "../components/MenuItem"
