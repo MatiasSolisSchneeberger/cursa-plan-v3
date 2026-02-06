@@ -33,6 +33,62 @@ type User = {
 	id: string
 	username: string
 	full_name: string
+	role: string
+}
+
+function AvatarMenu({
+	user,
+	avatarColor,
+	signOut,
+	pathname,
+}: {
+	user: User
+	avatarColor: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info" | "background"
+	signOut: () => void
+	pathname: string
+}) {
+	return (
+		<Dropdown key={`user-${pathname}`} placement="bottom-end">
+			<DropdownTrigger>
+				<Avatar color={avatarColor} name={user.full_name} />
+			</DropdownTrigger>
+			<DropdownContent>
+				<Menu>
+					<MenuGroup>
+						<MenuItem
+							avatar={<Avatar color={avatarColor} name={user.full_name} />}
+							textHelp={`@${user.username}`}
+							className="select-none pb-2">
+							{user.full_name}
+						</MenuItem>
+					</MenuGroup>
+					<MenuGroup title="Mi Cuenta">
+						<MenuItem href="/perfil" iconLeft={<IconUser size={20} />}>
+							Mi Perfil
+						</MenuItem>
+						<MenuItem href="/configuracion" iconLeft={<IconSettings size={20} />}>
+							Configuración
+						</MenuItem>
+					</MenuGroup>
+					{user.role === "admin" && (
+						<MenuGroup title="Administrador">
+							<MenuItem href="/admin" iconLeft={<IconUsers size={20} />}>
+								Admin
+							</MenuItem>
+						</MenuGroup>
+					)}
+					<MenuGroup>
+						<MenuItem
+							onClick={signOut}
+							iconLeft={<IconLogout size={20} />}
+							className="text-danger-600 hover:bg-danger-50 dark:text-danger-400 dark:hover:bg-danger-900/20">
+							Cerrar Sesión
+						</MenuItem>
+					</MenuGroup>
+				</Menu>
+			</DropdownContent>
+		</Dropdown>
+	)
 }
 
 export default function NavHeader() {
@@ -63,7 +119,7 @@ export default function NavHeader() {
 			try {
 				const {data, error} = await supabase
 					.from("usuarios") // Tu tabla
-					.select("username, full_name") // Las columnas que querés
+					.select("username, full_name, role") // Las columnas que querés
 					.eq("id", session.user.id) // El filtro de seguridad (tu RLS lo permite)
 					.single()
 
@@ -77,6 +133,7 @@ export default function NavHeader() {
 						id: session.user.id,
 						username: data.username,
 						full_name: data.full_name,
+						role: data.role || "user",
 					})
 				}
 			} catch (error) {
@@ -86,6 +143,8 @@ export default function NavHeader() {
 
 		getProfile()
 	}, [session])
+
+	const avatarColor = user?.role === "admin" ? "warning" : "primary"
 
 	return (
 		<header className="sticky top-0 z-40 w-full mt-2 py-2">
@@ -99,7 +158,7 @@ export default function NavHeader() {
 						{mainLinks.map((link) => (
 							<Button
 								key={link.url}
-								variant={pathname === link.url ? "flat" : "outlined"}
+								variant="outlined"
 								color={pathname === link.url ? "primary" : "secondary"}
 								href={link.url}
 								iconLeft={link.icon}>
@@ -138,39 +197,7 @@ export default function NavHeader() {
 
 					{user ?
 						/* --- DROPDOWN USUARIO --- */
-						<Dropdown key={`user-${pathname}`} placement="bottom-end">
-							<DropdownTrigger>
-								<Avatar color="primary" name={user.full_name} />
-							</DropdownTrigger>
-							<DropdownContent>
-								<Menu>
-									<MenuGroup>
-										<MenuItem
-											avatar={<Avatar color="primary" name={user.full_name} />}
-											textHelp={`@${user.username}`}
-											className="select-none">
-											{user.full_name}
-										</MenuItem>
-									</MenuGroup>
-									<MenuGroup title="Mi Cuenta">
-										<MenuItem href="/perfil" iconLeft={<IconUser size={20} />}>
-											Mi Perfil
-										</MenuItem>
-										<MenuItem href="/configuracion" iconLeft={<IconSettings size={20} />}>
-											Configuración
-										</MenuItem>
-									</MenuGroup>
-									<MenuGroup>
-										<MenuItem
-											onClick={signOut}
-											iconLeft={<IconLogout size={20} />}
-											className="text-danger-600 hover:bg-danger-50 dark:text-danger-400 dark:hover:bg-danger-900/20">
-											Cerrar Sesión
-										</MenuItem>
-									</MenuGroup>
-								</Menu>
-							</DropdownContent>
-						</Dropdown>
+						<AvatarMenu user={user} avatarColor={avatarColor} signOut={signOut} pathname={pathname} />
 					:	<div className="hidden md:flex gap-2">
 							<Button href="/login" variant="flat">
 								Ingresar

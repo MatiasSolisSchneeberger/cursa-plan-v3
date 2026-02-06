@@ -30,14 +30,13 @@ export const CalendarioTab = () => {
 				.from("materias")
 				.select("nombre, fechas_examenes(fecha)")
 				.eq("slug", materiaSlug)
-				.single()
 
 			const {data: feriadosData} = await supabase.from("feriados").select("fecha")
 
-			if (materiaData) {
-				const fechasRaw = materiaData.fechas_examenes || []
+			if (materiaData && materiaData.length > 0) {
+				const fechasRaw = materiaData.flatMap((m: any) => m.fechas_examenes || [])
 				setFechas(fechasRaw)
-				setMateriaNombre(materiaData.nombre)
+				setMateriaNombre(materiaData[0].nombre)
 			}
 			if (feriadosData) {
 				setFeriados(feriadosData)

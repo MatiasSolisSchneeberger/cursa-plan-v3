@@ -11,6 +11,9 @@ import Materia from "./pages/Materia"
 import {Analytics} from "@vercel/analytics/react"
 import MdxPage from "./pages/MdxPage"
 import Contact from "./pages/Contacto"
+import ContraseñaOlvidada from "./pages/auth/ContraseñaOlvidada"
+import ActualizarContraseña from "./pages/auth/ActualizarContraseña"
+import Novedades from "./pages/Novedades"
 
 function App() {
 	return (
@@ -31,12 +34,16 @@ function App() {
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
+					<Route path="/contraseña-olvidada" element={<ContraseñaOlvidada />} />
+					<Route path="/actualizar-contraseña" element={<ActualizarContraseña />} />
+
+					<Route path="/novedades" element={<Novedades />} />
+
+					<Route path="/:filename" element={<MdxPage />} />
 					<Route path="/contacto" element={<Contact />} />
 
 					{/* Rutas privadas */}
 					<Route path="/perfil" element={<Profile />} />
-
-					<Route path="/:filename" element={<MdxPage />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

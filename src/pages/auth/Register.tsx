@@ -33,7 +33,7 @@ export default function Register() {
 			{regex: /.{8,}/, message: "La contraseña debe tener al menos 8 caracteres."},
 			{regex: /[A-Z]/, message: "La contraseña debe tener al menos una letra mayúscula."},
 			{regex: /[0-9]/, message: "La contraseña debe tener al menos un número."},
-			{regex: /[!@#$%^&*(),.?":{}|<>]/, message: "La contraseña debe tener al menos un carácter especial (!@#$...)."},
+			{regex: /[!@#$%^&*(),.?":{}|<>_]/, message: "La contraseña debe tener al menos un carácter especial (!@#$...)."},
 		]
 
 		for (const rule of rules) {
