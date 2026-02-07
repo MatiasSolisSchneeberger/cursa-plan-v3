@@ -21,7 +21,6 @@ interface HeaderCarreraProps {
 
 export default function HeaderCarrera({
 	name,
-	icon,
 	planes,
 	currentPlanAnio,
 	onPlanSelect,
@@ -53,7 +52,7 @@ export default function HeaderCarrera({
 				</div>
 
 				{/* Fila Inferior: Controles (Selectores + Like) */}
-				<div className="md:border-l-2 md:border-t-0 border-t-2 border-primary-300 dark:border-primary-700 md:pl-3 pt-3 md:pt-0 flex items-center gap-3 overflow-x-auto md:overflow-visible w-full md:w-auto">
+				<div className="md:border-l-2 md:border-t-0 border-t-2 border-primary-300 dark:border-primary-700 md:pl-3 pt-3 md:pt-0 flex items-center gap-3 overflow-x-auto md:overflow-visible w-full flex-wrap md:w-auto">
 					{/* Selectores */}
 					<PlanSelector
 						planes={planes}

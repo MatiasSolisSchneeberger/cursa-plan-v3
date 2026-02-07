@@ -100,6 +100,6 @@ export interface PlanJSON {
 export interface CarreraJSON {
     carrera: string
     id: number
-    icon?: string
+    icon: string
     planes: PlanJSON[]
 }

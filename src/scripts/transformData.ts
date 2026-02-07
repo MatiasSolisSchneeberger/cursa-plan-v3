@@ -1,7 +1,21 @@
-import type { CarreraJSON } from '../types/db';
+import type { CarreraJSON, Condicion, Requisito } from '../types/db';
 
 // --- FUNCIÓN AUXILIAR PARA AGRUPAR CORRELATIVAS ---
-const formatearCorrelativas = (correlativasRaw: any[]) => {
+interface CorrelativaRaw {
+    tipo_requisito: string;
+    condicion: string;
+    requisito_plan?: {
+        id: number;
+        materia: {
+            nombre: string;
+            slug: string;
+        };
+    };
+    porcentaje?: number;
+    notas?: string;
+}
+
+const formatearCorrelativas = (correlativasRaw: CorrelativaRaw[]) => {
     // Mapa principal: Clave = "cursar" | "rendir"
     const gruposPrincipales = new Map();
 
@@ -20,8 +34,8 @@ const formatearCorrelativas = (correlativasRaw: any[]) => {
 
         // 2. Determinar la clave de agrupación interna (ej: "materia-regular", "porcentaje", "nota")
         let keyInterna = "";
-        let estructuraBase: any = {};
-        let nuevoRequisito: any = {};
+        let estructuraBase: Condicion | undefined;
+        let nuevoRequisito: Requisito | undefined;
 
         if (item.requisito_plan) {
             // Es una materia (obtenida via materia_plan)
@@ -55,8 +69,9 @@ const formatearCorrelativas = (correlativasRaw: any[]) => {
             nuevoRequisito = { nota: item.notas };
         }
 
+
         // 3. Crear el sub-grupo si no existe y agregar el requisito
-        if (keyInterna) {
+        if (keyInterna && estructuraBase && nuevoRequisito) {
             if (!grupo.condicionesMap.has(keyInterna)) {
                 grupo.condicionesMap.set(keyInterna, estructuraBase);
             }
@@ -126,8 +141,8 @@ export const transformarDatos = (data: any): CarreraJSON => {
 
                 const periodoActual = anioObj.periodosMap.get(periodoKey);
 
-                // Evitar duplicados
-                const materiaYaExiste = periodoActual.materias.some((m: any) => m.id === item.materia.id);
+                // Evitar duplicados por idMateriaPlan (el item del plan), no por materia.id
+                const materiaYaExiste = periodoActual.materias.some((m: any) => m.idMateriaPlan === item.id);
 
                 if (!materiaYaExiste) {
                     periodoActual.materias.push({
