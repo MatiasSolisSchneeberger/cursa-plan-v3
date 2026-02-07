@@ -95,18 +95,32 @@ export default function LikeButton({planId, className}: LikeButtonProps) {
 	if (authLoading) return null // O un skeleton pequeño si prefieres
 
 	return (
-		<Button
-			color={isLiked ? "danger" : "secondary"}
-			variant={isLiked ? "flat" : "outlined"}
-			className={className}
-			onClick={toggleLike}
-			iconRight={
-				fetching ? <IconLoader className="animate-spin" />
+		<>
+			<Button
+				color={isLiked ? "danger" : "secondary"}
+				variant={isLiked ? "flat" : "outlined"}
+				className={`md:hidden flex ${className}`}
+				onClick={toggleLike}
+				isIconOnly>
+				{fetching ?
+					<IconLoader className="animate-spin" />
 				: isLiked ?
 					<IconHeartFilled className="text-danger-600 dark:text-danger-400" />
-				:	<IconHeart />
-			}>
-			<span className="">{isLiked ? "Quitar de favoritos" : "Agregar a favoritos"}</span>
-		</Button>
+				:	<IconHeart />}
+			</Button>
+			<Button
+				color={isLiked ? "danger" : "secondary"}
+				variant={isLiked ? "flat" : "outlined"}
+				className={`hidden md:flex ${className}`}
+				onClick={toggleLike}
+				iconRight={
+					fetching ? <IconLoader className="animate-spin" />
+					: isLiked ?
+						<IconHeartFilled className="text-danger-600 dark:text-danger-400" />
+					:	<IconHeart />
+				}>
+				<span>{isLiked ? "Quitar de favoritos" : "Agregar a favoritos"}</span>
+			</Button>
+		</>
 	)
 }
