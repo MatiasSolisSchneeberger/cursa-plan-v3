@@ -12,10 +12,8 @@ import {
 	IconChevronUp,
 	IconXboxX,
 	IconInfoCircle,
-	IconCheck,
 	IconLetterR,
 	IconLetterA,
-	IconLetterRSmall,
 } from "@tabler/icons-react"
 
 import Card from "./Card"
@@ -140,9 +138,11 @@ export default function CardMateria({materia, carreraSlug, planAnio}: CardMateri
 		}),
 	)
 
+	const colorHeader = materia.esOptativa ? "secondary" : "primary"
+
 	return (
 		<Card className="">
-			<CardHeader color="primary">{materia.nombre}</CardHeader>
+			<CardHeader color={colorHeader}>{materia.nombre}</CardHeader>
 			<CardBody className="flex flex-col gap-2 *:border-b-2 *:pb-2 *:last:pb-0 *:border-background-300 dark:*:border-background-700 *:last:border-b-0">
 				{(materia.esOptativa || materia.orientacion) && (
 					<span className="flex flex-wrap gap-2">

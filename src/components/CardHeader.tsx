@@ -45,7 +45,7 @@ export default function CardHeader({
 	return (
 		<header
 			className={cn(
-				"h-min w-full font-primary text-3xl leading-9 font-bold text-center p-2 rounded-xl",
+				"h-min w-full font-title text-3xl leading-9 font-bold text-center p-2 rounded-xl",
 				classColor,
 				className,
 			)}>

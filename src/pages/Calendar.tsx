@@ -15,6 +15,7 @@ import {
 } from "../scripts/transformEventos"
 import ButtonGroup from "../components/ButtonGroup"
 import Chip from "../components/Chip"
+import {cn} from "../utils/cn"
 
 export default function Calendar() {
 	const [eventos, setEventos] = useState<CalendarEvent[]>([])
@@ -172,9 +173,10 @@ export default function Calendar() {
 			)}
 
 			<section
-				className={`flex flex-wrap justify-center gap-6 ${
-					loading ? "animate-pulse opacity-50 pointer-events-none" : ""
-				}`}>
+				className={cn(
+					"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-6",
+					loading ? "animate-pulse opacity-50 pointer-events-none" : "",
+				)}>
 				{/* Renderizamos los 12 meses */}
 				{Array.from({length: 12}, (_, i) => {
 					const mesFecha = new Date(2026, i, 1) // Año hardcodeado o dinámico según necesites

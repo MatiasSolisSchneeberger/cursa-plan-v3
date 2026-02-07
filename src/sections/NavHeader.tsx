@@ -110,6 +110,7 @@ export default function NavHeader() {
 		{title: "Contacto", url: "/contacto", icon: <IconUsers size={20} />},
 		{title: "Términos y Condiciones", url: "/terminos-y-condiciones", icon: <IconFile size={20} />},
 		{title: "Política de Privacidad", url: "/politica-de-privacidad", icon: <IconFilePencil size={20} />},
+		{title: "Novedades", url: "/novedades", icon: <IconFilePencil size={20} />},
 	]
 
 	useEffect(() => {
@@ -148,7 +149,7 @@ export default function NavHeader() {
 
 	return (
 		<header className="sticky top-0 z-40 w-full mt-2 py-2">
-			<section className="border-b bg-background-50/50 backdrop-blur-md dark:bg-background-900/50 border-background-300 dark:border-background-700 transition-colors duration-300 rounded-3xl border-2 flex flex-row p-3 gap-4 shadow-lg">
+			<section className="bg-background-50/50 backdrop-blur-md dark:bg-background-900/50 outline-background-300 dark:outline-background-700 transition-colors duration-300 rounded-3xl outline-2 flex flex-row p-3 gap-4 shadow-lg">
 				{/* IZQUIERDA: Logo + Navegación */}
 				<article className="flex flex-1 gap-6">
 					<LogoPage />

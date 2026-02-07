@@ -53,7 +53,7 @@ export default function MdxPage() {
 			<Card>
 				{/* Ejemplo: Usar el título del frontmatter */}
 				{metadata?.title && (
-					<CardHeader color="primary" className="font-primary text-4xl leading-13 font-extrabold">
+					<CardHeader color="primary" className="font-title text-4xl leading-13 font-extrabold">
 						{metadata.title}
 					</CardHeader>
 				)}

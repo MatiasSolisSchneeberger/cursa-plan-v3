@@ -23,14 +23,16 @@ export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio
 		<article className="flex flex-col gap-8">
 			{anios.map((anioData: AnioJSON) => (
 				<section key={anioData.anio} id={anioData.anio.toString()} className="flex flex-col gap-4 scroll-mt-28">
-					<h2 className="texto-headline text-text-900 text-center dark:text-text-100">{anioData.anio}° Año</h2>
+					<h2 className="texto-headline text-text-900 text-center dark:text-text-100 border-b-2 border-background-300 dark:border-background-700 pb-2">
+						{anioData.anio}° Año
+					</h2>
 
 					{anioData.periodos.map((periodo: PeriodoJSON) => (
 						<article key={periodo.nroPeriodo} className="">
-							<h3 className="texto-title text-text-700 text-center dark:text-text-300 mb-2 capitalize">
+							<h3 className="texto-title text-text-700 text-center dark:text-text-300 mb-3 capitalize border-b-2 border-background-300 dark:border-background-700 pb-1">
 								{formatPeriodoTitle(periodo)}
 							</h3>
-							<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+							<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-4">
 								{periodo.materias
 									.filter((materia: MateriaJSON) => {
 										// Si no hay filtro de orientación, mostramos todo
@@ -43,7 +45,7 @@ export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio
 									})
 									.map((materia: MateriaJSON) => (
 										<CardMateria
-											key={materia.id} // Assuming materia has an ID, using index before was a bit risky but acceptable if needed. Verified types: MateriaJSON has id.
+											key={materia.idMateriaPlan || materia.id}
 											materia={materia}
 											carreraSlug={carreraSlug}
 											planAnio={planAnio}

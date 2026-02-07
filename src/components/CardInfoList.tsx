@@ -42,7 +42,7 @@ export default function CardInfoList({
 				className={`p-2 rounded-t-xl texto-title text-center ${hederColor} border-b-2 border-background-300 dark:border-background-700`}>
 				{title}
 			</h4>
-			{children}
+			<ul className="flex flex-col">{children}</ul>
 		</section>
 	)
 }
