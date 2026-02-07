@@ -11,6 +11,8 @@ import {
 	IconUser,
 	IconLogout,
 	IconSettings,
+	IconRocket,
+	IconSparkles,
 } from "@tabler/icons-react"
 
 import {useAuth} from "../context/AuthContextData"
@@ -110,7 +112,7 @@ export default function NavHeader() {
 		{title: "Contacto", url: "/contacto", icon: <IconUsers size={20} />},
 		{title: "Términos y Condiciones", url: "/terminos-y-condiciones", icon: <IconFile size={20} />},
 		{title: "Política de Privacidad", url: "/politica-de-privacidad", icon: <IconFilePencil size={20} />},
-		{title: "Novedades", url: "/novedades", icon: <IconFilePencil size={20} />},
+		{title: "Novedades", url: "/novedades", icon: <IconSparkles size={20} />},
 	]
 
 	useEffect(() => {
