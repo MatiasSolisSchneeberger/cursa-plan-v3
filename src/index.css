@@ -1,8 +1,4 @@
-/** @format */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-
-/* Tipografía Nunito */
 
 @custom-variant dark (&:where(.dark, .dark *));
 @theme inline {
@@ -124,7 +120,8 @@
 	--color-info-950: var(--info-950);
 
 	/* Fuentes */
-	--font-primary: "Montserrat", sans-serif;
+	--font-title: "Montserrat Variable", sans-serif;
+	--font-body: "Poppins", sans-serif;
 }
 
 @layer base {
@@ -1950,19 +1947,19 @@
 }
 
 .texto-display {
-	@apply font-primary text-5xl leading-13 font-extrabold;
+	@apply font-title text-5xl leading-13 font-extrabold;
 }
 .texto-headline {
-	@apply font-primary text-3xl leading-9 font-bold;
+	@apply font-title text-3xl leading-9 font-bold;
 }
 .texto-title {
-	@apply font-primary text-base leading-6 font-bold tracking-wide;
+	@apply font-title text-base leading-6 font-bold tracking-wide;
 }
 .texto-body {
-	@apply font-primary text-sm leading-5 font-semibold tracking-wide;
+	@apply font-body text-sm leading-5 font-medium tracking-wide;
 }
 .texto-label {
-	@apply font-primary text-sm leading-4 font-semibold tracking-wide;
+	@apply font-body text-sm leading-4 font-medium tracking-wide;
 }
 
 @keyframes shake {
