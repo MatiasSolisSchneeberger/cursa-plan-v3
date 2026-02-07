@@ -17,6 +17,11 @@ import Novedades from "./pages/Novedades"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Admin from "./pages/Admin"
 
+import "@fontsource-variable/montserrat"
+import "@fontsource/poppins/400.css"
+import "@fontsource/poppins/500.css"
+import "@fontsource/poppins/600.css"
+
 function App() {
 	return (
 		<BrowserRouter>
