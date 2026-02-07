@@ -4,7 +4,7 @@ interface Props {
 	adminData: AdminData
 }
 
-export default function MensajesTab({adminData}: Props) {
+export default function MensajesTab({adminData: _adminData}: Props) {
 	return (
 		<div>
 			<h1>Mensajes Tab</h1>

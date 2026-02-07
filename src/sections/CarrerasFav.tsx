@@ -41,7 +41,21 @@ export default function CarrerasFav() {
 				.eq("user_id", session.user.id)
 
 			if (!error && carrerasFav) {
-				setCarrerasFav(carrerasFav)
+				// Transformar los datos para que coincidan con la interfaz CarrerasFav
+				const formattedData: CarrerasFav[] = carrerasFav.map((item: any) => ({
+					id: item.id,
+					plan: {
+						anio_inicio: Array.isArray(item.plan) ? item.plan[0].anio_inicio : item.plan.anio_inicio,
+						carrera:
+							Array.isArray(item.plan) ?
+								Array.isArray(item.plan[0].carrera) ?
+									item.plan[0].carrera[0]
+								:	item.plan[0].carrera
+							: Array.isArray(item.plan.carrera) ? item.plan.carrera[0]
+							: item.plan.carrera,
+					},
+				}))
+				setCarrerasFav(formattedData)
 			}
 		} catch (error) {
 			console.log(error)

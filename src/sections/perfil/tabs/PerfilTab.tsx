@@ -6,14 +6,13 @@ import CardInfoList from "../../../components/CardInfoList"
 import MenuGroup from "../../../components/MenuGroup"
 import MenuItem from "../../../components/MenuItem"
 import {useAuth} from "../../../context/AuthContextData"
-import {IconMail, IconUser, IconCalendar, IconChevronRight} from "@tabler/icons-react"
+import {IconMail, IconCalendar, IconChevronRight} from "@tabler/icons-react"
 import supabase from "../../../utils/supabase"
 import IconCarrera from "../../../components/IconCarrera"
 import type {CarrerasFav} from "../../../types/carrerasFav"
 
 export const PerfilTab = () => {
-	const {session, loading: loadingAuth, role} = useAuth()
-	const [loading, setLoading] = useState(true)
+	const {session, loading: loadingAuth} = useAuth()
 
 	const [carrerasFav, setCarrerasFav] = useState<CarrerasFav[]>([])
 	const [materiasCursando, setMateriasCursando] = useState<any[]>([])
@@ -44,7 +43,21 @@ export const PerfilTab = () => {
 					.eq("user_id", session.user.id)
 
 				if (carrerasFavData) {
-					setCarrerasFav(carrerasFavData)
+					// Transformar los datos para que coincidan con la interfaz CarrerasFav
+					const formattedData: CarrerasFav[] = carrerasFavData.map((item: any) => ({
+						id: item.id,
+						plan: {
+							anio_inicio: Array.isArray(item.plan) ? item.plan[0].anio_inicio : item.plan.anio_inicio,
+							carrera:
+								Array.isArray(item.plan) ?
+									Array.isArray(item.plan[0].carrera) ?
+										item.plan[0].carrera[0]
+									:	item.plan[0].carrera
+								: Array.isArray(item.plan.carrera) ? item.plan.carrera[0]
+								: item.plan.carrera,
+						},
+					}))
+					setCarrerasFav(formattedData)
 				}
 
 				// 2. Fetch Materias Cursando
@@ -77,15 +90,11 @@ export const PerfilTab = () => {
 				}
 			} catch (error) {
 				console.log(error)
-			} finally {
-				setLoading(false)
 			}
 		}
 
 		if (session) {
 			fetchData()
-		} else {
-			setLoading(false)
 		}
 	}, [session, loadingAuth])
 

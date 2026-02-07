@@ -11,7 +11,6 @@ import {
 	IconUser,
 	IconLogout,
 	IconSettings,
-	IconRocket,
 	IconSparkles,
 } from "@tabler/icons-react"
 

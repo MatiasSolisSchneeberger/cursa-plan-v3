@@ -1,6 +1,5 @@
 import {IconArrowLeft} from "@tabler/icons-react"
-import ButtonIcon from "../components/ButtonIcon"
-import IconCarrera from "../components/IconCarrera"
+
 import PlanSelector from "./PlanSelector"
 import OrientacionSelector from "./OrientacionSelector"
 import LikeButton from "../components/LikeButton"
