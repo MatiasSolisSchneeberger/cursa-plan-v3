@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react"
-import type {EstadoMateria, Avance} from "../types/materia"
+import type {EstadoMateria, Avance} from "../types/materiaTypes"
 
 export interface SimuladorContextType {
 	avances: Avance[]

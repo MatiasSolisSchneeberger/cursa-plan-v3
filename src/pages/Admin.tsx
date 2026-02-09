@@ -1,28 +1,45 @@
 import {useSearchParams} from "react-router-dom"
+import {IconFile} from "@tabler/icons-react"
 import ConfigLayout from "../layout/ConfigLayout"
 import {useAuth} from "../context/AuthContextData"
-import {getAdminTabs} from "../sections/admin/adminConfig"
+import MainTab from "../sections/admin/MainTab"
+import MensajesTab from "../sections/admin/MensajesTab"
+import type {TabConfig} from "../types/config"
 
 export default function Admin() {
 	const {loading} = useAuth()
 	const [searchParams, setSearchParams] = useSearchParams()
 	const tabParam = searchParams.get("tab")
+	const activeTab = tabParam || "main"
 
 	if (loading) {
 		return <div>Cargando...</div>
 	}
-	const activeTab = tabParam || "main"
 
 	const handleTabChange = (id: string) => {
 		setSearchParams({tab: id}, {replace: true})
 	}
 
+	const adminTabs: TabConfig[] = [
+		{
+			id: "main",
+			label: "Principal",
+			icon: <IconFile />,
+			component: <MainTab adminData={{}} />,
+		},
+		{
+			id: "mensajes",
+			label: "Mensajes",
+			icon: <IconFile />,
+			component: <MensajesTab adminData={{}} />,
+		},
+	]
+
 	const renderContent = () => {
-		const tabsConfig = getAdminTabs({})
-		const parentTab = tabsConfig.find((t) => t.id === activeTab)
+		const parentTab = adminTabs.find((t) => t.id === activeTab)
 		if (parentTab) return parentTab.component
 
-		for (const tab of tabsConfig) {
+		for (const tab of adminTabs) {
 			const subItem = tab.subItems?.find((sub) => sub.id === activeTab)
 			if (subItem?.component) {
 				return subItem.component
@@ -32,7 +49,7 @@ export default function Admin() {
 	}
 
 	return (
-		<ConfigLayout title="Admin" tabs={getAdminTabs({})} activeTab={activeTab} onTabChange={handleTabChange}>
+		<ConfigLayout title="Admin" tabs={adminTabs} activeTab={activeTab} onTabChange={handleTabChange}>
 			{renderContent()}
 		</ConfigLayout>
 	)

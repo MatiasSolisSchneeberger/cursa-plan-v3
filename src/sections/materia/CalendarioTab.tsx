@@ -1,50 +1,38 @@
 import {useEffect, useState} from "react"
-import {useParams} from "react-router-dom"
-import Button from "../../../components/Button"
-import Card from "../../../components/Card"
-import CardBody from "../../../components/CardBody"
-import CardHeader from "../../../components/CardHeader"
-import CardInfoList from "../../../components/CardInfoList"
-import Chip from "../../../components/Chip"
-import MenuGroup from "../../../components/MenuGroup"
-import MenuItem from "../../../components/MenuItem"
-import {fechaProxima} from "../../../scripts/fechaProxima"
-import supabase from "../../../utils/supabase"
-import ToolTip from "../../../components/ToolTip"
-import {IconInfoCircle} from "@tabler/icons-react"
-import Cargando from "../../Cargando"
+import Button from "../../components/Button"
+import Card from "../../components/Card"
+import CardBody from "../../components/CardBody"
+import CardHeader from "../../components/CardHeader"
+import CardInfoList from "../../components/CardInfoList"
+import Chip from "../../components/Chip"
+import MenuGroup from "../../components/MenuGroup"
+import MenuItem from "../../components/MenuItem"
+import {fechaProxima} from "../../scripts/fechaProxima"
+import supabase from "../../utils/supabase"
+import ToolTip from "../../components/ToolTip"
+import {IconCalendarPlus, IconInfoCircle} from "@tabler/icons-react"
+import Cargando from "../Cargando"
 
-export const CalendarioTab = () => {
-	const {materiaSlug} = useParams()
-	const [fechas, setFechas] = useState<any[]>([])
+interface CalendarioTabProps {
+	fechas: {fecha: string}[]
+	materiaNombre: string
+}
+
+export const CalendarioTab = ({fechas, materiaNombre}: CalendarioTabProps) => {
 	const [feriados, setFeriados] = useState<any[]>([])
-	const [materiaNombre, setMateriaNombre] = useState("")
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		if (!materiaSlug) return
-
-		const fetchData = async () => {
+		const fetchFeriados = async () => {
 			setLoading(true)
-			const {data: materiaData} = await supabase
-				.from("materias")
-				.select("nombre, fechas_examenes(fecha)")
-				.eq("slug", materiaSlug)
-
 			const {data: feriadosData} = await supabase.from("feriados").select("fecha")
-
-			if (materiaData && materiaData.length > 0) {
-				const fechasRaw = materiaData.flatMap((m: any) => m.fechas_examenes || [])
-				setFechas(fechasRaw)
-				setMateriaNombre(materiaData[0].nombre)
-			}
 			if (feriadosData) {
 				setFeriados(feriadosData)
 			}
 			setLoading(false)
 		}
-		fetchData()
-	}, [materiaSlug])
+		fetchFeriados()
+	}, [])
 
 	const today = new Date()
 	today.setHours(0, 0, 0, 0)
@@ -65,16 +53,15 @@ export const CalendarioTab = () => {
 		date.toLocaleDateString("es-AR", {day: "2-digit", month: "2-digit", year: "2-digit"})
 
 	return (
-		<Card className="grid grid-cols-subgrid col-span-4 md:col-span-5 xl:col-span-9">
-			<CardHeader color="secondary" className="col-span-full h-min">
-				Calendario
-			</CardHeader>
-			<CardBody className="grid grid-cols-subgrid gap-3 col-span-4 md:col-span-5 xl:col-span-9">
-				{loading && <Cargando className="col-span-full h-min" />}
+		<Card>
+			<CardHeader color="primary">Calendario</CardHeader>
+			<CardBody className="grid grid-cols-4 lg:grid-cols-12 gap-3">
+				{loading && <Cargando className="col-span-full" />}
 
 				{!loading && futureDates.length === 0 && (
-					/* TODO */
-					<div className="col-span-full p-4 text-gray-500">No hay fechas de examen próximas.</div>
+					<div className="col-span-full p-4 texto-label text-text-700 dark:text-text-300">
+						No hay fechas de examen próximas.
+					</div>
 				)}
 
 				{!loading &&
@@ -111,7 +98,7 @@ export const CalendarioTab = () => {
 							<CardInfoList
 								key={index}
 								title={`Mesa N° ${index + 1}`}
-								color="secondary"
+								color={chipColor}
 								className="col-span-4 md:col-span-5 xl:col-span-3">
 								<section className="flex flex-col gap-2">
 									<MenuGroup>
@@ -131,6 +118,7 @@ export const CalendarioTab = () => {
 									<Button
 										color="tertiary"
 										variant="outlined"
+										iconLeft={<IconCalendarPlus />}
 										className="mx-2"
 										onClick={() => window.open(linkGoogleCalendar, "_blank")}>
 										Agendar

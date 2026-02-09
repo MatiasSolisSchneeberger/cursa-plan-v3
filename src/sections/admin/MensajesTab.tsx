@@ -1,4 +1,4 @@
-import type {AdminData} from "../../../types/admin"
+import type {AdminData} from "../../types/admin"
 
 interface Props {
 	adminData: AdminData

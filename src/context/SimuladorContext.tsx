@@ -3,7 +3,7 @@ import supabase from "../utils/supabase"
 import {useAuth} from "./AuthContextData"
 import {SimuladorContext} from "./SimuladorContextData"
 
-import type {EstadoMateria, Avance} from "../types/materia"
+import type {EstadoMateria, Avance} from "../types/materiaTypes"
 
 export function SimuladorProvider({children}: {children: React.ReactNode}) {
 	const {session} = useAuth()

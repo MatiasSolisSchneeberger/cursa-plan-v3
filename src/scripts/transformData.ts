@@ -1,7 +1,7 @@
 import type { CarreraJSON, Condicion, Requisito } from '../types/db';
 
 // --- FUNCIÓN AUXILIAR PARA AGRUPAR CORRELATIVAS ---
-interface CorrelativaRaw {
+export interface CorrelativaRaw {
     tipo_requisito: string;
     condicion: string;
     requisito_plan?: {
@@ -15,7 +15,7 @@ interface CorrelativaRaw {
     notas?: string;
 }
 
-const formatearCorrelativas = (correlativasRaw: CorrelativaRaw[]) => {
+export const formatearCorrelativas = (correlativasRaw: CorrelativaRaw[]) => {
     // Mapa principal: Clave = "cursar" | "rendir"
     const gruposPrincipales = new Map();
 

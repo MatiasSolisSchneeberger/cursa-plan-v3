@@ -10,7 +10,7 @@ export default function HeroSection() {
 			<div className="absolute -bottom-24 -left-24 w-80 h-80 bg-secondary-300/30 blur-[120px] rounded-full pointer-events-none dark:bg-secondary-700/30" />
 
 			<Chip color="primary" selected iconLeft={<IconRocket size={20} />}>
-				Cursa Plan v3.0
+				Cursa Plan v3.2
 			</Chip>
 
 			<div className="z-10 text-center max-w-4xl space-y-6">
