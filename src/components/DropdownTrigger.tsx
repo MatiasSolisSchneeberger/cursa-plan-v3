@@ -13,7 +13,6 @@ export default function DropdownTrigger({children}: {children: ReactNode}) {
 		<div
 			ref={refs.setReference}
 			{...getReferenceProps()}
-			className="inline-flex w-full cursor-pointer"
 			data-state={open ? "open" : "closed"}
 			style={
 				{
