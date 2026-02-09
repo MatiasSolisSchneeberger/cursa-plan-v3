@@ -2,7 +2,7 @@ import {IconLoader2} from "@tabler/icons-react"
 import {Link} from "react-router-dom"
 import {cn} from "../utils/cn"
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "solid" | "flat" | "outlined" | "text"
 	color?: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info"
 	href?: string
