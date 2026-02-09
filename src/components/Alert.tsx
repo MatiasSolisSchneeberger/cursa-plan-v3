@@ -19,8 +19,8 @@ interface AlertProps {
 	icon: React.ReactNode
 	/** Título principal de la alerta. */
 	title: string
-	/** Descripción detallada o texto de ayuda (opcional). */
-	description?: string
+	/** Descripción detallada o texto de ayuda (opcional). Puede ser un string o un ReactNode. */
+	description?: string | React.ReactNode
 	/** Contenido adicional renderizado al final del texto (ej. botones de acción). */
 	endContent?: React.ReactNode
 	/** Determina si la alerta puede ser cerrada por el usuario. Por defecto es `true`. */
