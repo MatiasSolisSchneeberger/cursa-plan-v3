@@ -2,11 +2,11 @@ import {cn} from "../utils/cn"
 
 export default function CardHeader({
 	children,
-	color,
+	color = "primary",
 	className,
 }: {
 	children: React.ReactNode
-	color: "primary" | "secondary" | "tertiary" | "danger" | "warning" | "success" | "info"
+	color?: "primary" | "secondary" | "tertiary" | "danger" | "warning" | "success" | "info"
 	className?: string
 }) {
 	let classColor = ""
