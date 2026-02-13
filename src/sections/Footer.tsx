@@ -4,15 +4,7 @@ import MenuGroup from "../components/MenuGroup"
 import MenuItem from "../components/MenuItem"
 import supabase from "../utils/supabase"
 import IconCarrera from "../components/IconCarrera"
-import {
-	IconCalendar,
-	IconFile,
-	IconFilePencil,
-	IconHome,
-	IconInfoCircleFilled,
-	IconQuestionMark,
-	IconUsers,
-} from "@tabler/icons-react"
+import {INTERNAL_LINKS, SOCIAL_LINKS} from "../utils/links"
 
 interface Carrera {
 	id: number
@@ -25,44 +17,6 @@ export default function Footer() {
 	const [carreras, SetCarreras] = useState<Carrera[]>([])
 
 	const urlActual = window.location.pathname
-
-	const links = [
-		{
-			title: "Home",
-			url: "/",
-			icon: <IconHome />,
-		},
-		{
-			title: "Calendario",
-			url: "/calendario",
-			icon: <IconCalendar />,
-		},
-		{
-			title: "Sobre Nosotros",
-			url: "/sobre-nosotros",
-			icon: <IconInfoCircleFilled />,
-		},
-		{
-			title: "Terminos y Condiciones",
-			url: "/terminos-y-condiciones",
-			icon: <IconFile />,
-		},
-		{
-			title: "Política de Privacidad",
-			url: "/politica-de-privacidad",
-			icon: <IconFilePencil />,
-		},
-		{
-			title: "Preguntas Frecuentes",
-			url: "/preguntas-frecuentes",
-			icon: <IconQuestionMark />,
-		},
-		{
-			title: "Contacto",
-			url: "/contacto",
-			icon: <IconUsers />,
-		},
-	]
 
 	useEffect(() => {
 		const fetchCarreras = async () => {
@@ -82,23 +36,60 @@ export default function Footer() {
 	}, [])
 
 	return (
-		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
+		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
 			<aside>
 				<LogoPage />
 				{/* TODO: Mejorar descripción o slogan del sitio */}
 				<span>Esta es una pagina para los alumnos </span>
 				<span>© {new Date().getFullYear()} Cursa Plan. Todos los derechos reservados.</span>
 			</aside>
-			<section className="">
-				<MenuGroup title="Enlaces">
-					{links.map((link) => {
-						if (link.url !== urlActual) {
+			<section className="grid grid-cols-subgrid">
+				<MenuGroup title="Principales" className="col-span-1">
+					{INTERNAL_LINKS.filter((link) => link.category === "main").map((link) => {
+						if (link.href !== urlActual) {
 							return (
-								<MenuItem key={link.title} href={link.url} iconLeft={link.icon}>
-									{link.title}
+								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+									{link.label}
 								</MenuItem>
 							)
 						}
+					})}
+				</MenuGroup>
+			</section>
+			<section>
+				<MenuGroup title="Información" className="col-span-1">
+					{INTERNAL_LINKS.filter((link) => link.category === "secondary").map((link) => {
+						if (link.href !== urlActual) {
+							return (
+								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+									{link.label}
+								</MenuItem>
+							)
+						}
+					})}
+				</MenuGroup>
+			</section>
+			<section className="grid grid-cols-subgrid">
+				<MenuGroup title="Legal" className="col-span-1">
+					{INTERNAL_LINKS.filter((link) => link.category === "legal").map((link) => {
+						if (link.href !== urlActual) {
+							return (
+								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+									{link.label}
+								</MenuItem>
+							)
+						}
+					})}
+				</MenuGroup>
+			</section>
+			<section>
+				<MenuGroup title="Contactos">
+					{SOCIAL_LINKS.map((link) => {
+						return (
+							<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+								{link.label}
+							</MenuItem>
+						)
 					})}
 				</MenuGroup>
 			</section>

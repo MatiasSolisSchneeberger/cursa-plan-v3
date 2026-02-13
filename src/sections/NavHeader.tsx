@@ -1,18 +1,5 @@
 import {useLocation} from "react-router-dom"
-import {
-	IconHome,
-	IconCalendar,
-	IconInfoCircleFilled,
-	IconFile,
-	IconFilePencil,
-	IconQuestionMark,
-	IconUsers,
-	IconMenu2,
-	IconUser,
-	IconLogout,
-	IconSettings,
-	IconSparkles,
-} from "@tabler/icons-react"
+import {IconMenu2, IconUser, IconLogout, IconSettings, IconUsers} from "@tabler/icons-react"
 
 import {useAuth} from "../context/AuthContextData"
 import Button from "../components/Button"
@@ -29,6 +16,7 @@ import DropdownContent from "../components/DropdownContent"
 import LogoPage from "../components/LogoPage"
 import supabase from "../utils/supabase"
 import {useEffect, useState} from "react"
+import {INTERNAL_LINKS} from "../utils/links"
 
 type User = {
 	id: string
@@ -99,20 +87,12 @@ export default function NavHeader() {
 	const [user, setUser] = useState<User | null>(null)
 
 	// Links principales (siempre visibles en desktop)
-	const mainLinks = [
-		{title: "Home", url: "/", icon: <IconHome size={20} />},
-		{title: "Calendario", url: "/calendario", icon: <IconCalendar size={20} />},
-	]
+	// Links principales (siempre visibles en desktop)
+	const mainLinks = INTERNAL_LINKS.filter((l) => l.category === "main")
 
 	// Links secundarios (agrupados en "Más")
-	const secondaryLinks = [
-		{title: "Sobre Nosotros", url: "/sobre-nosotros", icon: <IconInfoCircleFilled size={20} />},
-		{title: "Preguntas Frecuentes", url: "/preguntas-frecuentes", icon: <IconQuestionMark size={20} />},
-		{title: "Contacto", url: "/contacto", icon: <IconUsers size={20} />},
-		{title: "Términos y Condiciones", url: "/terminos-y-condiciones", icon: <IconFile size={20} />},
-		{title: "Política de Privacidad", url: "/politica-de-privacidad", icon: <IconFilePencil size={20} />},
-		{title: "Novedades", url: "/novedades", icon: <IconSparkles size={20} />},
-	]
+	const secondaryLinks = INTERNAL_LINKS.filter((l) => l.category === "secondary")
+	const legalLinks = INTERNAL_LINKS.filter((l) => l.category === "legal")
 
 	useEffect(() => {
 		const getProfile = async () => {
@@ -159,12 +139,12 @@ export default function NavHeader() {
 					<nav className="hidden md:flex items-center gap-2">
 						{mainLinks.map((link) => (
 							<Button
-								key={link.url}
+								key={link.href}
 								variant="outlined"
-								color={pathname === link.url ? "primary" : "secondary"}
-								href={link.url}
+								color={pathname === link.href ? "primary" : "secondary"}
+								href={link.href}
 								iconLeft={link.icon}>
-								{link.title}
+								{link.label}
 							</Button>
 						))}
 
@@ -180,8 +160,15 @@ export default function NavHeader() {
 								<Menu>
 									<MenuGroup title="Información">
 										{secondaryLinks.map((link) => (
-											<MenuItem key={link.url} href={link.url} iconLeft={link.icon} isActive={pathname === link.url}>
-												{link.title}
+											<MenuItem key={link.href} href={link.href} iconLeft={link.icon} isActive={pathname === link.href}>
+												{link.label}
+											</MenuItem>
+										))}
+									</MenuGroup>
+									<MenuGroup title="Legal">
+										{legalLinks.map((link) => (
+											<MenuItem key={link.href} href={link.href} iconLeft={link.icon} isActive={pathname === link.href}>
+												{link.label}
 											</MenuItem>
 										))}
 									</MenuGroup>
@@ -223,15 +210,15 @@ export default function NavHeader() {
 									{/* Ancho fijo para menú móvil */}
 									<MenuGroup title="Navegación">
 										{mainLinks.map((link) => (
-											<MenuItem key={link.url} href={link.url} iconLeft={link.icon} isActive={pathname === link.url}>
-												{link.title}
+											<MenuItem key={link.href} href={link.href} iconLeft={link.icon} isActive={pathname === link.href}>
+												{link.label}
 											</MenuItem>
 										))}
 									</MenuGroup>
 									<MenuGroup title="Información">
 										{secondaryLinks.map((link) => (
-											<MenuItem key={link.url} href={link.url} iconLeft={link.icon} isActive={pathname === link.url}>
-												{link.title}
+											<MenuItem key={link.href} href={link.href} iconLeft={link.icon} isActive={pathname === link.href}>
+												{link.label}
 											</MenuItem>
 										))}
 									</MenuGroup>
