@@ -6,12 +6,14 @@ import {usePageTitle} from "../hooks/usePageTitle"
 import AniosGrid from "../sections/AniosGrid"
 import Cargando from "../sections/Cargando"
 import Alert from "../components/Alert"
-import {IconCode} from "@tabler/icons-react"
+import {IconCode, IconExternalLink} from "@tabler/icons-react"
 import {useCarrera} from "../hooks/useCarrera"
+import {useAuth} from "../context/AuthContextData"
 
 export default function Carrera() {
 	const {carreraSlug} = useParams<{carreraSlug: string}>()
 	const [searchParams, setSearchParams] = useSearchParams()
+	const {session} = useAuth()
 
 	// --- AQUÍ LA MAGIA DE TANSTACK QUERY ---
 	// isLoading: true mientras carga la primera vez
@@ -127,10 +129,10 @@ export default function Carrera() {
 		)
 	}
 
-	console.log(carreraJson)
+	const linkError = `/contacto?etiqueta=error&mensaje=Error en la carrera ${carreraJson.carrera}&usuario=${session?.user?.user_metadata?.full_name}&email=${session?.user?.user_metadata?.email}`
 
 	return (
-		<section className="flex flex-col gap-6">
+		<section className="flex flex-col gap-6 items-center">
 			<HeaderCarrera
 				name={carreraJson.carrera}
 				icon={carreraJson.icon}
@@ -147,11 +149,24 @@ export default function Carrera() {
 				color="warning"
 				icon={<IconCode />}
 				title="Sección en Construcción"
-				description="La informacion que se muestra a continuación puede tener errores. Revisar con la resolucion oficial de la facultad.
-                Estamos trabajando para tener la informacion correcta.
-                "
+				description={
+					<div className="texto-label">
+						<span>
+							Esta información puede tener errores. <strong>Revisar con la resolucion oficial de la facultad.</strong>
+						</span>
+						<br />
+						<br />
+						<span>Estamos trabajando para tener la informacion correcta.</span>
+					</div>
+				}
 				canClose={true}
-				className="col-span-full"
+				endContent={
+					<>
+						<Button iconRight={<IconExternalLink />} color="warning" variant="text" href={linkError}>
+							Avisar error
+						</Button>
+					</>
+				}
 			/>
 
 			{/* --- BOTONES DE AÑOS --- */}
