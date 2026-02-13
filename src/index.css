@@ -273,6 +273,65 @@
 		--info-900: oklch(from var(--info) calc(l - 0.18) calc(c * 0.6) calc(h + 6));
 		--info-950: oklch(from var(--info) calc(l - 0.226) calc(c * 0.47) calc(h + 9));
 	}
+	.dropdown-content {
+		position-try-fallbacks: "--below-right, --below-left, --above-right, --above-left";
+	}
+
+	.texto-display {
+		@apply font-title text-5xl leading-13 font-extrabold;
+	}
+	.texto-headline {
+		@apply font-title text-3xl leading-9 font-bold;
+	}
+	.texto-title {
+		@apply font-title text-base leading-6 font-bold tracking-wide;
+	}
+	.texto-body {
+		@apply font-body text-sm leading-5 font-medium tracking-wide;
+	}
+	.texto-label {
+		@apply font-body text-sm leading-4 font-medium tracking-wide;
+	}
+
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		25% {
+			transform: translateX(-5px);
+		}
+		75% {
+			transform: translateX(5px);
+		}
+	}
+
+	.animate-shake {
+		animation: shake 0.2s ease-in-out 2; /* Se mueve rápido 2 veces */
+	}
+
+	select {
+		/* para desactivar el estilo por defecto del navegador */
+		appearance: base-select;
+
+		/* --- */
+		&::picker(select) {
+			appearance: base-select;
+
+			border: 2px solid var(--background-300);
+			background-color: var(--background-100);
+			color: var(--text-900);
+			border-radius: 0.5rem;
+		}
+
+		&::picker-icon {
+			display: none;
+		}
+	}
+
+	.button-group::-webkit-scrollbar {
+		scrollbar-width: thin;
+	}
 }
 
 @layer theme {
@@ -1939,61 +1998,5 @@
 		--info-800: oklch(from var(--info) calc(l - 0.12) calc(c * 0.68) calc(h + 3));
 		--info-900: oklch(from var(--info) calc(l - 0.18) calc(c * 0.6) calc(h + 6));
 		--info-950: oklch(from var(--info) calc(l - 0.226) calc(c * 0.47) calc(h + 9));
-	}
-}
-
-.dropdown-content {
-	position-try-fallbacks: "--below-right, --below-left, --above-right, --above-left";
-}
-
-.texto-display {
-	@apply font-title text-5xl leading-13 font-extrabold;
-}
-.texto-headline {
-	@apply font-title text-3xl leading-9 font-bold;
-}
-.texto-title {
-	@apply font-title text-base leading-6 font-bold tracking-wide;
-}
-.texto-body {
-	@apply font-body text-sm leading-5 font-medium tracking-wide;
-}
-.texto-label {
-	@apply font-body text-sm leading-4 font-medium tracking-wide;
-}
-
-@keyframes shake {
-	0%,
-	100% {
-		transform: translateX(0);
-	}
-	25% {
-		transform: translateX(-5px);
-	}
-	75% {
-		transform: translateX(5px);
-	}
-}
-
-.animate-shake {
-	animation: shake 0.2s ease-in-out 2; /* Se mueve rápido 2 veces */
-}
-
-select {
-	/* para desactivar el estilo por defecto del navegador */
-	appearance: base-select;
-
-	/* --- */
-	&::picker(select) {
-		appearance: base-select;
-
-		border: 2px solid var(--background-300);
-		background-color: var(--background-100);
-		color: var(--text-900);
-		border-radius: 0.5rem;
-	}
-
-	&::picker-icon {
-		display: none;
 	}
 }
