@@ -1,23 +1,18 @@
 import {useState} from "react"
-import {
-	IconBrandGithub,
-	IconMail,
-	IconSend,
-	IconBug,
-	IconBook,
-	IconQuestionMark,
-	IconUsers,
-	IconBulb,
-} from "@tabler/icons-react"
+import {useSearchParams} from "react-router-dom"
+import {IconBug, IconBook, IconQuestionMark, IconUsers, IconBulb, IconMail, IconSend} from "@tabler/icons-react"
 import Card from "../components/Card"
 import CardHeader from "../components/CardHeader"
 import CardBody from "../components/CardBody"
 import Input from "../components/Input"
 import Button from "../components/Button"
 import Alert from "../components/Alert"
-import CardFooter from "../components/CardFooter"
+
 import supabase from "../utils/supabase"
 import Select from "../components/Select"
+import CardFooter from "../components/CardFooter"
+
+import {SOCIAL_LINKS} from "../utils/links"
 
 const ETIQUETAS = [
 	{value: "error", label: "Reportar un Error", icon: <IconBug />},
@@ -28,11 +23,16 @@ const ETIQUETAS = [
 ]
 
 export default function Contact() {
+	const [searchParams] = useSearchParams()
+
+	const etiquetaParam = searchParams.get("categoria") || searchParams.get("etiqueta")
+	const validTag = etiquetaParam && ETIQUETAS.some((e) => e.value === etiquetaParam) ? etiquetaParam : "consulta"
+
 	const [formData, setFormData] = useState({
-		nombre: "",
-		email: "",
-		mensaje: "",
-		etiqueta: "general",
+		nombre: searchParams.get("usuario") || "",
+		email: searchParams.get("email") || "",
+		mensaje: searchParams.get("mensaje") || "",
+		etiqueta: validTag,
 	})
 	const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
@@ -48,7 +48,7 @@ export default function Contact() {
 			})
 			if (error) throw error
 			setStatus("success")
-			setFormData({nombre: "", email: "", mensaje: "", etiqueta: "general"})
+			setFormData({nombre: "", email: "", mensaje: "", etiqueta: validTag})
 			setTimeout(() => setStatus("idle"), 3000)
 		} catch (error) {
 			console.error("Error enviando mensaje:", error)
@@ -58,8 +58,8 @@ export default function Contact() {
 	}
 
 	return (
-		<section className="container grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto px-4 py-8 max-w-6xl">
-			<Card>
+		<section className="container flex flex-col md:flex-row gap-4 max-w-6xl mx-auto">
+			<Card className="w-full md:w-1/3">
 				<CardHeader color="primary">Hablemos</CardHeader>
 				<CardBody>
 					<p className="text-text-700 dark:text-text-300 texto-body">
@@ -67,18 +67,25 @@ export default function Contact() {
 						feedback nos ayuda a mejorar CursaPlan.
 					</p>
 				</CardBody>
-				<CardFooter className="flex flex-col gap-2">
-					<Button variant="outlined" iconLeft={<IconMail />} className="w-full">
-						micorreo@gmail.com
-					</Button>
-					<Button variant="outlined" iconLeft={<IconBrandGithub />} className="w-full">
-						/cursaplan-v3
-					</Button>
+				<CardFooter className="flex flex-wrap gap-2 justify-center">
+					{SOCIAL_LINKS.map(({href, icon, label}) => {
+						return (
+							<Button
+								key={label}
+								href={href}
+								iconLeft={icon}
+								color="secondary"
+								variant="outlined"
+								className="w-full max-w-3xs">
+								{label}
+							</Button>
+						)
+					})}
 				</CardFooter>
 			</Card>
 
 			{/* Columna Derecha: Formulario */}
-			<Card>
+			<Card className="w-full md:w-2/3">
 				<CardHeader color="secondary">Envíanos un mensaje</CardHeader>
 				<CardBody>
 					<div className="mb-4">
