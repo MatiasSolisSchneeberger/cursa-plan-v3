@@ -64,11 +64,9 @@ export default function CalendarDay({
 
 	// Determinar qué paleta usar
 	const activeColorClass =
-		isSelected || isRangeStart || isRangeEnd
-			? colorVariants[color]
-			: isRangeMiddle
-			? rangeMiddleVariants[color]
-			: colorVariants["default"]
+		isSelected || isRangeStart || isRangeEnd ? colorVariants[color]
+		: isRangeMiddle ? rangeMiddleVariants[color]
+		: colorVariants["default"]
 	return (
 		<span
 			onClick={onClick}
@@ -78,8 +76,8 @@ export default function CalendarDay({
 				shapeStyles,
 				activeColorClass,
 				// Estilo para "Hoy" (borde o subrayado)
-				isToday && !isSelected && !isRangeMiddle && `${colorVariants["primary"]}`,
-				className
+				isToday && "border-4 border-primary-600 dark:border-primary-400",
+				className,
 			)}>
 			{day}
 		</span>
