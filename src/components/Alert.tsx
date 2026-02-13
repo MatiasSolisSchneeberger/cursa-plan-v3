@@ -121,7 +121,7 @@ export default function Alert({
 		<aside
 			role="alert"
 			className={cn(
-				`relative flex w-full min-w-0 max-w-full flex-row gap-3 overflow-hidden rounded-md p-4 shadow-sm transition-all duration-300 ease-in-out`,
+				`relative flex max-w-lg flex-row gap-3 overflow-hidden rounded-md p-4 shadow-sm transition-all duration-300 ease-in-out`,
 				styles.bg,
 				isClosing ? "opacity-0 -translate-y-2 scale-95" : "opacity-100 translate-y-0 scale-100",
 				className,
@@ -138,8 +138,8 @@ export default function Alert({
 
 			{/* Contenido de Texto */}
 			<section className="flex min-w-0 flex-1 flex-col gap-1">
-				<h3 className={`font-semibold leading-tight ${styles.title}`}>{title}</h3>
-				{description && <p className={`text-sm leading-relaxed ${styles.text}`}>{description}</p>}
+				<h3 className={`texto-title ${styles.title}`}>{title}</h3>
+				{description && <p className={`texto-body ${styles.text}`}>{description}</p>}
 
 				{/* Contenido extra (botones de acción, links, etc) */}
 				{endContent && <div className="mt-3 flex flex-row items-center justify-end gap-2">{endContent}</div>}
@@ -148,13 +148,7 @@ export default function Alert({
 			{/* Botón Cerrar */}
 			{canClose && (
 				<div className="shrink-0">
-					<Button
-						isIconOnly
-						variant="text"
-						color={color}
-						onClick={handleClose}
-						aria-label="Cerrar alerta"
-						className="hover:bg-black/5 dark:hover:bg-white/10">
+					<Button isIconOnly variant="outlined" color={color} onClick={handleClose} aria-label="Cerrar alerta">
 						<IconX size={18} />
 					</Button>
 				</div>
