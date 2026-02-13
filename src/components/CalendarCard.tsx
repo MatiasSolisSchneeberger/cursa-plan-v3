@@ -12,6 +12,7 @@ import CardInfoList from "./CardInfoList"
 import MenuGroup from "./MenuGroup"
 import MenuItem from "./MenuItem"
 import Chip from "./Chip"
+import ToolTip from "./ToolTip"
 
 // --- TIPOS NUEVOS Y MÁS LIMPIOS ---
 export interface CalendarEvent {
@@ -153,7 +154,7 @@ export default function CalendarCard({
 		<Card
 			className={cn(
 				"w-full max-w-sm h-fit *:border-b-2 *:border-background-300 *:dark:border-background-700 *:first:border-0 *:last:border-0",
-				className
+				className,
 			)}>
 			<CardHeader color="primary" className="capitalize">
 				{hasNavigation && (
@@ -162,9 +163,9 @@ export default function CalendarCard({
 					</ButtonIcon>
 				)}
 
-				{hasNavigation
-					? currentMonth.toLocaleString("es-AR", {month: "long", year: "numeric"})
-					: currentMonth.toLocaleString("es-AR", {month: "long"})}
+				{hasNavigation ?
+					currentMonth.toLocaleString("es-AR", {month: "long", year: "numeric"})
+				:	currentMonth.toLocaleString("es-AR", {month: "long"})}
 
 				{hasNavigation && (
 					<ButtonIcon variant="flat" onClick={handleNext}>
@@ -223,17 +224,20 @@ export default function CalendarCard({
 								{events.map((event) => {
 									const formatDate = (d: Date) => d.toLocaleString("es-AR", {day: "2-digit", month: "2-digit"})
 									const isSameDay = !event.end || event.start.getTime() === event.end.getTime()
-									const dateString = isSameDay
-										? formatDate(event.start)
-										: `${formatDate(event.start)} - ${formatDate(event.end!)}`
+									const dateString =
+										isSameDay ? formatDate(event.start) : `${formatDate(event.start)} - ${formatDate(event.end!)}`
 
 									return (
 										<MenuItem
 											key={event.id}
-											textHelp={
-												event.isSuspended ? `Suspende clases${event.note ? `. ${event.note}` : ""}` : event.note
-											}
-											chip={event.isSuspended ? <Chip color="danger">*</Chip> : undefined}>
+											textHelp={event.isSuspended ? "Con suspensión de clases" : event.note}
+											chip={
+												event.note ?
+													<ToolTip tooltip={event.note}>
+														<Chip color="danger">*</Chip>
+													</ToolTip>
+												:	undefined
+											}>
 											<span className="text-primary-600 font-bold dark:text-primary-400">{dateString}</span> |{" "}
 											{event.title}
 										</MenuItem>
