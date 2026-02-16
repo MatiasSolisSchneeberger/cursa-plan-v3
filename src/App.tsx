@@ -21,6 +21,7 @@ import "@fontsource-variable/montserrat"
 import "@fontsource/poppins/400.css"
 import "@fontsource/poppins/500.css"
 import "@fontsource/poppins/600.css"
+import Config from "./pages/Config"
 
 function App() {
 	return (
@@ -52,6 +53,7 @@ function App() {
 					{/* Rutas privadas */}
 					<Route element={<ProtectedRoute />}>
 						<Route path="/perfil" element={<Profile />} />
+						<Route path="/config" element={<Config />} />
 					</Route>
 
 					<Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
