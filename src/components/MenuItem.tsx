@@ -1,6 +1,8 @@
 import type {ReactNode} from "react"
+import {useContext} from "react"
 import {Link} from "react-router-dom"
 import {cn} from "../utils/cn"
+import {DropdownContext} from "./Dropdown"
 
 interface MenuItemInterface {
 	children: ReactNode
@@ -61,6 +63,15 @@ export default function MenuItem({
 	isActive,
 	onClick,
 }: MenuItemInterface) {
+	const dropdown = useContext(DropdownContext)
+
+	const handleOnClick = () => {
+		if (onClick) onClick()
+		if (dropdown?.shouldCloseOnSelect) {
+			dropdown.close()
+		}
+	}
+
 	const activeClass =
 		isActive ?
 			"bg-primary-100 hover:bg-primary-50 dark:bg-primary-900 dark:hover:bg-primary-800 font-bold text-primary-800 dark:text-primary-200"
@@ -72,7 +83,7 @@ export default function MenuItem({
 					to={href}
 					onClick={() => {
 						window.scrollTo({top: 0, behavior: "smooth"})
-						if (onClick) onClick()
+						handleOnClick()
 					}}
 					className={cn(
 						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50 dark:hover:bg-background-950 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer`,
@@ -82,7 +93,7 @@ export default function MenuItem({
 					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp, tooltip})}
 				</Link>
 			:	<li
-					onClick={onClick}
+					onClick={handleOnClick}
 					className={cn(
 						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 rounded-xl items-center ${
 							canHover ?

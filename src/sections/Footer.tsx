@@ -5,6 +5,7 @@ import MenuItem from "../components/MenuItem"
 import supabase from "../utils/supabase"
 import IconCarrera from "../components/IconCarrera"
 import {INTERNAL_LINKS, SOCIAL_LINKS} from "../utils/links"
+import Button from "../components/Button"
 
 interface Carrera {
 	id: number
@@ -36,63 +37,26 @@ export default function Footer() {
 	}, [])
 
 	return (
-		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
-			<aside>
+		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
+			{/* Columna 1: Brand & Social */}
+			<aside className="flex flex-col gap-4">
 				<LogoPage />
-				{/* TODO: Mejorar descripción o slogan del sitio */}
-				<span>Esta es una pagina para los alumnos </span>
-				<span>© {new Date().getFullYear()} Cursa Plan. Todos los derechos reservados.</span>
+				<div className="flex flex-col gap-2 texto-label">
+					<span>Esta es una pagina para los alumnos </span>
+					<span className="text-secondary-600 dark:text-secondary-400">
+						© {new Date().getFullYear()} Cursa Plan. Todos los derechos reservados.
+					</span>
+				</div>
+				<div className="flex gap-2">
+					{SOCIAL_LINKS.map((link) => (
+						<Button variant="text" color="secondary" href={link.href} isIconOnly>
+							{link.icon}
+						</Button>
+					))}
+				</div>
 			</aside>
-			<section className="grid grid-cols-subgrid">
-				<MenuGroup title="Principales" className="col-span-1">
-					{INTERNAL_LINKS.filter((link) => link.category === "main").map((link) => {
-						if (link.href !== urlActual) {
-							return (
-								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
-									{link.label}
-								</MenuItem>
-							)
-						}
-					})}
-				</MenuGroup>
-			</section>
-			<section>
-				<MenuGroup title="Información" className="col-span-1">
-					{INTERNAL_LINKS.filter((link) => link.category === "secondary").map((link) => {
-						if (link.href !== urlActual) {
-							return (
-								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
-									{link.label}
-								</MenuItem>
-							)
-						}
-					})}
-				</MenuGroup>
-			</section>
-			<section className="grid grid-cols-subgrid">
-				<MenuGroup title="Legal" className="col-span-1">
-					{INTERNAL_LINKS.filter((link) => link.category === "legal").map((link) => {
-						if (link.href !== urlActual) {
-							return (
-								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
-									{link.label}
-								</MenuItem>
-							)
-						}
-					})}
-				</MenuGroup>
-			</section>
-			<section>
-				<MenuGroup title="Contactos">
-					{SOCIAL_LINKS.map((link) => {
-						return (
-							<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
-								{link.label}
-							</MenuItem>
-						)
-					})}
-				</MenuGroup>
-			</section>
+
+			{/* Columna 2: Carreras */}
 			<section>
 				<MenuGroup title="Carreras">
 					{carreras?.map((carrera) => (
@@ -104,6 +68,36 @@ export default function Footer() {
 							{carrera.nombre}
 						</MenuItem>
 					))}
+				</MenuGroup>
+			</section>
+
+			{/* Columna 3: Navegación */}
+			<section>
+				<MenuGroup title="Navegación">
+					{INTERNAL_LINKS.filter((link) => ["main", "secondary"].includes(link.category)).map((link) => {
+						if (link.href !== urlActual) {
+							return (
+								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+									{link.label}
+								</MenuItem>
+							)
+						}
+					})}
+				</MenuGroup>
+			</section>
+
+			{/* Columna 4: Legales y Soporte */}
+			<section>
+				<MenuGroup title="Legales y Soporte">
+					{INTERNAL_LINKS.filter((link) => link.category === "legal").map((link) => {
+						if (link.href !== urlActual) {
+							return (
+								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+									{link.label}
+								</MenuItem>
+							)
+						}
+					})}
 				</MenuGroup>
 			</section>
 		</footer>

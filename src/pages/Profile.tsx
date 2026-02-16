@@ -8,19 +8,20 @@ import {PerfilTab} from "../sections/perfil/PerfilTab"
 import Button from "../components/Button"
 import ToolTip from "../components/ToolTip"
 import Cursos from "../sections/perfil/Cursos"
+import Avatar from "../components/Avatar"
+import Cargando from "../sections/Cargando"
 
 export default function Profile() {
-	const {loading, session} = useAuth()
+	const {loading, userProfile} = useAuth()
 
 	if (loading) {
-		return <div>Cargando...</div>
+		return <Cargando />
 	}
 
-	const user = session?.user?.user_metadata
-
 	// Obtener el nombre del usuario
-	const fullName = user?.full_name
-	const userName = user?.username
+	const fullName = userProfile?.full_name
+	const userName = userProfile?.username
+	const icon = userProfile?.icon
 
 	interface TabItem {
 		id: string
@@ -50,18 +51,21 @@ export default function Profile() {
 		<section className="flex flex-col gap-3">
 			<PageHeader
 				title={
-					<>
-						<h1 className="texto-title block md:hidden text-primary-600 dark:text-primary-400 w-full text-start">
-							{fullName} | @{userName}
-						</h1>
-						<h1 className="texto-headline hidden md:block text-primary-600 dark:text-primary-400 w-full text-start">
-							{fullName} | @{userName}
-						</h1>
-					</>
+					<div className="flex items-center gap-3">
+						<Avatar color="primary" name={fullName} icon={icon} size="lg" className="text-2xl" />
+						<div>
+							<h1 className="texto-title block md:hidden text-primary-600 dark:text-primary-400 w-full text-start">
+								{fullName} | @{userName}
+							</h1>
+							<h1 className="texto-headline hidden md:block text-primary-600 dark:text-primary-400 w-full text-start">
+								{fullName} | @{userName}
+							</h1>
+						</div>
+					</div>
 				}
 				backUrl="/">
 				<ToolTip tooltip="En construcción">
-					<Button variant="outlined" color="secondary" disabled iconLeft={<IconSettings />}>
+					<Button variant="outlined" color="secondary" iconLeft={<IconSettings />} href="/config">
 						Configuración
 					</Button>
 				</ToolTip>

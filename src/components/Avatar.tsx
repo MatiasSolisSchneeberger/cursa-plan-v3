@@ -1,14 +1,18 @@
 import {IconUser} from "@tabler/icons-react"
+import IconAvatar from "./IconAvatar"
 
 interface AvatarProps {
 	img?: string
 	name?: string
+	icon?: string
 	notification?: boolean
 	status?: boolean
 	color: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info" | "background"
+	className?: string
+	size?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
-export default function Avatar({img, name, notification, status, color}: AvatarProps) {
+export default function Avatar({img, name, icon, notification, status, color, className, size = "md"}: AvatarProps) {
 	const textColors = {
 		primary: "text-primary-800 dark:text-primary-200",
 		secondary: "text-secondary-800 dark:text-secondary-200",
@@ -42,22 +46,35 @@ export default function Avatar({img, name, notification, status, color}: AvatarP
 		background: "bg-background-400 dark:bg-background-600",
 	}
 
+	const sizeClasses = {
+		xs: "size-6 text-xs",
+		sm: "size-8 text-sm",
+		md: "size-10 text-base",
+		lg: "size-12 text-lg",
+		xl: "size-16 text-xl",
+	}
+
 	const outlineClass = outlineColors[color]
 	const bgClass = bgColors[color]
 	const textColor = textColors[color]
+	const sizeClass = sizeClasses[size]
 
 	return (
-		<div className="relative inline-flex shrink-0">
-			{img || name ?
-				img ?
-					<img src={img} className={`size-10 rounded-full outline-2 object-cover ${outlineClass}`} />
-				:	<span
-						className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center select-none ${textColor} ${bgClass} ${outlineClass}`}>
-						{name ? name[0].toUpperCase() : ""}
-					</span>
-
+		<div className={`relative inline-flex shrink-0 ${className || ""}`}>
+			{img ?
+				<img src={img} className={`${sizeClass} rounded-full outline-2 object-cover ${outlineClass}`} />
+			: icon ?
+				<span
+					className={`texto-title flex ${sizeClass} items-center justify-center rounded-full outline-2 text-center select-none ${textColor} ${bgClass} ${outlineClass}`}>
+					<IconAvatar icon={icon} />
+				</span>
+			: name ?
+				<span
+					className={`texto-title flex ${sizeClass} items-center justify-center rounded-full outline-2 text-center select-none ${textColor} ${bgClass} ${outlineClass}`}>
+					{name[0].toUpperCase()}
+				</span>
 			:	<span
-					className={`texto-title flex h-10 w-10 items-center justify-center rounded-full outline-2 text-center ${textColor} ${bgClass} ${outlineClass}`}>
+					className={`texto-title flex ${sizeClass} items-center justify-center rounded-full outline-2 text-center ${textColor} ${bgClass} ${outlineClass}`}>
 					<IconUser />
 				</span>
 			}

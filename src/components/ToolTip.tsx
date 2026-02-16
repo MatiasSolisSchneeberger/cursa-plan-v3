@@ -17,10 +17,14 @@ import {
 	FloatingArrow,
 } from "@floating-ui/react"
 import {AnimatePresence, motion} from "framer-motion"
+import {useParams} from "react-router-dom"
+import {cn} from "../utils/cn"
 
 export default function ToolTip({children, tooltip}: {children: ReactNode; tooltip: ReactNode}) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [arrowEl, setArrowEl] = useState<SVGSVGElement | null>(null)
+	const {carreraSlug} = useParams()
+	const themeClass = carreraSlug ? `theme-${carreraSlug}` : ""
 
 	const {x, y, strategy, refs, context} = useFloating({
 		open: isOpen,
@@ -57,7 +61,10 @@ export default function ToolTip({children, tooltip}: {children: ReactNode; toolt
 							animate={{opacity: 1, scale: 1, y: 0}}
 							exit={{opacity: 0, scale: 0.95, y: 5}}
 							transition={{duration: 0.2, ease: "easeOut"}}
-							className="z-50 bg-info-200 dark:bg-info-800 dark:text-text-100 text-text-900 px-3 py-2 rounded-xl shadow-xl max-w-xs border-2 border-info-300 dark:border-info-700">
+							className={cn(
+								"z-50 bg-info-200 dark:bg-info-800 dark:text-text-100 text-text-900 px-3 py-2 rounded-xl shadow-xl max-w-xs border-2 border-info-300 dark:border-info-700",
+								themeClass,
+							)}>
 							{tooltip}
 							<FloatingArrow ref={setArrowEl} context={context} className="fill-info-300 dark:fill-info-700" />
 						</motion.div>

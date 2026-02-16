@@ -14,8 +14,6 @@ import Dropdown from "../components/Dropdown"
 import DropdownTrigger from "../components/DropdownTrigger"
 import DropdownContent from "../components/DropdownContent"
 import LogoPage from "../components/LogoPage"
-import supabase from "../utils/supabase"
-import {useEffect, useState} from "react"
 import {INTERNAL_LINKS} from "../utils/links"
 
 type User = {
@@ -23,6 +21,7 @@ type User = {
 	username: string
 	full_name: string
 	role: string
+	icon?: string
 }
 
 function AvatarMenu({
@@ -39,13 +38,21 @@ function AvatarMenu({
 	return (
 		<Dropdown key={`user-${pathname}`} placement="bottom-end">
 			<DropdownTrigger>
-				<Avatar color={avatarColor} name={user.full_name} />
+				<>
+					{/*<MenuItem
+						className="hidden md:flex"
+						avatar={<Avatar color={avatarColor} name={user.full_name} icon={user.icon} />}
+						canHover>
+						@{user.username}
+					</MenuItem>*/}
+					<Avatar /*className="md:hidden"*/ color={avatarColor} name={user.full_name} icon={user.icon} />
+				</>
 			</DropdownTrigger>
 			<DropdownContent>
 				<Menu>
 					<MenuGroup>
 						<MenuItem
-							avatar={<Avatar color={avatarColor} name={user.full_name} />}
+							avatar={<Avatar color={avatarColor} name={user.full_name} icon={user.icon} />}
 							textHelp={`@${user.username}`}
 							className="select-none pb-2">
 							{user.full_name}
@@ -55,7 +62,7 @@ function AvatarMenu({
 						<MenuItem href="/perfil" iconLeft={<IconUser size={20} />}>
 							Mi Perfil
 						</MenuItem>
-						<MenuItem href="/configuracion" iconLeft={<IconSettings size={20} />}>
+						<MenuItem href="/config" iconLeft={<IconSettings size={20} />}>
 							Configuración
 						</MenuItem>
 					</MenuGroup>
@@ -82,9 +89,19 @@ function AvatarMenu({
 
 export default function NavHeader() {
 	const {pathname} = useLocation()
-	const {session, signOut} = useAuth()
+	const {session, signOut, userProfile} = useAuth()
 
-	const [user, setUser] = useState<User | null>(null)
+	// data for user is now in userProfile from context
+	const user: User | null =
+		userProfile ?
+			{
+				id: userProfile.id,
+				username: userProfile.username,
+				full_name: userProfile.full_name,
+				role: userProfile.role || "user",
+				icon: userProfile.icon,
+			}
+		:	null
 
 	// Links principales (siempre visibles en desktop)
 	// Links principales (siempre visibles en desktop)
@@ -93,38 +110,6 @@ export default function NavHeader() {
 	// Links secundarios (agrupados en "Más")
 	const secondaryLinks = INTERNAL_LINKS.filter((l) => l.category === "secondary")
 	const legalLinks = INTERNAL_LINKS.filter((l) => l.category === "legal")
-
-	useEffect(() => {
-		const getProfile = async () => {
-			if (!session?.user) return
-
-			try {
-				const {data, error} = await supabase
-					.from("usuarios") // Tu tabla
-					.select("username, full_name, role") // Las columnas que querés
-					.eq("id", session.user.id) // El filtro de seguridad (tu RLS lo permite)
-					.single()
-
-				if (error) {
-					console.error("Error cargando perfil:", error)
-					return
-				}
-
-				if (data) {
-					setUser({
-						id: session.user.id,
-						username: data.username,
-						full_name: data.full_name,
-						role: data.role || "user",
-					})
-				}
-			} catch (error) {
-				console.error("Error inesperado:", error)
-			}
-		}
-
-		getProfile()
-	}, [session])
 
 	const avatarColor = user?.role === "admin" ? "warning" : "primary"
 

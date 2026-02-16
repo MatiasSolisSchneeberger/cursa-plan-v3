@@ -23,9 +23,11 @@ export default function PageHeader({title, backUrl, children}: PageHeaderProps) 
 				{/* Título */}
 				<div className="flex items-center flex-1">{title}</div>
 				{/* Controles (Chips, Dropdowns, etc) */}
-				<div className="md:border-l-2 md:border-t-0 border-t-2 border-primary-300 dark:border-primary-700 md:pl-3 pt-3 md:pt-0 flex items-center gap-3 w-full flex-wrap md:w-auto">
-					{children}
-				</div>
+				{children && (
+					<div className="md:border-l-2 md:border-t-0 border-t-2 border-primary-300 dark:border-primary-700 md:pl-3 pt-3 md:pt-0 flex items-center gap-3 w-full flex-wrap md:w-auto">
+						{children}
+					</div>
+				)}
 			</div>
 		</header>
 	)

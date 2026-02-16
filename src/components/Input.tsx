@@ -5,9 +5,10 @@ import Button from "./Button"
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 	label?: string
 	showPassword?: boolean
+	textHelp?: string
 }
 
-export default function Input({label, className, showPassword, type, ...props}: Props) {
+export default function Input({label, className, showPassword, type, textHelp, ...props}: Props) {
 	const [isVisible, setIsVisible] = useState(false)
 
 	const isPassword = type === "password"
@@ -50,6 +51,7 @@ export default function Input({label, className, showPassword, type, ...props}: 
 					</Button>
 				)}
 			</div>
+			{textHelp && <span className="texto-label text-text-700 dark:text-text-300">{textHelp}</span>}
 		</div>
 	)
 }

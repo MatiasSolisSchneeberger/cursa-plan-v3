@@ -1,71 +1,30 @@
 import {useState} from "react"
 import {useNavigate} from "react-router-dom"
 import {IconLock, IconAlertCircle, IconLoader2} from "@tabler/icons-react"
-import supabase from "../../utils/supabase"
 import Card from "../../components/Card"
 import CardHeader from "../../components/CardHeader"
 import CardBody from "../../components/CardBody"
 import Input from "../../components/Input"
 import Button from "../../components/Button"
 import Alert from "../../components/Alert"
+import {useUpdatePassword} from "../../hooks/useUpdatePassword"
 
 export default function UpdatePassword() {
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState<string | null>(null)
 	const navigate = useNavigate()
 
-	// --- Funciones ---
-	const checkPasswordStrength = (pass: string) => {
-		const rules = [
-			{regex: /.{8,}/, message: "La contraseña debe tener al menos 8 caracteres."},
-			{regex: /[A-Z]/, message: "La contraseña debe tener al menos una letra mayúscula."},
-			{regex: /[0-9]/, message: "La contraseña debe tener al menos un número."},
-			{
-				regex: /[!@#$%^&*()_+\-={};':"|,<>?]/,
-				message: "La contraseña debe tener al menos un carácter especial (!@#$...).",
-			},
-		]
-
-		for (const rule of rules) {
-			if (!rule.regex.test(pass)) {
-				return rule.message
-			}
-		}
-		return null
-	}
+	// --- Hook ---
+	const {updatePassword, loading, error, setError} = useUpdatePassword()
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (password !== confirmPassword) {
-			setError("Las contraseñas no coinciden")
-			return
-		}
-		const passwordError = checkPasswordStrength(password)
-		if (passwordError) {
-			setError(passwordError)
-			return
-		}
+		// El hook ya valida igualdad y fortaleza
+		const result = await updatePassword(password, confirmPassword)
 
-		setLoading(true)
-		setError(null)
-
-		try {
-			// 2. Actualizamos el usuario (ya está autenticado por el link del email)
-			const {error} = await supabase.auth.updateUser({
-				password: password,
-			})
-
-			if (error) throw error
-
-			// Si todo sale bien, lo mandamos al inicio o login
+		if (result.success) {
 			navigate("/", {replace: true})
-		} catch (err: any) {
-			setError(err.message || "Error al actualizar la contraseña")
-		} finally {
-			setLoading(false)
 		}
 	}
 

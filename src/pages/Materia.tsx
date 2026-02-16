@@ -28,6 +28,7 @@ import Practicos from "../sections/materia/Parciales/Practicos"
 import Teoricos from "../sections/materia/Parciales/Teoricos"
 import Libres from "../sections/materia/Parciales/Libres"
 import Finales from "../sections/materia/Parciales/Finales"
+import {usePageTitle} from "../hooks/usePageTitle"
 
 /**
  * Componente principal de la página de detalle de una Materia.
@@ -40,6 +41,9 @@ export default function Materia() {
 
 	// Hook personalizado para obtener los datos de la materia desde Supabase.
 	const {materia, loading, correlativasFormat} = useMateriaData(materiaSlug, planSlug, carreraSlug)
+
+	// Cambiando de nombre la página
+	usePageTitle(loading ? "cargando..." : `${materia?.materias?.nombre}`, true)
 
 	// Contexto de autenticación para saber si el usuario está logueado.
 	const {session} = useAuth()

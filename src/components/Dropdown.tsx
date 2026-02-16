@@ -30,9 +30,10 @@ interface DropdownContextType {
 	getReferenceProps: (userProps?: React.HTMLProps<Element>) => Record<string, unknown>
 	getFloatingProps: (userProps?: React.HTMLProps<HTMLElement>) => Record<string, unknown>
 	anchorId: string
+	shouldCloseOnSelect: boolean
 }
 
-const DropdownContext = createContext<DropdownContextType | undefined>(undefined)
+export const DropdownContext = createContext<DropdownContextType | undefined>(undefined)
 
 export function useDropdown() {
 	const context = useContext(DropdownContext)
@@ -46,12 +47,14 @@ interface DropdownProps {
 	children: ReactNode
 	className?: string
 	placement?: Placement
+	shouldCloseOnSelect?: boolean
 }
 
 export default function Dropdown({
 	children,
 	className,
 	placement = "bottom-start", // Default alignment
+	shouldCloseOnSelect = true,
 }: DropdownProps) {
 	const [open, setOpen] = useState(false)
 	const id = useId()
@@ -89,6 +92,7 @@ export default function Dropdown({
 				getReferenceProps,
 				getFloatingProps,
 				anchorId,
+				shouldCloseOnSelect,
 			}}>
 			<div className={`relative inline-block text-left ${className}`}>{children}</div>
 		</DropdownContext.Provider>

@@ -150,14 +150,14 @@ export default function Carrera() {
 				icon={<IconCode />}
 				title="Sección en Construcción"
 				description={
-					<div className="texto-label">
+					<>
 						<span>
 							Esta información puede tener errores. <strong>Revisar con la resolucion oficial de la facultad.</strong>
 						</span>
 						<br />
 						<br />
 						<span>Estamos trabajando para tener la informacion correcta.</span>
-					</div>
+					</>
 				}
 				canClose={true}
 				endContent={

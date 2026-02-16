@@ -53,6 +53,7 @@ export default function OrientacionSelector({
 							{plan.listaOrientaciones.map((ori) => (
 								<MenuItem
 									key={ori.id}
+									isActive={ori.slug === currentOrientacionSlug}
 									onClick={() => onSelect(ori.slug)}
 									// Alternatively we could use href if we wanted direct links,
 									// but preserving the onSelect callback pattern for consistency
