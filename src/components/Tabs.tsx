@@ -5,7 +5,7 @@ import Button, {type ButtonProps} from "./Button" // Reutilizamos tu Button exis
 
 // --- 1. Contexto para compartir el estado entre componentes ---
 interface TabsContextType {
-	activeTab: string
+	activeTab?: string
 	setActiveTab: (value: string) => void
 }
 
@@ -19,7 +19,7 @@ function useTabs() {
 
 // --- 2. Componente Padre (Tabs) ---
 interface TabsProps {
-	defaultValue: string
+	defaultValue?: string
 	children: ReactNode
 	className?: string
 	/** Opcional: Para controlar el estado desde fuera (ej. URL) */
@@ -82,7 +82,7 @@ export function TabsContent({value, children, className}: TabsContentProps) {
 	const {activeTab} = useTabs()
 
 	// Si no es el tab activo, no renderizamos nada (o null)
-	if (activeTab !== value) return null
+	if (activeTab !== undefined && activeTab !== value) return null
 
 	return (
 		<AnimatePresence mode="wait">
