@@ -2,7 +2,6 @@ import {useState, useEffect} from "react"
 import {
 	IconUser,
 	IconLock,
-	IconPalette,
 	IconDeviceFloppy,
 	IconLoader2,
 	IconAlertTriangle,
@@ -44,7 +43,7 @@ export default function Config() {
 		full_name: "",
 		username: "",
 		avatar_url: "",
-		icon: "" as AvatarIconName | "",
+		icon: "",
 		password: "",
 		confirmPassword: "",
 	})

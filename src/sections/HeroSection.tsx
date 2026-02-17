@@ -1,5 +1,5 @@
 import Button from "../components/Button"
-import {IconSearch, IconRocket, IconUser, IconSchool, IconArrowRight} from "@tabler/icons-react"
+import {IconRocket, IconSchool, IconArrowRight} from "@tabler/icons-react"
 import Chip from "../components/Chip"
 
 export default function HeroSection() {
@@ -15,7 +15,7 @@ export default function HeroSection() {
 
 			<div className="z-10 text-center max-w-4xl space-y-6">
 				{/* Uso de tus clases personalizadas de index.css */}
-				<h1 className="texto-display text-text-900">
+				<h1 className="texto-display text-text-900 dark:text-text-100">
 					Bienvenido a <br />
 					<span className="text-transparent bg-clip-text bg-linear-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400">
 						Cursa Plan
