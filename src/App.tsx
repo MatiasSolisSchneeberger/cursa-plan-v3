@@ -22,6 +22,7 @@ import "@fontsource/poppins/400.css"
 import "@fontsource/poppins/500.css"
 import "@fontsource/poppins/600.css"
 import Config from "./pages/Config"
+import Explorar from "./pages/Explorar"
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Index />} />
 
+					<Route path="/explorar" element={<Explorar />} />
 					<Route path="/carreras/:carreraSlug" element={<Carrera />} />
 					<Route path="/carreras/:carreraSlug/:planSlug/:materiaSlug" element={<Materia />} />
 
