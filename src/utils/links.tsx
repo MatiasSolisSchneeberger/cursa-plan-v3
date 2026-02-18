@@ -10,7 +10,8 @@ import {
 	IconMail,
 	IconBrandLinkedin,
 	IconBrandGithub,
-} from "@tabler/icons-react"
+	IconBook,
+} from "@tabler/icons-react";
 
 export const INTERNAL_LINKS = [
 	{
@@ -23,6 +24,12 @@ export const INTERNAL_LINKS = [
 		label: "Calendario",
 		href: "/calendario",
 		icon: <IconCalendar />,
+		category: "main",
+	},
+	{
+		label: "Carreras",
+		href: "/explorar",
+		icon: <IconBook />,
 		category: "main",
 	},
 	{
@@ -61,7 +68,7 @@ export const INTERNAL_LINKS = [
 		icon: <IconFilePencil />,
 		category: "legal",
 	},
-]
+];
 
 export const SOCIAL_LINKS = [
 	{
@@ -79,7 +86,8 @@ export const SOCIAL_LINKS = [
 		href: "mailto:cursaplan@gmail.com",
 		icon: <IconMail />,
 	},
-]
+];
 
 // Helper para obtener links por categoría si es necesario
-export const getLinksByCategory = (category: string) => INTERNAL_LINKS.filter((link) => link.category === category)
+export const getLinksByCategory = (category: string) =>
+	INTERNAL_LINKS.filter((link) => link.category === category);
