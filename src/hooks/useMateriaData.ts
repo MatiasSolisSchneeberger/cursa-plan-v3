@@ -7,6 +7,8 @@ import type { MateriaDetalle, GrupoCorrelativa } from "../types/materiaTypes"
 interface NextExamResult {
     proxima: Date | null
     isUrgent: boolean
+    status: string | null
+    tooltip: string | null
 }
 
 interface UseMateriaDataResult {

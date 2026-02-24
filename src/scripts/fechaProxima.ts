@@ -33,7 +33,7 @@ export function fechaProxima(
     fechaReferencia: string | Date = new Date() // Por defecto es HOY
 ) {
     if (!fechasExamenes || fechasExamenes.length === 0) {
-        return { proxima: null, isUrgent: false }
+        return { proxima: null, isUrgent: false, status: null, tooltip: null }
     }
 
     // 1. Normalizar fecha de referencia (Hoy)
@@ -56,7 +56,7 @@ export function fechaProxima(
     const proxima = fechasFuturas[0] || null
 
     if (!proxima) {
-        return { proxima: null, isUrgent: false }
+        return { proxima: null, isUrgent: false, status: null, tooltip: null }
     }
 
     // 4. Calcular urgencia (Días hábiles restantes)
@@ -76,14 +76,29 @@ export function fechaProxima(
             diasHabilesRestantes++
         }
 
-        // Si ya pasamos de 3 días, cortamos para optimizar (ya no es urgente)
-        if (diasHabilesRestantes > 3) break
+        // Si ya pasamos de 7 días, cortamos para optimizar (ya no es urgente ni nada)
+        if (diasHabilesRestantes > 7) break
 
         cursor.setDate(cursor.getDate() + 1)
     }
 
-    // Es urgente si faltan 3 o menos días hábiles
-    const isUrgent = diasHabilesRestantes <= 3
+    // Lógica de estados solicitada:
+    // 1. Menos de 3 días: "inscripcion cerrada", tooltip: "el minimo son 3 dias"
+    // 2. Entre 3 y 7 días: "urgente", tooltip: "el minimo son 3 dias"
 
-    return { proxima, isUrgent }
+    let status: string | null = null
+    let tooltip: string | null = null
+    let isUrgent = false
+
+    if (diasHabilesRestantes < 3) {
+        status = "inscripcion cerrada"
+        tooltip = "el minimo son 3 dias"
+        isUrgent = true
+    } else if (diasHabilesRestantes <= 7) {
+        status = "urgente"
+        tooltip = "el minimo son 3 dias"
+        isUrgent = true
+    }
+
+    return { proxima, isUrgent, status, tooltip }
 }
