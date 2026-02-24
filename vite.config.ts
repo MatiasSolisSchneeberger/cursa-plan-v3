@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import mdx from '@mdx-js/rollup'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -23,5 +24,10 @@ export default defineConfig({
             })
         },
     ],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+        },
+    },
     assetsInclude: ['**/*.md']
 })
