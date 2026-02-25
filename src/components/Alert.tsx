@@ -1,41 +1,51 @@
-import {IconX} from "@tabler/icons-react"
-import {useState, useEffect} from "react"
-import {cn} from "../utils/cn"
-import Button from "./Button"
+import { IconX } from "@tabler/icons-react";
+import { useState, useEffect } from "react";
+import { cn } from "@/utils/cn";
+import Button from "./Button";
 
 /**
  * Tipos de colores disponibles para la alerta.
  * Corresponden a las claves del objeto `colorStyles`.
  */
-type AlertColor = "primary" | "secondary" | "tertiary" | "danger" | "warning" | "success" | "info"
+type AlertColor =
+	| "primary"
+	| "secondary"
+	| "tertiary"
+	| "danger"
+	| "warning"
+	| "success"
+	| "info";
 
 /**
  * Propiedades del componente Alert.
  */
 interface AlertProps {
 	/** Color temático de la alerta. Define el fondo, borde y color de texto. */
-	color: AlertColor
+	color: AlertColor;
 	/** Icono principal que se muestra a la izquierda. */
-	icon: React.ReactNode
+	icon: React.ReactNode;
 	/** Título principal de la alerta. */
-	title: string
+	title: string;
 	/** Descripción detallada o texto de ayuda (opcional). Puede ser un string o un ReactNode. */
-	description?: string | React.ReactNode
+	description?: string | React.ReactNode;
 	/** Contenido adicional renderizado al final del texto (ej. botones de acción). */
-	endContent?: React.ReactNode
+	endContent?: React.ReactNode;
 	/** Determina si la alerta puede ser cerrada por el usuario. Por defecto es `true`. */
-	canClose?: boolean
+	canClose?: boolean;
 	/** Callback que se ejecuta cuando la alerta se cierra completamente (después de la animación). */
-	onClose?: () => void
+	onClose?: () => void;
 	/** Clases CSS adicionales para el contenedor principal. */
-	className?: string
+	className?: string;
 }
 
 /**
  * Estilos predefinidos para cada variante de color.
  * Se definen fuera del componente para evitar recrearlos en cada render.
  */
-const colorStyles: Record<AlertColor, {bg: string; border: string; title: string; text: string}> = {
+const colorStyles: Record<
+	AlertColor,
+	{ bg: string; border: string; title: string; text: string }
+> = {
 	primary: {
 		bg: "bg-primary-200 dark:bg-primary-800",
 		border: "bg-primary-600",
@@ -78,7 +88,7 @@ const colorStyles: Record<AlertColor, {bg: string; border: string; title: string
 		title: "text-info-700 dark:text-info-300",
 		text: "text-info-600 dark:text-info-400",
 	},
-}
+};
 
 /**
  * Componente Alert para mostrar mensajes de estado, advertencias o información.
@@ -94,28 +104,28 @@ export default function Alert({
 	onClose,
 	className = "",
 }: AlertProps) {
-	const [isVisible, setIsVisible] = useState(true)
-	const [isClosing, setIsClosing] = useState(false)
+	const [isVisible, setIsVisible] = useState(true);
+	const [isClosing, setIsClosing] = useState(false);
 
 	// Manejo seguro del unmount si el componente se desmonta antes de terminar la animación
 	useEffect(() => {
 		return () => {
 			// Cleanup si es necesario (generalmente React maneja esto bien, pero es buena práctica no setState en unmount)
-		}
-	}, [])
+		};
+	}, []);
 
-	const styles = colorStyles[color] || colorStyles.primary
+	const styles = colorStyles[color] || colorStyles.primary;
 
 	const handleClose = () => {
-		setIsClosing(true)
+		setIsClosing(true);
 		// Esperamos a que termine la animación (300ms) para notificar y ocultar
 		setTimeout(() => {
-			setIsVisible(false)
-			if (onClose) onClose()
-		}, 300)
-	}
+			setIsVisible(false);
+			if (onClose) onClose();
+		}, 300);
+	};
 
-	if (!isVisible) return null
+	if (!isVisible) return null;
 
 	return (
 		<aside
@@ -123,15 +133,26 @@ export default function Alert({
 			className={cn(
 				`relative flex max-w-lg flex-row gap-3 overflow-hidden rounded-md p-4 shadow-sm transition-all duration-300 ease-in-out`,
 				styles.bg,
-				isClosing ? "opacity-0 -translate-y-2 scale-95" : "opacity-100 translate-y-0 scale-100",
+				isClosing
+					? "-translate-y-2 scale-95 opacity-0"
+					: "translate-y-0 scale-100 opacity-100",
 				className,
-			)}>
+			)}
+		>
 			{/* Barra lateral de color decorativa */}
-			<div className={`absolute left-0 top-0 h-full w-1 ${styles.border}`} />
+			<div
+				className={`absolute top-0 left-0 h-full w-1 ${styles.border}`}
+			/>
 
 			{/* Icono Principal */}
 			<div className="flex shrink-0 items-start pt-0.5">
-				<Button isIconOnly className="pointer-events-none cursor-default" color={color} variant="flat" tabIndex={-1}>
+				<Button
+					isIconOnly
+					className="pointer-events-none cursor-default"
+					color={color}
+					variant="flat"
+					tabIndex={-1}
+				>
 					{icon}
 				</Button>
 			</div>
@@ -139,20 +160,32 @@ export default function Alert({
 			{/* Contenido de Texto */}
 			<section className="flex min-w-0 flex-1 flex-col gap-1">
 				<h3 className={`texto-title ${styles.title}`}>{title}</h3>
-				{description && <p className={`texto-body ${styles.text}`}>{description}</p>}
+				{description && (
+					<p className={`texto-body ${styles.text}`}>{description}</p>
+				)}
 
 				{/* Contenido extra (botones de acción, links, etc) */}
-				{endContent && <div className="mt-3 flex flex-row items-center justify-end gap-2">{endContent}</div>}
+				{endContent && (
+					<div className="mt-3 flex flex-row items-center justify-end gap-2">
+						{endContent}
+					</div>
+				)}
 			</section>
 
 			{/* Botón Cerrar */}
 			{canClose && (
 				<div className="shrink-0">
-					<Button isIconOnly variant="outlined" color={color} onClick={handleClose} aria-label="Cerrar alerta">
+					<Button
+						isIconOnly
+						variant="outlined"
+						color={color}
+						onClick={handleClose}
+						aria-label="Cerrar alerta"
+					>
 						<IconX size={18} />
 					</Button>
 				</div>
 			)}
 		</aside>
-	)
+	);
 }

@@ -1,5 +1,5 @@
 import type { Requisito, Condicion, GrupoCorrelativa } from "./db"
-import type { CorrelativaRaw } from "../scripts/transformData"
+import type { CorrelativaRaw } from "@/scripts/transformData"
 
 export type { Requisito, Condicion, GrupoCorrelativa }
 

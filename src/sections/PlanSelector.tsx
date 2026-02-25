@@ -1,7 +1,7 @@
 import { IconCheck } from "@tabler/icons-react";
-import ButtonGroup from "../components/ButtonGroup";
-import Button from "../components/Button";
-import type { PlanJSON } from "../types/db";
+import ButtonGroup from "@/components/ButtonGroup";
+import Button from "@/components/Button";
+import type { PlanJSON } from "@/types/db";
 
 interface PlanSelectorProps {
 	planes: PlanJSON[];

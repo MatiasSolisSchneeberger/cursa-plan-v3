@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react";
 import {
 	IconUser,
 	IconLock,
@@ -7,36 +7,39 @@ import {
 	IconAlertTriangle,
 	IconCheck,
 	IconChevronDown,
-} from "@tabler/icons-react"
-import supabase from "../utils/supabase"
+} from "@tabler/icons-react";
+import supabase from "@/utils/supabase";
 
 // Componentes
-import {Tabs, TabsContent, TabsTrigger} from "../components/Tabs"
-import ButtonGroup from "../components/ButtonGroup"
-import Card from "../components/Card"
-import CardHeader from "../components/CardHeader"
-import CardBody from "../components/CardBody"
-import CardFooter from "../components/CardFooter"
-import Input from "../components/Input"
-import Button from "../components/Button"
-import Avatar from "../components/Avatar"
-import Alert from "../components/Alert"
-import {useAuth} from "../context/AuthContextData"
-import PageHeader from "../components/PageHeader"
-import Dropdown from "../components/Dropdown"
-import DropdownTrigger from "../components/DropdownTrigger"
-import DropdownContent from "../components/DropdownContent"
-import Menu from "../components/Menu"
-import MenuItem from "../components/MenuItem"
-import MenuGroup from "../components/MenuGroup"
-import {Modal, ModalContent, ModalOpen, ModalClose} from "../components/Modal"
-import {useUpdatePassword} from "../hooks/useUpdatePassword"
+import { Tabs, TabsContent, TabsTrigger } from "@/components/Tabs";
+import ButtonGroup from "@/components/ButtonGroup";
+import Card from "@/components/Card";
+import CardHeader from "@/components/CardHeader";
+import CardBody from "@/components/CardBody";
+import CardFooter from "@/components/CardFooter";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import Avatar from "@/components/Avatar";
+import Alert from "@/components/Alert";
+import { useAuth } from "@/context/AuthContextData";
+import PageHeader from "@/components/PageHeader";
+import Dropdown from "@/components/Dropdown";
+import DropdownTrigger from "@/components/DropdownTrigger";
+import DropdownContent from "@/components/DropdownContent";
+import Menu from "@/components/Menu";
+import MenuItem from "@/components/MenuItem";
+import MenuGroup from "@/components/MenuGroup";
+import { Modal, ModalContent, ModalOpen, ModalClose } from "@/components/Modal";
+import { useUpdatePassword } from "@/hooks/useUpdatePassword";
 
 export default function Config() {
-	const {session, userProfile, refreshProfile} = useAuth()
+	const { session, userProfile, refreshProfile } = useAuth();
 
-	const [loading, setLoading] = useState(false)
-	const [msg, setMsg] = useState<{type: "success" | "danger"; text: string} | null>(null)
+	const [loading, setLoading] = useState(false);
+	const [msg, setMsg] = useState<{
+		type: "success" | "danger";
+		text: string;
+	} | null>(null);
 
 	// Estado del Formulario
 	const [formData, setFormData] = useState({
@@ -46,7 +49,7 @@ export default function Config() {
 		icon: "",
 		password: "",
 		confirmPassword: "",
-	})
+	});
 
 	// 1. Cargar datos actuales desde el contexto
 	useEffect(() => {
@@ -57,27 +60,27 @@ export default function Config() {
 				username: userProfile.username || "",
 				avatar_url: userProfile.avatar_url || "",
 				icon: userProfile.icon || "",
-			}))
+			}));
 		}
-	}, [userProfile])
+	}, [userProfile]);
 
 	// Handler genérico para inputs
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData({...formData, [e.target.name]: e.target.value})
-	}
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 
 	const handleIconSelect = (iconName: string) => {
-		setFormData({...formData, icon: iconName})
-	}
+		setFormData({ ...formData, icon: iconName });
+	};
 
 	// 2. Guardar Perfil (Nombre, Username, Avatar)
 	const updateProfile = async (e: React.FormEvent) => {
-		e.preventDefault()
-		setLoading(true)
-		setMsg(null)
+		e.preventDefault();
+		setLoading(true);
+		setMsg(null);
 
 		try {
-			const {error} = await supabase
+			const { error } = await supabase
 				.from("usuarios")
 				.update({
 					full_name: formData.full_name,
@@ -85,69 +88,90 @@ export default function Config() {
 					icon: formData.icon,
 					// avatar_url: formData.avatar_url // Descomentar si implementas subida de imagen
 				})
-				.eq("id", session?.user.id)
+				.eq("id", session?.user.id);
 
-			if (error) throw error
+			if (error) throw error;
 
 			// Actualizar el contexto con los nuevos datos
-			await refreshProfile()
+			await refreshProfile();
 
-			setMsg({type: "success", text: "Perfil actualizado correctamente"})
+			setMsg({
+				type: "success",
+				text: "Perfil actualizado correctamente",
+			});
 		} catch (error: any) {
-			setMsg({type: "danger", text: error.message || "Error al actualizar"})
+			setMsg({
+				type: "danger",
+				text: error.message || "Error al actualizar",
+			});
 		} finally {
-			setLoading(false)
+			setLoading(false);
 		}
-	}
+	};
 
 	// 3. Cambiar Contraseña - Refactorizado con hook
-	const {updatePassword: updatePasswordHook, loading: loadingPassword} = useUpdatePassword()
+	const { updatePassword: updatePasswordHook, loading: loadingPassword } =
+		useUpdatePassword();
 
 	const updatePassword = async (e: React.FormEvent) => {
-		e.preventDefault()
-		setMsg(null) // Limpiar mensajes globales si los hubiera
+		e.preventDefault();
+		setMsg(null); // Limpiar mensajes globales si los hubiera
 
-		const result = await updatePasswordHook(formData.password, formData.confirmPassword)
+		const result = await updatePasswordHook(
+			formData.password,
+			formData.confirmPassword,
+		);
 
 		if (result.success) {
-			setMsg({type: "success", text: result.message})
-			setFormData((prev) => ({...prev, password: "", confirmPassword: ""}))
+			setMsg({ type: "success", text: result.message });
+			setFormData((prev) => ({
+				...prev,
+				password: "",
+				confirmPassword: "",
+			}));
 		} else {
-			setMsg({type: "danger", text: result.message})
+			setMsg({ type: "danger", text: result.message });
 		}
-	}
+	};
 
 	// 4. Eliminar Cuenta (Placeholder)
-	const [deleteConfirmation, setDeleteConfirmation] = useState("")
+	const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
 	const handleDeleteAccount = async () => {
 		// 1. Validación: Si no escribió bien el nombre O no hay ID de usuario, cancelamos.
-		if (deleteConfirmation !== userProfile?.full_name || !session?.user.id) return
+		if (deleteConfirmation !== userProfile?.full_name || !session?.user.id)
+			return;
 
-		setLoading(true)
-		setMsg(null)
+		setLoading(true);
+		setMsg(null);
 
 		try {
 			// 2. Llamamos a la función segura de la base de datos
 			// Esta función borra al usuario de auth.users y por cascada borra su perfil
-			const {error} = await supabase.rpc("delete_user")
+			const { error } = await supabase.rpc("delete_user");
 
-			if (error) throw error
+			if (error) throw error;
 
-			setMsg({type: "success", text: "Cuenta eliminada. Te extrañaremos..."})
+			setMsg({
+				type: "success",
+				text: "Cuenta eliminada. Te extrañaremos...",
+			});
 
 			// 3. Cerramos sesión forzosamente y redirigimos al home
 			setTimeout(async () => {
-				await supabase.auth.signOut()
-				window.location.href = "/"
-			}, 1500)
+				await supabase.auth.signOut();
+				window.location.href = "/";
+			}, 1500);
 		} catch (error: any) {
-			console.error("Error eliminando cuenta:", error)
-			setMsg({type: "danger", text: error.message || "No se pudo eliminar la cuenta."})
+			console.error("Error eliminando cuenta:", error);
+			setMsg({
+				type: "danger",
+				text: error.message || "No se pudo eliminar la cuenta.",
+			});
 		} finally {
-			setLoading(false)
+			setLoading(false);
 		}
-	}
+	};
 
 	return (
 		<section className="flex flex-col gap-3">
@@ -155,12 +179,18 @@ export default function Config() {
 
 			<Tabs defaultValue="general">
 				{/* --- NAVEGACIÓN DE TABS --- */}
-				<div className="flex justify-start md:justify-center ">
+				<div className="flex justify-start md:justify-center">
 					<ButtonGroup>
-						<TabsTrigger value="general" iconLeft={<IconUser size={18} />}>
+						<TabsTrigger
+							value="general"
+							iconLeft={<IconUser size={18} />}
+						>
 							General
 						</TabsTrigger>
-						<TabsTrigger value="seguridad" iconLeft={<IconLock size={18} />}>
+						<TabsTrigger
+							value="seguridad"
+							iconLeft={<IconLock size={18} />}
+						>
 							Seguridad
 						</TabsTrigger>
 					</ButtonGroup>
@@ -168,11 +198,16 @@ export default function Config() {
 
 				{/* --- TAB: GENERAL --- */}
 				<TabsContent value="general">
-					<Card className="md:w-1/2 mx-auto">
-						<CardHeader color="primary">Información Personal</CardHeader>
+					<Card className="mx-auto md:w-1/2">
+						<CardHeader color="primary">
+							Información Personal
+						</CardHeader>
 						<CardBody>
-							<form onSubmit={updateProfile} className="flex flex-col gap-4">
-								<aside className="flex flex-col gap-3 items-center">
+							<form
+								onSubmit={updateProfile}
+								className="flex flex-col gap-4"
+							>
+								<aside className="flex flex-col items-center gap-3">
 									{/* Sección Avatar */}
 									<Avatar
 										color="primary"
@@ -183,7 +218,12 @@ export default function Config() {
 									/>
 									<Dropdown>
 										<DropdownTrigger>
-											<Button variant="outlined" type="button" iconRight={<IconChevronDown />} iconLeft={<IconUser />}>
+											<Button
+												variant="outlined"
+												type="button"
+												iconRight={<IconChevronDown />}
+												iconLeft={<IconUser />}
+											>
 												Cambiar Icono
 											</Button>
 										</DropdownTrigger>
@@ -191,10 +231,20 @@ export default function Config() {
 											<Menu className="max-h-60 overflow-y-auto">
 												<MenuGroup title="Selecciona un icono">
 													<MenuItem
-														onClick={() => handleIconSelect("")}
-														avatar={<Avatar color="secondary" size="sm" />}
-														isActive={formData.icon === ""}
-														canHover>
+														onClick={() =>
+															handleIconSelect("")
+														}
+														avatar={
+															<Avatar
+																color="secondary"
+																size="sm"
+															/>
+														}
+														isActive={
+															formData.icon === ""
+														}
+														canHover
+													>
 														Sin icono
 													</MenuItem>
 													{[
@@ -223,10 +273,26 @@ export default function Config() {
 													].map((iconName) => (
 														<MenuItem
 															key={iconName}
-															onClick={() => handleIconSelect(iconName)}
-															avatar={<Avatar color="secondary" icon={iconName} size="sm" />}
-															isActive={formData.icon === iconName}
-															canHover>
+															onClick={() =>
+																handleIconSelect(
+																	iconName,
+																)
+															}
+															avatar={
+																<Avatar
+																	color="secondary"
+																	icon={
+																		iconName
+																	}
+																	size="sm"
+																/>
+															}
+															isActive={
+																formData.icon ===
+																iconName
+															}
+															canHover
+														>
 															{iconName}
 														</MenuItem>
 													))}
@@ -236,7 +302,7 @@ export default function Config() {
 									</Dropdown>
 								</aside>
 								{/* Inputs */}
-								<section className="flex-1 w-full flex flex-col gap-4">
+								<section className="flex w-full flex-1 flex-col gap-4">
 									<Input
 										label="Nombre Completo"
 										name="full_name"
@@ -256,23 +322,38 @@ export default function Config() {
 										value={session?.user.email}
 										disabled
 										textHelp="El correo no se puede cambiar"
-										className="opacity-60 cursor-not-allowed"
+										className="cursor-not-allowed opacity-60"
 									/>
 								</section>
 								<Button
 									type="submit"
 									className="w-full md:w-auto"
 									disabled={loading}
-									iconLeft={loading ? <IconLoader2 className="animate-spin" /> : <IconDeviceFloppy />}>
+									iconLeft={
+										loading ? (
+											<IconLoader2 className="animate-spin" />
+										) : (
+											<IconDeviceFloppy />
+										)
+									}
+								>
 									Guardar Cambios
 								</Button>
 							</form>
 						</CardBody>
 						{msg && (
 							<Alert
-								icon={msg.type === "success" ? <IconCheck /> : <IconAlertTriangle />}
+								icon={
+									msg.type === "success" ? (
+										<IconCheck />
+									) : (
+										<IconAlertTriangle />
+									)
+								}
 								color={msg.type}
-								title={msg.type === "success" ? "Éxito" : "Error"}
+								title={
+									msg.type === "success" ? "Éxito" : "Error"
+								}
 								description={msg.text}
 								className="mb-6"
 								onClose={() => setMsg(null)}
@@ -283,11 +364,16 @@ export default function Config() {
 
 				{/* --- TAB: SEGURIDAD --- */}
 				<TabsContent value="seguridad">
-					<section className="flex flex-col md:flex-row gap-6">
+					<section className="flex flex-col gap-6 md:flex-row">
 						<Card className="md:w-1/2">
-							<CardHeader color="secondary">Cambiar Contraseña</CardHeader>
+							<CardHeader color="secondary">
+								Cambiar Contraseña
+							</CardHeader>
 							<CardBody>
-								<form onSubmit={updatePassword} className="flex flex-col gap-4">
+								<form
+									onSubmit={updatePassword}
+									className="flex flex-col gap-4"
+								>
 									<Input
 										type="password"
 										label="Nueva Contraseña"
@@ -308,8 +394,18 @@ export default function Config() {
 									<Button
 										type="submit"
 										color="secondary"
-										disabled={loadingPassword || !formData.password}
-										iconLeft={loadingPassword ? <IconLoader2 className="animate-spin" /> : <IconLock />}>
+										disabled={
+											loadingPassword ||
+											!formData.password
+										}
+										iconLeft={
+											loadingPassword ? (
+												<IconLoader2 className="animate-spin" />
+											) : (
+												<IconLock />
+											)
+										}
+									>
 										Actualizar Contraseña
 									</Button>
 								</form>
@@ -319,19 +415,27 @@ export default function Config() {
 						{/* Zona de Peligro */}
 						<Card color="danger" className="md:w-1/2">
 							<CardHeader color="danger">
-								<div className="flex flex-row items-center gap-2 justify-center">
-									<span className="w-6 h-6">
+								<div className="flex flex-row items-center justify-center gap-2">
+									<span className="h-6 w-6">
 										<IconAlertTriangle />
 									</span>
-									<span className="w-full mr-6">Zona de Peligro</span>
+									<span className="mr-6 w-full">
+										Zona de Peligro
+									</span>
 								</div>
 							</CardHeader>
-							<CardBody>Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate.</CardBody>
+							<CardBody>
+								Una vez que elimines tu cuenta, no hay vuelta
+								atrás. Por favor, asegúrate.
+							</CardBody>
 							<CardFooter>
 								<Modal>
 									{/* 1. EL GATILLO (Lo que el usuario ve primero) */}
 									<ModalOpen>
-										<Button color="danger" variant="outlined">
+										<Button
+											color="danger"
+											variant="outlined"
+										>
 											Eliminar Cuenta
 										</Button>
 									</ModalOpen>
@@ -339,7 +443,9 @@ export default function Config() {
 									{/* 2. EL CONTENIDO (Aparece al hacer click, centrado y con blur) */}
 									<ModalContent size="md">
 										<Card color="danger">
-											<CardHeader color="danger">Eliminando Cuenta</CardHeader>
+											<CardHeader color="danger">
+												Eliminando Cuenta
+											</CardHeader>
 											<CardBody>
 												<Alert
 													icon={<IconAlertTriangle />}
@@ -349,19 +455,34 @@ export default function Config() {
 													canClose={false}
 												/>
 												<p>
-													Ingresa tu nombre completo <strong>{userProfile?.full_name}</strong> para confirmar.
+													Ingresa tu nombre completo{" "}
+													<strong>
+														{userProfile?.full_name}
+													</strong>{" "}
+													para confirmar.
 												</p>
 												<Input
 													label="Nombre Completo"
 													name="deleteConfirmation"
 													value={deleteConfirmation}
-													onChange={(e) => setDeleteConfirmation(e.target.value)}
-													placeholder={userProfile?.full_name || "Tu nombre completo"}
+													onChange={(e) =>
+														setDeleteConfirmation(
+															e.target.value,
+														)
+													}
+													placeholder={
+														userProfile?.full_name ||
+														"Tu nombre completo"
+													}
 												/>
 											</CardBody>
 											<CardFooter className="flex flex-row gap-2">
 												<ModalClose className="w-full">
-													<Button variant="outlined" color="danger" className="w-full">
+													<Button
+														variant="outlined"
+														color="danger"
+														className="w-full"
+													>
 														Cancelar
 													</Button>
 												</ModalClose>
@@ -369,8 +490,14 @@ export default function Config() {
 													variant="solid"
 													color="danger"
 													className="w-full"
-													disabled={deleteConfirmation !== userProfile?.full_name}
-													onClick={handleDeleteAccount}>
+													disabled={
+														deleteConfirmation !==
+														userProfile?.full_name
+													}
+													onClick={
+														handleDeleteAccount
+													}
+												>
 													Eliminar
 												</Button>
 											</CardFooter>
@@ -383,5 +510,5 @@ export default function Config() {
 				</TabsContent>
 			</Tabs>
 		</section>
-	)
+	);
 }

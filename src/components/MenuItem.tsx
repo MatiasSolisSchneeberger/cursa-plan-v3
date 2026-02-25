@@ -1,24 +1,24 @@
-import type {ReactNode} from "react"
-import {useContext} from "react"
-import {Link} from "react-router-dom"
-import {cn} from "../utils/cn"
-import {DropdownContext} from "./Dropdown"
+import type { ReactNode } from "react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { cn } from "@/utils/cn";
+import { DropdownContext } from "./Dropdown";
 
 interface MenuItemInterface {
-	children: ReactNode
-	iconLeft?: ReactNode
-	iconRight?: ReactNode
-	avatar?: ReactNode
-	chip?: ReactNode
-	button?: ReactNode
-	switchComponent?: ReactNode
-	textHelp?: string
-	tooltip?: ReactNode
-	href?: string
-	onClick?: () => void
-	className?: string
-	canHover?: boolean
-	isActive?: boolean
+	children: ReactNode;
+	iconLeft?: ReactNode;
+	iconRight?: ReactNode;
+	avatar?: ReactNode;
+	chip?: ReactNode;
+	button?: ReactNode;
+	switchComponent?: ReactNode;
+	textHelp?: string;
+	tooltip?: ReactNode;
+	href?: string;
+	onClick?: () => void;
+	className?: string;
+	canHover?: boolean;
+	isActive?: boolean;
 }
 
 const content = ({
@@ -33,20 +33,38 @@ const content = ({
 	tooltip,
 }: MenuItemInterface) => (
 	<>
-		{iconLeft && <span className="pl-1 shrink-0 flex items-center">{iconLeft}</span>}
-		{avatar && <span className="px-1 shrink-0 flex items-center h-min">{avatar}</span>}
-		<div className="flex flex-col pl-2 pr-4 texto-label w-full">
+		{iconLeft && (
+			<span className="flex shrink-0 items-center pl-1">{iconLeft}</span>
+		)}
+		{avatar && (
+			<span className="flex h-min shrink-0 items-center px-1">
+				{avatar}
+			</span>
+		)}
+		<div className="texto-label flex w-full flex-col pr-4 pl-2">
 			<span>{children}</span>
 			<span className="text-text-700 dark:text-text-300">{textHelp}</span>
 		</div>
 
-		{chip && <span className="pr-2 shrink-0 flex items-center">{chip}</span>}
-		{button && <span className="pr-2 shrink-0 flex items-center">{button}</span>}
-		{tooltip && <span className="pr-2 shrink-0 flex items-center">{tooltip}</span>}
-		{switchComponent && <span className="pr-2 shrink-0 flex items-center">{switchComponent}</span>}
-		{iconRight && <span className="pr-1 shrink-0 flex items-center">{iconRight}</span>}
+		{chip && (
+			<span className="flex shrink-0 items-center pr-2">{chip}</span>
+		)}
+		{button && (
+			<span className="flex shrink-0 items-center pr-2">{button}</span>
+		)}
+		{tooltip && (
+			<span className="flex shrink-0 items-center pr-2">{tooltip}</span>
+		)}
+		{switchComponent && (
+			<span className="flex shrink-0 items-center pr-2">
+				{switchComponent}
+			</span>
+		)}
+		{iconRight && (
+			<span className="flex shrink-0 items-center pr-1">{iconRight}</span>
+		)}
 	</>
-)
+);
 export default function MenuItem({
 	children,
 	iconLeft,
@@ -63,47 +81,69 @@ export default function MenuItem({
 	isActive,
 	onClick,
 }: MenuItemInterface) {
-	const dropdown = useContext(DropdownContext)
+	const dropdown = useContext(DropdownContext);
 
 	const handleOnClick = () => {
-		if (onClick) onClick()
+		if (onClick) onClick();
 		if (dropdown?.shouldCloseOnSelect) {
-			dropdown.close()
+			dropdown.close();
 		}
-	}
+	};
 
-	const activeClass =
-		isActive ?
-			"bg-primary-100 hover:bg-primary-50 dark:bg-primary-900 dark:hover:bg-primary-800 font-bold text-primary-800 dark:text-primary-200"
-		:	""
+	const activeClass = isActive
+		? "bg-primary-100 hover:bg-primary-50 dark:bg-primary-900 dark:hover:bg-primary-800 font-bold text-primary-800 dark:text-primary-200"
+		: "";
 	return (
 		<>
-			{href ?
+			{href ? (
 				<Link
 					to={href}
 					onClick={() => {
-						window.scrollTo({top: 0, behavior: "smooth"})
-						handleOnClick()
+						window.scrollTo({ top: 0, behavior: "smooth" });
+						handleOnClick();
 					}}
 					className={cn(
-						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 items-center hover:bg-background-50 dark:hover:bg-background-950 hover:shadow-sm transition-all ease-in-out rounded-xl hover:cursor-pointer`,
+						`text-text-900 dark:text-text-100 hover:bg-background-50 dark:hover:bg-background-950 relative flex h-min min-h-12 w-full flex-1 flex-row items-center rounded-xl px-2 py-1 transition-all ease-in-out hover:cursor-pointer hover:shadow-sm`,
 						className,
 						activeClass,
-					)}>
-					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp, tooltip})}
+					)}
+				>
+					{content({
+						children,
+						iconLeft,
+						iconRight,
+						avatar,
+						chip,
+						button,
+						switchComponent,
+						textHelp,
+						tooltip,
+					})}
 				</Link>
-			:	<li
+			) : (
+				<li
 					onClick={handleOnClick}
 					className={cn(
-						`relative flex-1 flex flex-row w-full h-min px-2 py-1 min-h-12 text-text-900 dark:text-text-100 rounded-xl items-center ${
-							canHover ?
-								"hover:bg-background-50 dark:hover:bg-background-950 hover:shadow-sm transition-all ease-in-out hover:cursor-pointer"
-							:	""
+						`text-text-900 dark:text-text-100 relative flex h-min min-h-12 w-full flex-1 flex-row items-center rounded-xl px-2 py-1 ${
+							canHover
+								? "hover:bg-background-50 dark:hover:bg-background-950 transition-all ease-in-out hover:cursor-pointer hover:shadow-sm"
+								: ""
 						} ${className} ${activeClass}`,
-					)}>
-					{content({children, iconLeft, iconRight, avatar, chip, button, switchComponent, textHelp, tooltip})}
+					)}
+				>
+					{content({
+						children,
+						iconLeft,
+						iconRight,
+						avatar,
+						chip,
+						button,
+						switchComponent,
+						textHelp,
+						tooltip,
+					})}
 				</li>
-			}
+			)}
 		</>
-	)
+	);
 }

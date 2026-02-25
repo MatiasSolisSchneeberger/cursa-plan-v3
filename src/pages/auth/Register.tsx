@@ -1,88 +1,103 @@
-import {useEffect, useState} from "react"
-import Button from "../../components/Button"
-import supabase from "../../utils/supabase"
-import Alert from "../../components/Alert"
-import {IconAlertCircle, IconCheck} from "@tabler/icons-react"
-import {useNavigate} from "react-router-dom"
-import Input from "../../components/Input"
-import Card from "../../components/Card"
-import CardHeader from "../../components/CardHeader"
-import CardFooter from "../../components/CardFooter"
-import CardBody from "../../components/CardBody"
-import {useAuth} from "../../context/AuthContextData"
+import { useEffect, useState } from "react";
+import Button from "@/components/Button";
+import supabase from "@/utils/supabase";
+import Alert from "@/components/Alert";
+import { IconAlertCircle, IconCheck } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
+import Input from "@/components/Input";
+import Card from "@/components/Card";
+import CardHeader from "@/components/CardHeader";
+import CardFooter from "@/components/CardFooter";
+import CardBody from "@/components/CardBody";
+import { useAuth } from "@/context/AuthContextData";
 
 export default function Register() {
-	const [email, setEmail] = useState<string>("")
-	const [password, setPassword] = useState<string>("")
-	const [confirmPassword, setConfirmPassword] = useState<string>("")
-	const [full_name, setFullName] = useState<string>("")
-	const [username, setUsername] = useState<string>("")
+	const [email, setEmail] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+	const [confirmPassword, setConfirmPassword] = useState<string>("");
+	const [full_name, setFullName] = useState<string>("");
+	const [username, setUsername] = useState<string>("");
 
-	const [errorMsg, setErrorMsg] = useState<string | null>("")
-	const [errorKey, setErrorKey] = useState<number>(0)
-	const [successMsg, setSuccessMsg] = useState<string | null>("")
-	const [loading, setLoading] = useState<boolean>(false)
+	const [errorMsg, setErrorMsg] = useState<string | null>("");
+	const [errorKey, setErrorKey] = useState<number>(0);
+	const [successMsg, setSuccessMsg] = useState<string | null>("");
+	const [loading, setLoading] = useState<boolean>(false);
 
-	const {session} = useAuth()
+	const { session } = useAuth();
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	// --- Funciones ---
 	const checkPasswordStrength = (pass: string) => {
 		const rules = [
-			{regex: /.{8,}/, message: "La contraseña debe tener al menos 8 caracteres."},
-			{regex: /[A-Z]/, message: "La contraseña debe tener al menos una letra mayúscula."},
-			{regex: /[0-9]/, message: "La contraseña debe tener al menos un número."},
-			{regex: /[!@#$%^&*(),.?":{}|<>_]/, message: "La contraseña debe tener al menos un carácter especial (!@#$...)."},
-		]
+			{
+				regex: /.{8,}/,
+				message: "La contraseña debe tener al menos 8 caracteres.",
+			},
+			{
+				regex: /[A-Z]/,
+				message:
+					"La contraseña debe tener al menos una letra mayúscula.",
+			},
+			{
+				regex: /[0-9]/,
+				message: "La contraseña debe tener al menos un número.",
+			},
+			{
+				regex: /[!@#$%^&*(),.?":{}|<>_]/,
+				message:
+					"La contraseña debe tener al menos un carácter especial (!@#$...).",
+			},
+		];
 
 		for (const rule of rules) {
 			if (!rule.regex.test(pass)) {
-				return rule.message
+				return rule.message;
 			}
 		}
-		return null
-	}
+		return null;
+	};
 
 	useEffect(() => {
 		if (session) {
 			navigate("/", {
 				replace: true,
-				state: {showAlreadyLoggedInAlert: true},
-			})
+				state: { showAlreadyLoggedInAlert: true },
+			});
 		}
-	}, [session, navigate])
+	}, [session, navigate]);
 
-	const validateForm = !email || !password || !full_name || !username || !confirmPassword
+	const validateForm =
+		!email || !password || !full_name || !username || !confirmPassword;
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		setErrorMsg(null)
-		setSuccessMsg(null)
+		e.preventDefault();
+		setErrorMsg(null);
+		setSuccessMsg(null);
 
 		// Basic client-side validation acts as a fallback or for custom logic
 		if (validateForm) {
-			setErrorMsg("Por favor, completa todos los campos")
-			setErrorKey((prev) => prev + 1)
-			return
+			setErrorMsg("Por favor, completa todos los campos");
+			setErrorKey((prev) => prev + 1);
+			return;
 		}
 
-		const passwordError = checkPasswordStrength(password)
+		const passwordError = checkPasswordStrength(password);
 		if (passwordError) {
-			setErrorMsg(passwordError)
-			setErrorKey((prev) => prev + 1)
-			return
+			setErrorMsg(passwordError);
+			setErrorKey((prev) => prev + 1);
+			return;
 		}
 
 		if (password !== confirmPassword) {
-			setErrorMsg("Las contraseñas no coinciden")
-			setErrorKey((prev) => prev + 1)
-			return
+			setErrorMsg("Las contraseñas no coinciden");
+			setErrorKey((prev) => prev + 1);
+			return;
 		}
 
-		setLoading(true)
+		setLoading(true);
 
-		const {error} = await supabase.auth.signUp({
+		const { error } = await supabase.auth.signUp({
 			email,
 			password,
 			options: {
@@ -92,24 +107,26 @@ export default function Register() {
 					full_name: full_name,
 				},
 			},
-		})
+		});
 
-		setLoading(false)
+		setLoading(false);
 
 		if (error) {
-			console.error(error)
-			setErrorMsg(error.message)
-			setErrorKey((prev) => prev + 1)
+			console.error(error);
+			setErrorMsg(error.message);
+			setErrorKey((prev) => prev + 1);
 		} else {
-			setSuccessMsg("Verifica tu correo electrónico para confirmar tu cuenta")
+			setSuccessMsg(
+				"Verifica tu correo electrónico para confirmar tu cuenta",
+			);
 		}
-	}
+	};
 
 	return (
-		<section className="flex items-center justify-center flex-col">
-			<Card className="w-full md:w-1/3 flex flex-col gap-6">
+		<section className="flex flex-col items-center justify-center">
+			<Card className="flex w-full flex-col gap-6 md:w-1/3">
 				<CardHeader color="secondary">Crear tu cuenta</CardHeader>
-				<CardBody className="border-b-2 pb-6 border-background-300">
+				<CardBody className="border-background-300 border-b-2 pb-6">
 					{errorMsg && (
 						<Alert
 							key={errorKey}
@@ -117,7 +134,7 @@ export default function Register() {
 							icon={<IconAlertCircle />}
 							title="Error al registrar"
 							description={errorMsg}
-							className="mb-4 animate-shake"
+							className="animate-shake mb-4"
 							onClose={() => setErrorMsg(null)}
 						/>
 					)}
@@ -132,7 +149,10 @@ export default function Register() {
 							onClose={() => setSuccessMsg(null)}
 						/>
 					)}
-					<form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+					<form
+						className="flex w-full flex-col gap-4"
+						onSubmit={handleSubmit}
+					>
 						{/* Input Nombre Real */}
 						<Input
 							label="Nombre Real"
@@ -187,20 +207,29 @@ export default function Register() {
 							value={confirmPassword}
 							required
 						/>
-						<Button type="submit" disabled={loading || validateForm} variant="solid" className="mt-2">
+						<Button
+							type="submit"
+							disabled={loading || validateForm}
+							variant="solid"
+							className="mt-2"
+						>
 							{loading ? "Registrando..." : "Registrarse"}
 						</Button>
 					</form>
 				</CardBody>
 
 				<CardFooter>
-					<div className="flex flex-col md:flex-row gap-2">
-						<Button variant="outlined" className="w-full" href="/login">
+					<div className="flex flex-col gap-2 md:flex-row">
+						<Button
+							variant="outlined"
+							className="w-full"
+							href="/login"
+						>
 							¿Ya tienes cuenta?
 						</Button>
 					</div>
 				</CardFooter>
 			</Card>
 		</section>
-	)
+	);
 }

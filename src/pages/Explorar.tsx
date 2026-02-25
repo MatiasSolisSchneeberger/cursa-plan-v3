@@ -1,8 +1,8 @@
-import ButtonGroup from "../components/ButtonGroup"
-import PageHeader from "../components/PageHeader"
-import {Tabs, TabsContent, TabsTrigger} from "../components/Tabs"
-import CarrerasFav from "../sections/CarrerasFav"
-import ListadoCarreras from "../sections/ListadoCarreras"
+import ButtonGroup from "@/components/ButtonGroup";
+import PageHeader from "@/components/PageHeader";
+import { Tabs, TabsContent, TabsTrigger } from "@/components/Tabs";
+import CarrerasFav from "@/sections/CarrerasFav";
+import ListadoCarreras from "@/sections/ListadoCarreras";
 
 export default function Explorar() {
 	return (
@@ -21,5 +21,5 @@ export default function Explorar() {
 				</TabsContent>
 			</Tabs>
 		</section>
-	)
+	);
 }

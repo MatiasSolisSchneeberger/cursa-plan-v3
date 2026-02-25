@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import supabase from "../utils/supabase"
-import { formatearCorrelativas } from "../scripts/transformData"
-import { fechaProxima } from "../scripts/fechaProxima"
-import type { MateriaDetalle, GrupoCorrelativa } from "../types/materiaTypes"
+import supabase from "@/utils/supabase"
+import { formatearCorrelativas } from "@/scripts/transformData"
+import { fechaProxima } from "@/scripts/fechaProxima"
+import type { MateriaDetalle, GrupoCorrelativa } from "@/types/materiaTypes"
 
 interface NextExamResult {
     proxima: Date | null

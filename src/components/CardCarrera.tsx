@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import IconCarrera from "./IconCarrera";
-import { cn } from "../utils/cn";
+import { cn } from "@/utils/cn";
 
 export default function CardCarrera({
 	icon,

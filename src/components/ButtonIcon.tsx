@@ -1,11 +1,18 @@
-import {Link} from "react-router-dom"
-import {cn} from "../utils/cn"
+import { Link } from "react-router-dom";
+import { cn } from "@/utils/cn";
 
 interface ButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	variant?: "solid" | "flat" | "outlined" | "text"
-	color?: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info"
-	href?: string
-	size?: 32 | 40 | 48
+	variant?: "solid" | "flat" | "outlined" | "text";
+	color?:
+		| "primary"
+		| "secondary"
+		| "tertiary"
+		| "success"
+		| "danger"
+		| "warning"
+		| "info";
+	href?: string;
+	size?: 32 | 40 | 48;
 }
 
 /**
@@ -32,10 +39,10 @@ export default function ButtonIcon({
 		32: "w-8 h-8 text-lg", // text-lg suele ser buen tamaño para iconos en botones de 32px
 		40: "w-10 h-10 text-xl",
 		48: "w-12 h-12 text-2xl",
-	}
+	};
 
 	const baseClasses =
-		"relative flex flex-row items-center justify-center gap-0 rounded-xl p-2 text-nowrap transition-all duration-150 ease-in-out select-none not-disabled:hover:rounded-2xl not-disabled:hover:shadow-md not-disabled:focus:outline-2 not-disabled:focus:outline-offset-2 not-disabled:focus:outline-background-900 not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-65 dark:not-disabled:focus:outline-background-200 "
+		"relative flex flex-row items-center justify-center gap-0 rounded-xl p-2 text-nowrap transition-all duration-150 ease-in-out select-none not-disabled:hover:rounded-2xl not-disabled:hover:shadow-md not-disabled:focus:outline-2 not-disabled:focus:outline-offset-2 not-disabled:focus:outline-background-900 not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-65 dark:not-disabled:focus:outline-background-200 ";
 
 	const colorStyles = {
 		primary: {
@@ -87,25 +94,40 @@ export default function ButtonIcon({
 				"text-info-600 border-2 border-info-600 dark:text-info-400 dark:border-info-400 hover:bg-info-100 dark:hover:bg-info-800",
 			text: "text-info-600 not-disabled:hover:text-info-700 not-disabled:hover:bg-info-100 dark:text-info-400 dark:hover:text-info-300 dark:hover:bg-info-900",
 		},
-	}
+	};
 
-	const styleClasses = () => colorStyles[color]?.[variant] || ""
+	const styleClasses = () => colorStyles[color]?.[variant] || "";
 
-	const currentSizeClass = sizeClasses[size] || sizeClasses[40]
+	const currentSizeClass = sizeClasses[size] || sizeClasses[40];
 
-	const fullClassName = cn(styleClasses(), baseClasses, currentSizeClass, className)
+	const fullClassName = cn(
+		styleClasses(),
+		baseClasses,
+		currentSizeClass,
+		className,
+	);
 
 	if (href) {
 		return (
-			<Link className={fullClassName} to={href} id={id} {...(props as any)}>
+			<Link
+				className={fullClassName}
+				to={href}
+				id={id}
+				{...(props as any)}
+			>
 				{children}
 			</Link>
-		)
+		);
 	} else {
 		return (
-			<button className={fullClassName} disabled={disabled} id={id} {...props}>
+			<button
+				className={fullClassName}
+				disabled={disabled}
+				id={id}
+				{...props}
+			>
 				{children}
 			</button>
-		)
+		);
 	}
 }

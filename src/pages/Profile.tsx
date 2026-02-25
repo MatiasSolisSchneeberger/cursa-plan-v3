@@ -1,14 +1,14 @@
 // src/pages/Profile.tsx
 import { IconBook, IconInfoCircle, IconSettings } from "@tabler/icons-react";
-import { useAuth } from "../context/AuthContextData";
-import PageHeader from "../components/PageHeader";
-import { Tabs, TabsTrigger, TabsContent } from "../components/Tabs";
-import ButtonGroup from "../components/ButtonGroup";
-import { PerfilTab } from "../sections/perfil/PerfilTab";
-import Button from "../components/Button";
-import Cursos from "../sections/perfil/Cursos";
-import Avatar from "../components/Avatar";
-import Cargando from "../sections/Cargando";
+import { useAuth } from "@/context/AuthContextData";
+import PageHeader from "@/components/PageHeader";
+import { Tabs, TabsTrigger, TabsContent } from "@/components/Tabs";
+import ButtonGroup from "@/components/ButtonGroup";
+import { PerfilTab } from "@/sections/perfil/PerfilTab";
+import Button from "@/components/Button";
+import Cursos from "@/sections/perfil/Cursos";
+import Avatar from "@/components/Avatar";
+import Cargando from "@/sections/Cargando";
 
 export default function Profile() {
 	const { loading, userProfile } = useAuth();

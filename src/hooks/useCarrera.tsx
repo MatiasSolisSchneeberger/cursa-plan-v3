@@ -1,6 +1,6 @@
-import {useQuery} from "@tanstack/react-query"
-import {getCarreraBySlug} from "../scripts/getCarreraBySlug"
-import {transformarDatos} from "../scripts/transformData"
+import { useQuery } from "@tanstack/react-query";
+import { getCarreraBySlug } from "@/scripts/getCarreraBySlug";
+import { transformarDatos } from "@/scripts/transformData";
 
 export function useCarrera(slug: string | undefined) {
 	return useQuery({
@@ -9,13 +9,13 @@ export function useCarrera(slug: string | undefined) {
 		queryKey: ["carrera", slug],
 		// 2. queryFn: La función que se encarga de obtener los datos.
 		queryFn: async () => {
-			if (!slug) throw new Error("No se proporcionó un slug")
+			if (!slug) throw new Error("No se proporcionó un slug");
 
-			const rawData = await getCarreraBySlug(slug)
+			const rawData = await getCarreraBySlug(slug);
 
-			if (!rawData) throw new Error("No se encontró la carrera")
+			if (!rawData) throw new Error("No se encontró la carrera");
 
-			return transformarDatos(rawData)
+			return transformarDatos(rawData);
 		},
 
 		// 3. enabled: Indica si la query debe ejecutarse o no.
@@ -27,5 +27,5 @@ export function useCarrera(slug: string | undefined) {
 		retry: 3,
 		// - staleTime: Indica cuánto tiempo (en ms) se considera que los datos son "frescos".
 		staleTime: 1000 * 60 * 10, // Los datos se consideran "frescos" durante 10 minutos.
-	})
+	});
 }

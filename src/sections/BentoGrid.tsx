@@ -5,11 +5,11 @@ import {
 	IconCalendarTime,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import Card from "../components/Card";
-import CardBody from "../components/CardBody";
-import Chip from "../components/Chip";
-import CardHeader from "../components/CardHeader";
-import Button from "../components/Button";
+import Card from "@/components/Card";
+import CardBody from "@/components/CardBody";
+import Chip from "@/components/Chip";
+import CardHeader from "@/components/CardHeader";
+import Button from "@/components/Button";
 
 // Variantes de animación para que aparezcan en cascada
 const containerVariants = {

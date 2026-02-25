@@ -1,27 +1,36 @@
-import {useNavigate} from "react-router-dom"
-import Card from "./Card"
-import CardHeader from "./CardHeader"
-import CardBody from "./CardBody"
-import MenuGroup from "./MenuGroup"
-import MenuItem from "./MenuItem"
-import Menu from "./Menu"
-import Dropdown from "./Dropdown"
-import DropdownTrigger from "./DropdownTrigger"
-import DropdownContent from "./DropdownContent"
-import type {TabConfig} from "../types/config"
-import {IconArrowLeft, IconChevronDown, IconChevronRight} from "@tabler/icons-react"
-import Button from "./Button"
+import { useNavigate } from "react-router-dom";
+import Card from "./Card";
+import CardHeader from "./CardHeader";
+import CardBody from "./CardBody";
+import MenuGroup from "./MenuGroup";
+import MenuItem from "./MenuItem";
+import Menu from "./Menu";
+import Dropdown from "./Dropdown";
+import DropdownTrigger from "./DropdownTrigger";
+import DropdownContent from "./DropdownContent";
+import type { TabConfig } from "@/types/config";
+import {
+	IconArrowLeft,
+	IconChevronDown,
+	IconChevronRight,
+} from "@tabler/icons-react";
+import Button from "./Button";
 
 interface Props {
-	title: string
-	tabs: TabConfig[]
-	activeTab: string
-	onTabChange: (id: string) => void
-	backLink?: string // Made optional effectively, though primarily we use history back
+	title: string;
+	tabs: TabConfig[];
+	activeTab: string;
+	onTabChange: (id: string) => void;
+	backLink?: string; // Made optional effectively, though primarily we use history back
 }
 
-export default function ConfigSidebar({title, tabs, activeTab, onTabChange}: Props) {
-	const navigate = useNavigate()
+export default function ConfigSidebar({
+	title,
+	tabs,
+	activeTab,
+	onTabChange,
+}: Props) {
+	const navigate = useNavigate();
 
 	const SidebarContent = (
 		<>
@@ -29,9 +38,14 @@ export default function ConfigSidebar({title, tabs, activeTab, onTabChange}: Pro
 			<MenuGroup>
 				<MenuItem
 					onClick={() => navigate(-1)}
-					iconLeft={<IconArrowLeft className="text-primary-600 dark:text-primary-400" />}
-					canHover>
-					<span className="text-primary-600 dark:text-primary-400">Volver</span>
+					iconLeft={
+						<IconArrowLeft className="text-primary-600 dark:text-primary-400" />
+					}
+					canHover
+				>
+					<span className="text-primary-600 dark:text-primary-400">
+						Volver
+					</span>
 				</MenuItem>
 			</MenuGroup>
 
@@ -48,18 +62,26 @@ export default function ConfigSidebar({title, tabs, activeTab, onTabChange}: Pro
 				))}
 			</MenuGroup>
 		</>
-	)
+	);
 
 	return (
 		<>
 			{/* Renderizado Movil (Dropdown) */}
-			<Dropdown className="md:hidden w-full mb-4" key={`mobile-menu-${activeTab}`}>
+			<Dropdown
+				className="mb-4 w-full md:hidden"
+				key={`mobile-menu-${activeTab}`}
+			>
 				<DropdownTrigger>
-					<CardHeader color="secondary" className="flex justify-between items-center gap-2">
+					<CardHeader
+						color="secondary"
+						className="flex items-center justify-between gap-2"
+					>
 						<Button color="secondary" variant="outlined" isIconOnly>
 							<IconChevronDown size={20} />
 						</Button>
-						<span className="flex justify-center items-center w-full">{title}</span>
+						<span className="flex w-full items-center justify-center">
+							{title}
+						</span>
 					</CardHeader>
 				</DropdownTrigger>
 				<DropdownContent>
@@ -68,14 +90,16 @@ export default function ConfigSidebar({title, tabs, activeTab, onTabChange}: Pro
 			</Dropdown>
 
 			{/* Renderizado Desktop (Sidebar normal) */}
-			<Card className=" relative z-20 hidden md:block h-full">
+			<Card className="relative z-20 hidden h-full md:block">
 				<CardHeader color="secondary">{title}</CardHeader>
 
 				{/* overflow-visible es CRUCIAL para que el menú flotante no se corte */}
-				<CardBody className="p-0 overflow-visible h-full">{SidebarContent}</CardBody>
+				<CardBody className="h-full overflow-visible p-0">
+					{SidebarContent}
+				</CardBody>
 			</Card>
 		</>
-	)
+	);
 }
 
 // --- SUB-COMPONENTE PARA CADA ITEM ---
@@ -85,33 +109,42 @@ function SidebarItem({
 	onTabChange,
 	activeTab,
 }: {
-	tab: TabConfig
-	isActive: boolean
-	onTabChange: (id: string) => void
-	activeTab: string
+	tab: TabConfig;
+	isActive: boolean;
+	onTabChange: (id: string) => void;
+	activeTab: string;
 }) {
 	// Si NO tiene subitems, renderizamos un item normal
 	if (!tab.subItems) {
 		return (
-			<MenuItem onClick={() => onTabChange(tab.id)} iconLeft={tab.icon} isActive={isActive} canHover={!isActive}>
+			<MenuItem
+				onClick={() => onTabChange(tab.id)}
+				iconLeft={tab.icon}
+				isActive={isActive}
+				canHover={!isActive}
+			>
 				{tab.label}
 			</MenuItem>
-		)
+		);
 	}
 
 	// Si TIENE subitems, usamos Dropdown para que funcionen como menús anidados
 	// Tanto en mobile como desktop
-	const isChildActive = tab.subItems.some((sub) => sub.id === activeTab)
-	const isParentActive = isActive || isChildActive
+	const isChildActive = tab.subItems.some((sub) => sub.id === activeTab);
+	const isParentActive = isActive || isChildActive;
 
 	return (
-		<Dropdown className="w-full block" key={`item-menu-${tab.id}-${activeTab}`}>
+		<Dropdown
+			className="block w-full"
+			key={`item-menu-${tab.id}-${activeTab}`}
+		>
 			<DropdownTrigger>
 				<MenuItem
 					iconLeft={tab.icon}
 					iconRight={<IconChevronRight />}
 					isActive={isParentActive}
-					canHover={!isParentActive}>
+					canHover={!isParentActive}
+				>
 					{tab.label}
 				</MenuItem>
 			</DropdownTrigger>
@@ -120,20 +153,21 @@ function SidebarItem({
 				<Menu>
 					<MenuGroup title={`Opciones de ${tab.label}`}>
 						{tab.subItems.map((sub) => {
-							const isSubActive = activeTab === sub.id
+							const isSubActive = activeTab === sub.id;
 							return (
 								<MenuItem
 									key={sub.id}
 									onClick={() => onTabChange(sub.id)}
 									isActive={isSubActive}
-									canHover={!isSubActive}>
+									canHover={!isSubActive}
+								>
 									{sub.label}
 								</MenuItem>
-							)
+							);
 						})}
 					</MenuGroup>
 				</Menu>
 			</DropdownContent>
 		</Dropdown>
-	)
+	);
 }

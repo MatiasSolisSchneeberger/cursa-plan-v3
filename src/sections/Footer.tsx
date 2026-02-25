@@ -1,55 +1,61 @@
-import {useEffect, useState} from "react"
-import LogoPage from "../components/LogoPage"
-import MenuGroup from "../components/MenuGroup"
-import MenuItem from "../components/MenuItem"
-import supabase from "../utils/supabase"
-import IconCarrera from "../components/IconCarrera"
-import {INTERNAL_LINKS, SOCIAL_LINKS} from "../utils/links"
-import Button from "../components/Button"
+import { useEffect, useState } from "react";
+import LogoPage from "@/components/LogoPage";
+import MenuGroup from "@/components/MenuGroup";
+import MenuItem from "@/components/MenuItem";
+import supabase from "@/utils/supabase";
+import IconCarrera from "@/components/IconCarrera";
+import { INTERNAL_LINKS, SOCIAL_LINKS } from "@/utils/links";
+import Button from "@/components/Button";
 
 interface Carrera {
-	id: number
-	nombre: string
-	slug: string
-	icon: string
+	id: number;
+	nombre: string;
+	slug: string;
+	icon: string;
 }
 
 export default function Footer() {
-	const [carreras, SetCarreras] = useState<Carrera[]>([])
+	const [carreras, SetCarreras] = useState<Carrera[]>([]);
 
-	const urlActual = window.location.pathname
+	const urlActual = window.location.pathname;
 
 	useEffect(() => {
 		const fetchCarreras = async () => {
-			const {data, error} = await supabase
+			const { data, error } = await supabase
 				.from("carreras")
 				.select("id, nombre, slug, icon")
-				.order("slug", {ascending: true})
+				.order("slug", { ascending: true });
 
 			if (error) {
-				console.log("Error al buscar carreras:", error)
+				console.log("Error al buscar carreras:", error);
 			} else {
-				SetCarreras(data)
+				SetCarreras(data);
 			}
-		}
+		};
 
-		fetchCarreras()
-	}, [])
+		fetchCarreras();
+	}, []);
 
 	return (
-		<footer className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 justify-center items-start bg-background-100 dark:bg-background-900 outline outline-background-300 dark:outline-background-700 rounded-3xl">
+		<footer className="bg-background-100 dark:bg-background-900 outline-background-300 dark:outline-background-700 grid w-full grid-cols-1 items-start justify-center gap-6 rounded-3xl p-6 outline sm:grid-cols-2 lg:grid-cols-4">
 			{/* Columna 1: Brand & Social */}
 			<aside className="flex flex-col gap-4">
 				<LogoPage />
-				<div className="flex flex-col gap-2 texto-label">
+				<div className="texto-label flex flex-col gap-2">
 					<span>Esta es una pagina para los alumnos </span>
 					<span className="text-secondary-600 dark:text-secondary-400">
-						© {new Date().getFullYear()} Cursa Plan. Todos los derechos reservados.
+						© {new Date().getFullYear()} Cursa Plan. Todos los
+						derechos reservados.
 					</span>
 				</div>
 				<div className="flex gap-2">
 					{SOCIAL_LINKS.map((link) => (
-						<Button variant="text" color="secondary" href={link.href} isIconOnly>
+						<Button
+							variant="text"
+							color="secondary"
+							href={link.href}
+							isIconOnly
+						>
 							{link.icon}
 						</Button>
 					))}
@@ -64,7 +70,13 @@ export default function Footer() {
 							className={`theme-${carrera.slug} text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900`}
 							key={carrera.id}
 							href={`/carreras/${carrera.slug}`}
-							iconLeft={<IconCarrera icon={carrera.icon} className="text-primary-600 dark:text-primary-400" />}>
+							iconLeft={
+								<IconCarrera
+									icon={carrera.icon}
+									className="text-primary-600 dark:text-primary-400"
+								/>
+							}
+						>
 							{carrera.nombre}
 						</MenuItem>
 					))}
@@ -74,13 +86,19 @@ export default function Footer() {
 			{/* Columna 3: Navegación */}
 			<section>
 				<MenuGroup title="Navegación">
-					{INTERNAL_LINKS.filter((link) => ["main", "secondary"].includes(link.category)).map((link) => {
+					{INTERNAL_LINKS.filter((link) =>
+						["main", "secondary"].includes(link.category),
+					).map((link) => {
 						if (link.href !== urlActual) {
 							return (
-								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+								<MenuItem
+									key={link.label}
+									href={link.href}
+									iconLeft={link.icon}
+								>
 									{link.label}
 								</MenuItem>
-							)
+							);
 						}
 					})}
 				</MenuGroup>
@@ -89,17 +107,23 @@ export default function Footer() {
 			{/* Columna 4: Legales y Soporte */}
 			<section>
 				<MenuGroup title="Legales y Soporte">
-					{INTERNAL_LINKS.filter((link) => link.category === "legal").map((link) => {
+					{INTERNAL_LINKS.filter(
+						(link) => link.category === "legal",
+					).map((link) => {
 						if (link.href !== urlActual) {
 							return (
-								<MenuItem key={link.label} href={link.href} iconLeft={link.icon}>
+								<MenuItem
+									key={link.label}
+									href={link.href}
+									iconLeft={link.icon}
+								>
 									{link.label}
 								</MenuItem>
-							)
+							);
 						}
 					})}
 				</MenuGroup>
 			</section>
 		</footer>
-	)
+	);
 }

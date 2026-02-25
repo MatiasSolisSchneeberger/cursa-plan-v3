@@ -7,20 +7,20 @@ import {
 	IconUsers,
 } from "@tabler/icons-react";
 
-import { useAuth } from "../context/AuthContextData";
-import Button from "../components/Button";
-import Menu from "../components/Menu";
-import MenuItem from "../components/MenuItem";
-import MenuGroup from "../components/MenuGroup";
-import Avatar from "../components/Avatar";
-import ButtonTheme from "../components/ButtonTheme";
+import { useAuth } from "@/context/AuthContextData";
+import Button from "@/components/Button";
+import Menu from "@/components/Menu";
+import MenuItem from "@/components/MenuItem";
+import MenuGroup from "@/components/MenuGroup";
+import Avatar from "@/components/Avatar";
+import ButtonTheme from "@/components/ButtonTheme";
 
 // Importamos tus componentes de Dropdown
-import Dropdown from "../components/Dropdown";
-import DropdownTrigger from "../components/DropdownTrigger";
-import DropdownContent from "../components/DropdownContent";
-import LogoPage from "../components/LogoPage";
-import { INTERNAL_LINKS } from "../utils/links";
+import Dropdown from "@/components/Dropdown";
+import DropdownTrigger from "@/components/DropdownTrigger";
+import DropdownContent from "@/components/DropdownContent";
+import LogoPage from "@/components/LogoPage";
+import { INTERNAL_LINKS } from "@/utils/links";
 
 type User = {
 	id: string;

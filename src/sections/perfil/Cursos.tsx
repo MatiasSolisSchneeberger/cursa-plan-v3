@@ -1,4 +1,4 @@
-import WorkInProgress from "../../components/WorkInProgress"
+import WorkInProgress from "@/components/WorkInProgress";
 
 export default function Cursos() {
 	return (
@@ -7,5 +7,5 @@ export default function Cursos() {
 				moreDescription={`Esta seccion se listaran todas tus materias. Filtradas por "Cursando", "Regulares" y "Aprobadas".`}
 			/>
 		</section>
-	)
+	);
 }

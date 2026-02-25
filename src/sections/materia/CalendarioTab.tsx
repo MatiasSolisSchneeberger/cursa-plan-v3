@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import Button from "../../components/Button";
-import Card from "../../components/Card";
-import CardBody from "../../components/CardBody";
-import CardHeader from "../../components/CardHeader";
-import CardInfoList from "../../components/CardInfoList";
-import Chip from "../../components/Chip";
-import MenuGroup from "../../components/MenuGroup";
-import MenuItem from "../../components/MenuItem";
-import { fechaProxima } from "../../scripts/fechaProxima";
-import supabase from "../../utils/supabase";
-import ToolTip from "../../components/ToolTip";
+import Button from "@/components/Button";
+import Card from "@/components/Card";
+import CardBody from "@/components/CardBody";
+import CardHeader from "@/components/CardHeader";
+import CardInfoList from "@/components/CardInfoList";
+import Chip from "@/components/Chip";
+import MenuGroup from "@/components/MenuGroup";
+import MenuItem from "@/components/MenuItem";
+import { fechaProxima } from "@/scripts/fechaProxima";
+import supabase from "@/utils/supabase";
+import ToolTip from "@/components/ToolTip";
 import { IconCalendarPlus, IconInfoCircle } from "@tabler/icons-react";
-import Cargando from "../Cargando";
+import Cargando from "@/Cargando";
 
 interface CalendarioTabProps {
 	fechas: { fecha: string }[];

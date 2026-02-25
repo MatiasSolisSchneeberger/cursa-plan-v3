@@ -1,5 +1,5 @@
 
-import { type GrupoCorrelativa } from "../types/db";
+import { type GrupoCorrelativa } from "@/types/db";
 
 export const isGroupSatisfied = (
     grupo: GrupoCorrelativa,

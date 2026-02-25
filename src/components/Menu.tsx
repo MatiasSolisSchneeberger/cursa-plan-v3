@@ -1,13 +1,20 @@
-import {cn} from "../utils/cn"
+import { cn } from "@/utils/cn";
 
-export default function Menu({children, className}: {children: React.ReactNode; className?: string}) {
+export default function Menu({
+	children,
+	className,
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) {
 	return (
 		<ul
 			className={cn(
-				"bg-background-100 outline-2 outline-background-300 rounded-3xl shadow-2xl flex flex-col gap-2 dark:bg-background-900 dark:outline-background-700 py-2 min-w-xs",
+				"bg-background-100 outline-background-300 dark:bg-background-900 dark:outline-background-700 flex min-w-xs flex-col gap-2 rounded-3xl py-2 shadow-2xl outline-2",
 				className,
-			)}>
+			)}
+		>
 			{children}
 		</ul>
-	)
+	);
 }

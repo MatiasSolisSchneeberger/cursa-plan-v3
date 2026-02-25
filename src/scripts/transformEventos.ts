@@ -1,5 +1,5 @@
-import { type CalendarEvent } from "../components/CalendarCard"
-import { type CalendarColor } from "../components/CalendarDay"
+import { type CalendarEvent } from "@/components/CalendarCard"
+import { type CalendarColor } from "@/components/CalendarDay"
 
 // --- HELPERS ---
 

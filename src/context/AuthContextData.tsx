@@ -1,23 +1,25 @@
-import {createContext, useContext} from "react"
-import type {Session} from "@supabase/supabase-js"
+import { createContext, useContext } from "react";
+import type { Session } from "@supabase/supabase-js";
 
-import type {UserProfile} from "../types/User"
+import type { UserProfile } from "@/types/User";
 
 export interface AuthContextProps {
-	session: Session | null
-	userProfile: UserProfile | null
-	loading: boolean
-	role: string | null
-	signOut: () => Promise<void>
-	refreshProfile: () => Promise<void>
+	session: Session | null;
+	userProfile: UserProfile | null;
+	loading: boolean;
+	role: string | null;
+	signOut: () => Promise<void>;
+	refreshProfile: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined)
+export const AuthContext = createContext<AuthContextProps | undefined>(
+	undefined,
+);
 
 export const useAuth = () => {
-	const context = useContext(AuthContext)
+	const context = useContext(AuthContext);
 	if (context === undefined) {
-		throw new Error("useAuth debe usarse dentro de un AuthProvider")
+		throw new Error("useAuth debe usarse dentro de un AuthProvider");
 	}
-	return context
-}
+	return context;
+};

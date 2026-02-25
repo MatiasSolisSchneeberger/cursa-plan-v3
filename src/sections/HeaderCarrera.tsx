@@ -1,8 +1,8 @@
 import PlanSelector from "./PlanSelector";
 import OrientacionSelector from "./OrientacionSelector";
-import LikeButton from "../components/LikeButton";
-import type { PlanJSON } from "../types/db";
-import PageHeader from "../components/PageHeader";
+import LikeButton from "@/components/LikeButton";
+import type { PlanJSON } from "@/types/db";
+import PageHeader from "@/components/PageHeader";
 
 interface HeaderCarreraProps {
 	name: string;

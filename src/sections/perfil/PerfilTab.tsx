@@ -1,29 +1,29 @@
-import {useEffect, useState} from "react"
-import Card from "../../components/Card"
-import CardBody from "../../components/CardBody"
-import CardHeader from "../../components/CardHeader"
-import MenuItem from "../../components/MenuItem"
-import {useAuth} from "../../context/AuthContextData"
-import {IconMail, IconCalendar, IconChevronRight} from "@tabler/icons-react"
-import supabase from "../../utils/supabase"
-import IconCarrera from "../../components/IconCarrera"
-import type {CarrerasFav} from "../../types/carrerasFav"
+import { useEffect, useState } from "react";
+import Card from "@/components/Card";
+import CardBody from "@/components/CardBody";
+import CardHeader from "@/components/CardHeader";
+import MenuItem from "@/components/MenuItem";
+import { useAuth } from "@/context/AuthContextData";
+import { IconMail, IconCalendar, IconChevronRight } from "@tabler/icons-react";
+import supabase from "@/utils/supabase";
+import IconCarrera from "@/components/IconCarrera";
+import type { CarrerasFav } from "@/types/carrerasFav";
 
 export const PerfilTab = () => {
-	const {session, loading: loadingAuth} = useAuth()
+	const { session, loading: loadingAuth } = useAuth();
 
-	const [carrerasFav, setCarrerasFav] = useState<CarrerasFav[]>([])
-	const [materiasCursando, setMateriasCursando] = useState<any[]>([])
+	const [carrerasFav, setCarrerasFav] = useState<CarrerasFav[]>([]);
+	const [materiasCursando, setMateriasCursando] = useState<any[]>([]);
 
 	useEffect(() => {
-		if (loadingAuth) return
+		if (loadingAuth) return;
 
 		const fetchData = async () => {
 			try {
-				if (!session) return
+				if (!session) return;
 
 				// 1. Fetch Carreras Favoritas
-				const {data: carrerasFavData} = await supabase
+				const { data: carrerasFavData } = await supabase
 					.from("carreras_fav")
 					.select(
 						`
@@ -38,28 +38,32 @@ export const PerfilTab = () => {
 						)
 					`,
 					)
-					.eq("user_id", session.user.id)
+					.eq("user_id", session.user.id);
 
 				if (carrerasFavData) {
 					// Transformar los datos para que coincidan con la interfaz CarrerasFav
-					const formattedData: CarrerasFav[] = carrerasFavData.map((item: any) => ({
-						id: item.id,
-						plan: {
-							anio_inicio: Array.isArray(item.plan) ? item.plan[0].anio_inicio : item.plan.anio_inicio,
-							carrera:
-								Array.isArray(item.plan) ?
-									Array.isArray(item.plan[0].carrera) ?
-										item.plan[0].carrera[0]
-									:	item.plan[0].carrera
-								: Array.isArray(item.plan.carrera) ? item.plan.carrera[0]
-								: item.plan.carrera,
-						},
-					}))
-					setCarrerasFav(formattedData)
+					const formattedData: CarrerasFav[] = carrerasFavData.map(
+						(item: any) => ({
+							id: item.id,
+							plan: {
+								anio_inicio: Array.isArray(item.plan)
+									? item.plan[0].anio_inicio
+									: item.plan.anio_inicio,
+								carrera: Array.isArray(item.plan)
+									? Array.isArray(item.plan[0].carrera)
+										? item.plan[0].carrera[0]
+										: item.plan[0].carrera
+									: Array.isArray(item.plan.carrera)
+										? item.plan.carrera[0]
+										: item.plan.carrera,
+							},
+						}),
+					);
+					setCarrerasFav(formattedData);
 				}
 
 				// 2. Fetch Materias Cursando
-				const {data: cursandoData} = await supabase
+				const { data: cursandoData } = await supabase
 					.from("avances")
 					.select(
 						`
@@ -81,36 +85,43 @@ export const PerfilTab = () => {
 					`,
 					)
 					.eq("user_id", session.user.id)
-					.eq("estado", "Cursando")
+					.eq("estado", "Cursando");
 
 				if (cursandoData) {
-					setMateriasCursando(cursandoData)
+					setMateriasCursando(cursandoData);
 				}
 			} catch (error) {
-				console.log(error)
+				console.log(error);
 			}
-		}
+		};
 
 		if (session) {
-			fetchData()
+			fetchData();
 		}
-	}, [session, loadingAuth])
+	}, [session, loadingAuth]);
 
 	// Formatear fecha de creación
-	const createdAt = session?.user?.created_at ? new Date(session.user.created_at).toLocaleDateString() : "N/A"
+	const createdAt = session?.user?.created_at
+		? new Date(session.user.created_at).toLocaleDateString()
+		: "N/A";
 
 	return (
-		<section className="grid grid-cols-4 lg:grid-cols-12 gap-3">
+		<section className="grid grid-cols-4 gap-3 lg:grid-cols-12">
 			<Card className="col-span-4">
 				<CardHeader color="primary">Información</CardHeader>
 				<CardBody className="col-span-full grid grid-cols-subgrid gap-4">
 					<MenuItem
 						iconLeft={<IconMail className="text-primary-600" />}
 						textHelp={session?.user?.email || "N/A"}
-						canHover={false}>
+						canHover={false}
+					>
 						Email
 					</MenuItem>
-					<MenuItem iconLeft={<IconCalendar className="text-primary-600" />} textHelp={createdAt} canHover={false}>
+					<MenuItem
+						iconLeft={<IconCalendar className="text-primary-600" />}
+						textHelp={createdAt}
+						canHover={false}
+					>
 						Fecha de Registro
 					</MenuItem>
 				</CardBody>
@@ -119,50 +130,56 @@ export const PerfilTab = () => {
 			<Card className="col-span-4">
 				<CardHeader color="primary">Materias Cursando</CardHeader>
 				<CardBody className="col-span-full grid grid-cols-subgrid gap-4">
-					{materiasCursando.length === 0 ?
+					{materiasCursando.length === 0 ? (
 						<MenuItem>No estás cursando ninguna materia</MenuItem>
-					:	materiasCursando.map((avance: any) => {
-							const {materia, plan} = avance.materia_plan
-							const {carrera} = plan
+					) : (
+						materiasCursando.map((avance: any) => {
+							const { materia, plan } = avance.materia_plan;
+							const { carrera } = plan;
 
-							const carreraNombre = carrera.nombre
+							const carreraNombre = carrera.nombre;
 
 							return (
 								<MenuItem
 									key={avance.id}
 									textHelp={carreraNombre}
-									href={`/carreras/${carrera.slug}?plan=${plan.anio_inicio}&tab=info`}>
+									href={`/carreras/${carrera.slug}?plan=${plan.anio_inicio}&tab=info`}
+								>
 									{materia.nombre}
 								</MenuItem>
-							)
+							);
 						})
-					}
+					)}
 				</CardBody>
 			</Card>
 			<Card className="col-span-4">
 				<CardHeader color="primary">Carreras Favoritas</CardHeader>
 				<CardBody className="col-span-full grid grid-cols-subgrid gap-4">
-					{carrerasFav.length === 0 ?
+					{carrerasFav.length === 0 ? (
 						<MenuItem>No tienes carreras favoritas</MenuItem>
-					:	carrerasFav.map((carreraFav: any) => {
-							const {plan} = carreraFav
-							const {carrera} = plan
+					) : (
+						carrerasFav.map((carreraFav: any) => {
+							const { plan } = carreraFav;
+							const { carrera } = plan;
 
 							return (
 								<MenuItem
 									className={`theme-${carrera.slug} text-primary-600 dark:text-primary-400`}
 									key={carreraFav.id}
-									iconLeft={<IconCarrera icon={carrera.icon} />}
+									iconLeft={
+										<IconCarrera icon={carrera.icon} />
+									}
 									iconRight={<IconChevronRight />}
 									href={`/carreras/${carrera.slug}?plan=${plan.anio_inicio}`}
-									textHelp={plan.anio_inicio}>
+									textHelp={plan.anio_inicio}
+								>
 									{carrera.nombre}
 								</MenuItem>
-							)
+							);
 						})
-					}
+					)}
 				</CardBody>
 			</Card>
 		</section>
-	)
-}
+	);
+};

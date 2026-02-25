@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabase";
-import CardCarrera from "../components/CardCarrera";
+import supabase from "@/utils/supabase";
+import CardCarrera from "@/components/CardCarrera";
 import { Link } from "react-router-dom";
 import Cargando from "./Cargando";
 

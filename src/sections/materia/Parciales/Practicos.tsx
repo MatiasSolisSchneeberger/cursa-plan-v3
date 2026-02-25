@@ -1,12 +1,12 @@
-import {Link} from "react-router-dom"
-import Card from "../../../components/Card"
-import CardBody from "../../../components/CardBody"
-import CardHeader from "../../../components/CardHeader"
-import WorkInProgress from "../../../components/WorkInProgress"
+import { Link } from "react-router-dom";
+import Card from "@/components/Card";
+import CardBody from "@/components/CardBody";
+import CardHeader from "@/components/CardHeader";
+import WorkInProgress from "@/components/WorkInProgress";
 
 export default function Practicos() {
 	return (
-		<section className="grid grid-cols-4 md:grid-cols-12 gap-3">
+		<section className="grid grid-cols-4 gap-3 md:grid-cols-12">
 			<span className="col-span-full">
 				<WorkInProgress moreDescription="Los usuarios podran enviar modelos de parciales" />
 			</span>
@@ -14,7 +14,8 @@ export default function Practicos() {
 				<CardHeader>Imagenes</CardHeader>
 				<CardBody>
 					<p className="texto-body text-text-700 dark:text-text-300">
-						Estos son los parciales practicos enviado por los usuarios. Si tenes parciales practicos podes enviarlos
+						Estos son los parciales practicos enviado por los
+						usuarios. Si tenes parciales practicos podes enviarlos
 						para que otros usuarios puedan verlos.
 					</p>
 				</CardBody>
@@ -23,12 +24,17 @@ export default function Practicos() {
 				<CardHeader>Version Doc</CardHeader>
 				<CardBody>
 					<p className="texto-body text-text-700 dark:text-text-300">
-						Estos parciales fueron pasado a texto más para que sea mas legible. Si ves que hay errores podes avisar.
+						Estos parciales fueron pasado a texto más para que sea
+						mas legible. Si ves que hay errores podes avisar.
 					</p>
 					<p className="texto-body text-text-700 dark:text-text-300">
-						Los parciales están escrito con en Markdown. Si querés podés colaborar con la transcripción de los
-						parciales, mandá un mensaje en{" "}
-						<Link to="/contacto" className="text-primary-700 dark:text-primary-300">
+						Los parciales están escrito con en Markdown. Si querés
+						podés colaborar con la transcripción de los parciales,
+						mandá un mensaje en{" "}
+						<Link
+							to="/contacto"
+							className="text-primary-700 dark:text-primary-300"
+						>
 							Contacto
 						</Link>
 						.
@@ -36,5 +42,5 @@ export default function Practicos() {
 				</CardBody>
 			</Card>
 		</section>
-	)
+	);
 }
