@@ -1,18 +1,18 @@
 // src/components/CalendarCard.tsx
 import { useState, useMemo } from "react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import CalendarDay, { type CalendarColor } from "./CalendarDay";
-import Card from "./Card";
-import CardHeader from "./CardHeader";
-import CardBody from "./CardBody";
-import ButtonIcon from "./ButtonIcon";
+import CalendarDay, { type CalendarColor } from "@/components/CalendarDay";
+import Card from "@/components/Card";
+import CardHeader from "@/components/CardHeader";
+import CardBody from "@/components/CardBody";
+import ButtonIcon from "@/components/ButtonIcon";
 import { cn } from "@/utils/cn";
-import CardFooter from "./CardFooter";
-import CardInfoList from "./CardInfoList";
-import MenuGroup from "./MenuGroup";
-import MenuItem from "./MenuItem";
-import Chip from "./Chip";
-import ToolTip from "./ToolTip";
+import CardFooter from "@/components/CardFooter";
+import CardInfoList from "@/components/CardInfoList";
+import MenuGroup from "@/components/MenuGroup";
+import MenuItem from "@/components/MenuItem";
+import Chip from "@/components/Chip";
+import ToolTip from "@/components/ToolTip";
 
 // --- TIPOS NUEVOS Y MÁS LIMPIOS ---
 export interface CalendarEvent {

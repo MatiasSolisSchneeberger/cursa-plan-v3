@@ -1,4 +1,4 @@
-import { useDropdown } from "./Dropdown";
+import { useDropdown } from "@/components/Dropdown";
 import { FloatingPortal } from "@floating-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useParams } from "react-router-dom";

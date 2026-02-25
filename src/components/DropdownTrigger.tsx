@@ -1,8 +1,8 @@
-import {useDropdown} from "./Dropdown"
-import {type ReactNode} from "react"
+import { useDropdown } from "@/components/Dropdown";
+import { type ReactNode } from "react";
 
-export default function DropdownTrigger({children}: {children: ReactNode}) {
-	const {refs, getReferenceProps, open, anchorId} = useDropdown()
+export default function DropdownTrigger({ children }: { children: ReactNode }) {
+	const { refs, getReferenceProps, open, anchorId } = useDropdown();
 
 	// If children is a single valid element, we can clone it to pass refs and props directly
 	// avoiding an extra wrapper div if preferred. However, sticking to the wrapper
@@ -18,8 +18,9 @@ export default function DropdownTrigger({children}: {children: ReactNode}) {
 				{
 					anchorName: anchorId, // Keep for potential future usage or fallback
 				} as React.CSSProperties
-			}>
+			}
+		>
 			{children}
 		</div>
-	)
+	);
 }

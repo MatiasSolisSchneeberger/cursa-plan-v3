@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { IconMoon, IconSun } from "@tabler/icons-react";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { useTheme } from "@/context/ThemeContextData";
 
 export default function ButtonTheme() {

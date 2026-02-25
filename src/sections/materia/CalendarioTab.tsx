@@ -11,7 +11,7 @@ import { fechaProxima } from "@/scripts/fechaProxima";
 import supabase from "@/utils/supabase";
 import ToolTip from "@/components/ToolTip";
 import { IconCalendarPlus, IconInfoCircle } from "@tabler/icons-react";
-import Cargando from "@/Cargando";
+import Cargando from "@/sections/Cargando";
 
 interface CalendarioTabProps {
 	fechas: { fecha: string }[];

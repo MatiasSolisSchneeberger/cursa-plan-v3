@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "@/utils/supabase";
-import { useAuth } from "./AuthContextData";
-import { SimuladorContext } from "./SimuladorContextData";
+import { useAuth } from "@/context/AuthContextData";
+import { SimuladorContext } from "@/context/SimuladorContextData";
 
 import type { EstadoMateria, Avance } from "@/types/materiaTypes";
 

@@ -1,10 +1,10 @@
 import { IconLetterA, IconLetterR } from "@tabler/icons-react";
-import CardInfoList from "./CardInfoList";
+import CardInfoList from "@/components/CardInfoList";
 import { estados } from "@/utils/materiaConstants";
 import { useSimulador } from "@/context/SimuladorContextData";
-import Chip from "./Chip";
-import MenuItem from "./MenuItem";
-import MenuGroup from "./MenuGroup";
+import Chip from "@/components/Chip";
+import MenuItem from "@/components/MenuItem";
+import MenuGroup from "@/components/MenuGroup";
 import type { GrupoCorrelativa } from "@/types/db";
 
 interface Props {

@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { IconCheck, IconChevronDown } from "@tabler/icons-react";
-import Menu from "./Menu";
-import MenuItem from "./MenuItem";
+import Menu from "@/components/Menu";
+import MenuItem from "@/components/MenuItem";
 import { cn } from "@/utils/cn";
-import MenuGroup from "./MenuGroup";
+import MenuGroup from "@/components/MenuGroup";
 
 interface Option {
 	value: string;

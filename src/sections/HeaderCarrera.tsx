@@ -1,5 +1,5 @@
-import PlanSelector from "./PlanSelector";
-import OrientacionSelector from "./OrientacionSelector";
+import PlanSelector from "@/sections/PlanSelector";
+import OrientacionSelector from "@/sections/OrientacionSelector";
 import LikeButton from "@/components/LikeButton";
 import type { PlanJSON } from "@/types/db";
 import PageHeader from "@/components/PageHeader";

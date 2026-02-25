@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/utils/cn";
-import { DropdownContext } from "./Dropdown";
+import { DropdownContext } from "@/components/Dropdown";
 
 interface MenuItemInterface {
 	children: ReactNode;

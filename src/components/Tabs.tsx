@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
-import Button, { type ButtonProps } from "./Button"; // Reutilizamos tu Button existente
+import Button, { type ButtonProps } from "@/components/Button"; // Reutilizamos tu Button existente
 
 // --- 1. Contexto para compartir el estado entre componentes ---
 interface TabsContextType {

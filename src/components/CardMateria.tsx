@@ -6,14 +6,14 @@ import {
 	IconChevronUp,
 	IconInfoCircle,
 } from "@tabler/icons-react";
-import Card from "./Card";
-import CardHeader from "./CardHeader";
-import CardBody from "./CardBody";
-import Chip from "./Chip";
-import Button from "./Button";
-import CardFooter from "./CardFooter";
-import ToolTip from "./ToolTip";
-import CorrelativasList from "./CorrelativasList";
+import Card from "@/components/Card";
+import CardHeader from "@/components/CardHeader";
+import CardBody from "@/components/CardBody";
+import Chip from "@/components/Chip";
+import Button from "@/components/Button";
+import CardFooter from "@/components/CardFooter";
+import ToolTip from "@/components/ToolTip";
+import CorrelativasList from "@/components/CorrelativasList";
 
 import type { MateriaJSON } from "@/types/db";
 
@@ -79,7 +79,9 @@ export default function CardMateria({
 							<Chip
 								color="warning"
 								className="text-xs"
-								onClick={(e) => e.preventDefault()}
+								onClick={(e: React.MouseEvent) =>
+									e.preventDefault()
+								}
 							>
 								Optativa{" "}
 								{materia.nroOptativa
@@ -91,7 +93,9 @@ export default function CardMateria({
 							<Chip
 								color="secondary"
 								className="text-xs"
-								onClick={(e) => e.preventDefault()}
+								onClick={(e: React.MouseEvent) =>
+									e.preventDefault()
+								}
 							>
 								{materia.orientacion.nombre}
 							</Chip>
@@ -116,7 +120,9 @@ export default function CardMateria({
 								iconLeft={disponibilidad.icon}
 								disabled={!session}
 								selected={isSelected}
-								onClick={(e) => e.preventDefault()}
+								onClick={(e: React.MouseEvent) =>
+									e.preventDefault()
+								}
 								title={
 									!session
 										? "Inicia sesión para ver esta información"
@@ -133,7 +139,9 @@ export default function CardMateria({
 								color="info"
 								selected
 								showSelectedIcon={false}
-								onClick={(e) => e.preventDefault()}
+								onClick={(e: React.MouseEvent) =>
+									e.preventDefault()
+								}
 							>
 								<IconInfoCircle size={20} />
 							</Chip>
@@ -152,7 +160,7 @@ export default function CardMateria({
 								key={estadoConfig.texto}
 								color={estadoConfig.color}
 								// Type annotation fixed as per previous lint correct
-								onClick={(e) => {
+								onClick={(e: React.MouseEvent) => {
 									e.preventDefault();
 									e.stopPropagation();
 									if (session)

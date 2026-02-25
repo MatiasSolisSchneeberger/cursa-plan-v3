@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import Card from "./Card";
-import CardHeader from "./CardHeader";
-import CardBody from "./CardBody";
-import MenuGroup from "./MenuGroup";
-import MenuItem from "./MenuItem";
-import Menu from "./Menu";
-import Dropdown from "./Dropdown";
-import DropdownTrigger from "./DropdownTrigger";
-import DropdownContent from "./DropdownContent";
+import Card from "@/components/Card";
+import CardHeader from "@/components/CardHeader";
+import CardBody from "@/components/CardBody";
+import MenuGroup from "@/components/MenuGroup";
+import MenuItem from "@/components/MenuItem";
+import Menu from "@/components/Menu";
+import Dropdown from "@/components/Dropdown";
+import DropdownTrigger from "@/components/DropdownTrigger";
+import DropdownContent from "@/components/DropdownContent";
 import type { TabConfig } from "@/types/config";
 import {
 	IconArrowLeft,
 	IconChevronDown,
 	IconChevronRight,
 } from "@tabler/icons-react";
-import Button from "./Button";
+import Button from "@/components/Button";
 
 interface Props {
 	title: string;

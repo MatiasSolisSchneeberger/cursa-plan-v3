@@ -3,7 +3,7 @@ import { IconHeart, IconHeartFilled, IconLoader } from "@tabler/icons-react";
 import supabase from "@/utils/supabase";
 // 1. IMPORTA TU HOOK DE CONTEXTO
 import { useAuth } from "@/context/AuthContextData";
-import Button from "./Button";
+import Button from "@/components/Button";
 
 interface LikeButtonProps {
 	planId: number;

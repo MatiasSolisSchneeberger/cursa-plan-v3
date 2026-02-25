@@ -122,9 +122,7 @@ export default function Button({
 		isIconOnly && "aspect-square",
 	);
 
-	// El componente en sí
 	if (href) {
-		// Renderiza <a> si tiene href y no está disabled
 		return (
 			<Link
 				onClick={() => {
@@ -143,7 +141,6 @@ export default function Button({
 		);
 	}
 
-	// Renderiza <button> en cualquier otro caso
 	return (
 		<button
 			className={buttonClasses}

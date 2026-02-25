@@ -1,7 +1,11 @@
-import {IconCrane} from "@tabler/icons-react"
-import Alert from "./Alert"
+import { IconCrane } from "@tabler/icons-react";
+import Alert from "@/components/Alert";
 
-export default function WorkInProgress({moreDescription}: {moreDescription?: string}) {
+export default function WorkInProgress({
+	moreDescription,
+}: {
+	moreDescription?: string;
+}) {
 	return (
 		<Alert
 			color="warning"
@@ -9,12 +13,13 @@ export default function WorkInProgress({moreDescription}: {moreDescription?: str
 			title="Sección en Construcción"
 			description={
 				<span>
-					Estoy trabajando duro para traerte esta funcionalidad pronto. ¡Gracias por la paciencia!
+					Estoy trabajando duro para traerte esta funcionalidad
+					pronto. ¡Gracias por la paciencia!
 					{moreDescription && <br />}
 					{moreDescription}
 				</span>
 			}
 			canClose={false}
 		/>
-	)
+	);
 }

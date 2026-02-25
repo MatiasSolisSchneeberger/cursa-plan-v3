@@ -1,7 +1,7 @@
 import { IconX } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/utils/cn";
-import Button from "./Button";
+import Button from "@/components/Button";
 
 /**
  * Tipos de colores disponibles para la alerta.
