@@ -1,51 +1,68 @@
-import CardMateria from "../components/CardMateria"
-import type {AnioJSON, MateriaJSON, PeriodoJSON} from "../types/db"
+import { TypographyH2, TypographyLead } from "@/components/ui/Typography";
+import CardMateria from "../components/CardMateria";
+import type { AnioJSON, MateriaJSON, PeriodoJSON } from "../types/db";
+import { TabsContent } from "@/components/ui/tabs";
 
 interface AniosGridProps {
-	anios: AnioJSON[]
-	orientacionSlug: string | null
-	carreraSlug: string
-	planAnio: number
+	anios: AnioJSON[];
+	orientacionSlug: string | null;
+	carreraSlug: string;
+	planAnio: number;
 }
 
 // Helper para formatear el título del periodo
 const formatPeriodoTitle = (periodo: PeriodoJSON) => {
-	const {nombre, slug} = periodo.tipoPeriodo
-	const isSpecial = slug.includes("anual") || slug.includes("extracurricular")
+	const { nombre, slug } = periodo.tipoPeriodo;
+	const isSpecial =
+		slug.includes("anual") || slug.includes("extracurricular");
 
-	if (isSpecial) return nombre
-	if (periodo.nroPeriodo > 0) return `${periodo.nroPeriodo}° ${nombre}`
-	return nombre
-}
+	if (isSpecial) return nombre;
+	if (periodo.nroPeriodo > 0) return `${periodo.nroPeriodo}° ${nombre}`;
+	return nombre;
+};
 
-export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio}: AniosGridProps) {
+export default function AniosGrid({
+	anios,
+	orientacionSlug,
+	carreraSlug,
+	planAnio,
+}: AniosGridProps) {
 	return (
-		<article className="flex flex-col gap-8">
+		<>
 			{anios.map((anioData: AnioJSON) => (
-				<section key={anioData.anio} id={anioData.anio.toString()} className="flex flex-col gap-4 scroll-mt-28">
-					<h2 className="texto-headline text-text-900 text-center dark:text-text-100 border-b-2 border-background-300 dark:border-background-700 pb-2">
-						{anioData.anio}° Año
-					</h2>
+				<TabsContent
+					key={anioData.anio}
+					value={anioData.anio.toString()}
+					className="flex w-full flex-col gap-4"
+				>
+					<TypographyH2>{anioData.anio}° Año</TypographyH2>
 
 					{anioData.periodos.map((periodo: PeriodoJSON) => (
 						<article key={periodo.nroPeriodo} className="">
-							<h3 className="texto-title text-text-700 text-center dark:text-text-300 mb-3 capitalize border-b-2 border-background-300 dark:border-background-700 pb-1">
+							<TypographyLead className="border-border mb-4 border-b pb-1 text-center">
 								{formatPeriodoTitle(periodo)}
-							</h3>
-							<section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-4">
+							</TypographyLead>
+							<section className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
 								{periodo.materias
 									.filter((materia: MateriaJSON) => {
 										// Si no hay filtro de orientación, mostramos todo
-										if (!orientacionSlug) return true
+										if (!orientacionSlug) return true;
 										// Las materias comunes (sin orientación) siempre se muestran
-										if (!materia.orientacion) return true
+										if (!materia.orientacion) return true;
 										// Si hay filtro, mostramos solo las que coinciden
-										if (materia.orientacion.slug === orientacionSlug) return true
-										return false
+										if (
+											materia.orientacion.slug ===
+											orientacionSlug
+										)
+											return true;
+										return false;
 									})
 									.map((materia: MateriaJSON) => (
 										<CardMateria
-											key={materia.idMateriaPlan || materia.id}
+											key={
+												materia.idMateriaPlan ||
+												materia.id
+											}
 											materia={materia}
 											carreraSlug={carreraSlug}
 											planAnio={planAnio}
@@ -54,8 +71,8 @@ export default function AniosGrid({anios, orientacionSlug, carreraSlug, planAnio
 							</section>
 						</article>
 					))}
-				</section>
+				</TabsContent>
 			))}
-		</article>
-	)
+		</>
+	);
 }

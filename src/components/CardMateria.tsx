@@ -1,162 +1,334 @@
-import {useState} from "react"
+// --- react ---
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-import {IconArrowRight, IconChevronDown, IconChevronUp, IconInfoCircle} from "@tabler/icons-react"
-import Card from "./Card"
-import CardHeader from "./CardHeader"
-import CardBody from "./CardBody"
-import Chip from "./Chip"
-import Button from "./Button"
-import CardFooter from "./CardFooter"
-import ToolTip from "./ToolTip"
-import CorrelativasList from "./CorrelativasList"
+// --- types ---
+import type { MateriaJSON } from "@/types/db";
+import type { EstadoMateria } from "@/types/materiaTypes";
 
-import type {MateriaJSON} from "../types/db"
+// --- context ---
+import { useSimulador } from "@/context/SimuladorContextData";
 
-import {useAuth} from "../context/AuthContextData"
-import {useSimulador} from "../context/SimuladorContextData"
+// --- scripts ---
+import { getMateriaAvailability } from "@/scripts/materiaUtils";
+import { ListadoRequisitos } from "@/components/ListadoRequisitos";
 
-import {getMateriaAvailability} from "../scripts/materiaUtils"
-import {estados, disponibilidadMaterias} from "../utils/materiaConstants"
+// UI
+import {
+	Card,
+	CardAction,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+	Collapsible,
+	CollapsibleTrigger,
+	CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TypographyLead, TypographySmall } from "@/components/ui/Typography";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
+// --- Iconos ---
+import {
+	IconArrowRight,
+	IconChevronDown,
+	IconCircleCheck,
+	IconCircleDashed,
+	IconCircleDashedCheck,
+	IconCircleX,
+	IconGitBranch,
+	IconHourglass,
+	IconLock,
+	IconLockOpen,
+} from "@tabler/icons-react";
+
+// --- Interfaz ---
 interface CardMateriaProps {
-	materia: MateriaJSON
-	carreraSlug: string
-	planAnio: number
+	materia: MateriaJSON;
+	carreraSlug: string;
+	planAnio: number;
 }
 
-export default function CardMateria({materia, carreraSlug, planAnio}: CardMateriaProps) {
-	const [showCorrelativas, setShowCorrelativas] = useState(false)
-	const {session} = useAuth()
+// --- Sub Componente ---
+function BadgeEstado({ estado }: { estado: string }) {
+	switch (estado) {
+		case "Desbloqueado":
+			return (
+				<Badge
+					variant="outline"
+					className="text-green-600 select-none dark:text-green-400"
+				>
+					<IconCircleCheck />
+					Disponible
+				</Badge>
+			);
+		case "Bloqueado":
+			return (
+				<Badge
+					variant="outline"
+					className="text-red-600 select-none dark:text-red-400"
+				>
+					<IconLock />
+					No disponible
+				</Badge>
+			);
+		case "Solo Cursar":
+			return (
+				<Badge
+					variant="outline"
+					className="text-yellow-600 select-none dark:text-yellow-400"
+				>
+					<IconLockOpen />
+					Solo Cursar
+				</Badge>
+			);
+		default:
+			return null;
+	}
+}
 
-	const {getEstado, actualizarAvance} = useSimulador()
+/**
+ * Componente que muestra una tarjeta con la información de una materia.
+ * Contiene un badge que indica el estado de la materia,
+ * un collapsible que muestra los requisitos para cursar y rendir la materia,
+ * un select para actualizar el estado de la materia (regular, aprobado, etc...)
+ * y un botón para ir a la pagina de la materia
+ * @param materia - Materia a mostrar
+ * @param carreraSlug - Slug de la carrera
+ * @param planAnio - Anio del plan
+ */
+export default function CardMateria({
+	materia,
+	carreraSlug,
+	planAnio,
+}: CardMateriaProps) {
+	const [showCorrelativas, setShowCorrelativas] = useState(false);
 
-	// Usamos idMateriaPlan porque es lo que espera actualizarAvance
-	const currentId = materia.idMateriaPlan || materia.id
-	const estadoActualTexto = getEstado(currentId)
+	const { getEstado, actualizarAvance } = useSimulador();
 
-	const {isBloqueado, isSoloCursar, isDesbloqueado} = getMateriaAvailability(materia.correlativas, getEstado)
+	const { cursarSatisfied, rendirSatisfied, isSoloCursar, isDesbloqueado } =
+		getMateriaAvailability(materia.correlativas, getEstado);
 
-	// Check for special conditions (not approved/regular)
-	const hasSpecialConditions = materia.correlativas?.some((grupo) =>
-		grupo.condiciones.some((cond) => {
-			if (cond.tipo === "materia") {
-				const condicionRequerida = cond.condicion?.toLowerCase()
-				// If condition is explicitly defined and is not 'regular' or 'aprobado'
-				if (
-					condicionRequerida &&
-					condicionRequerida !== "regular" &&
-					condicionRequerida !== "aprobado" &&
-					condicionRequerida !== "requisito"
-				) {
-					return true
-				}
-				return false
-			}
-			// If it's not a 'materia' condition (e.g. credits, average, etc) it is a special condition
-			return true
-		}),
-	)
-
-	const colorHeader = materia.esOptativa ? "secondary" : "primary"
+	let estadoBadge = "Bloqueado";
+	if (isDesbloqueado) estadoBadge = "Desbloqueado";
+	else if (isSoloCursar) estadoBadge = "Solo Cursar";
 
 	return (
-		<Card className="">
-			<CardHeader color={colorHeader}>{materia.nombre}</CardHeader>
-			<CardBody className="flex flex-col gap-2 *:border-b-2 *:pb-2 *:last:pb-0 *:border-background-300 dark:*:border-background-700 *:last:border-b-0">
-				{(materia.esOptativa || materia.orientacion) && (
-					<span className="flex flex-wrap gap-2">
-						{materia.esOptativa && (
-							<Chip color="warning" className="text-xs" onClick={(e) => e.preventDefault()}>
-								Optativa {materia.nroOptativa ? `#${materia.nroOptativa}` : ""}
-							</Chip>
-						)}
-						{materia.orientacion && (
-							<Chip color="secondary" className="text-xs" onClick={(e) => e.preventDefault()}>
-								{materia.orientacion.nombre}
-							</Chip>
-						)}
-					</span>
-				)}
-				<span className="flex flex-wrap gap-2">
-					{disponibilidadMaterias.map((disponibilidad) => {
-						let isSelected = false
-						if (disponibilidad.texto === "Bloqueado") isSelected = isBloqueado
-						if (disponibilidad.texto === "Solo Cursar") isSelected = isSoloCursar
-						if (disponibilidad.texto === "Desbloqueado") isSelected = isDesbloqueado
-
-						return (
-							<Chip
-								key={disponibilidad.texto}
-								color={disponibilidad.color}
-								className="text-xs"
-								iconLeft={disponibilidad.icon}
-								disabled={!session}
-								selected={isSelected}
-								onClick={(e) => e.preventDefault()}
-								title={!session ? "Inicia sesión para ver esta información" : ""}>
-								{disponibilidad.texto}
-							</Chip>
-						)
-					})}
-					{hasSpecialConditions && (
-						<ToolTip tooltip="Esta materia tiene correlativas que no se consideran para el cálculo automático. Ya sea porcentaje o algo más específico">
-							<Chip color="info" selected showSelectedIcon={false} onClick={(e) => e.preventDefault()}>
-								<IconInfoCircle size={20} />
-							</Chip>
-						</ToolTip>
+		<Card className="flex w-full">
+			<CardHeader>
+				<CardTitle>
+					<TypographyLead>{materia.nombre}</TypographyLead>
+				</CardTitle>
+				<CardAction>
+					<BadgeEstado estado={estadoBadge} />
+				</CardAction>
+				<CardDescription className="flex flex-wrap gap-2">
+					{materia.esOptativa && (
+						<Badge variant="secondary" className="font-normal">
+							Optativa{" "}
+							{materia.nroOptativa
+								? `#${materia.nroOptativa}`
+								: ""}
+						</Badge>
 					)}
-				</span>
-
-				{/* Selector de estado */}
-				<span className="flex flex-wrap gap-2">
-					{estados.map((estadoConfig) => {
-						const isSelected = estadoActualTexto === estadoConfig.texto
-
-						return (
-							<Chip
-								key={estadoConfig.texto}
-								color={estadoConfig.color}
-								// Type annotation fixed as per previous lint correct
-								onClick={(e) => {
-									e.preventDefault()
-									e.stopPropagation()
-									if (session) actualizarAvance(materia.idMateriaPlan, estadoConfig.texto)
-								}}
-								selected={isSelected}
-								iconLeft={estadoConfig.icon}
-								canSelected
-								disabled={!session}
-								className={estadoActualTexto === estadoConfig.texto ? "" : "opacity-75"}
-								title={!session ? "Inicia sesión para ver esta información" : ""}>
-								{estadoConfig.texto}
-							</Chip>
+					{materia.orientacion && (
+						<Badge
+							variant="secondary"
+							className="text-muted-foreground font-normal"
+						>
+							{materia.orientacion.nombre}
+						</Badge>
+					)}
+				</CardDescription>
+			</CardHeader>
+			<CardContent className="flex flex-1 flex-col gap-2">
+				<Collapsible
+					open={showCorrelativas}
+					onOpenChange={setShowCorrelativas}
+					disabled={
+						!materia.correlativas ||
+						materia.correlativas.length === 0
+					}
+				>
+					<CollapsibleTrigger className="bg-muted/30 group data-[state=open]:bg-muted/50 focus-visible:ring-ring flex w-full items-center gap-2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 data-disabled:pointer-events-none data-disabled:opacity-50">
+						<IconGitBranch className="text-muted-foreground transition-transform duration-200" />
+						<TypographySmall className="font-medium">
+							{!materia.correlativas ||
+							materia.correlativas.length === 0
+								? "Sin correlativas"
+								: "Ver correlativas"}
+						</TypographySmall>
+						<IconChevronDown className="text-muted-foreground ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
+					</CollapsibleTrigger>
+					<CollapsibleContent className="border-border mt-1 rounded-md px-2 pb-2 data-[state=open]:border">
+						{!materia.correlativas ||
+						materia.correlativas.length === 0 ? (
+							<div className="text-muted-foreground p-4 text-center text-sm">
+								No tiene correlativas
+							</div>
+						) : (
+							<Tabs
+								defaultValue={
+									materia.correlativas.filter(
+										(c) => c.tipo === "cursar",
+									).length > 0
+										? "cursar"
+										: "rendir"
+								}
+								className="mt-2 w-full"
+							>
+								<TabsList className="w-full">
+									<TabsTrigger
+										value="cursar"
+										className="flex-1"
+										disabled={
+											materia.correlativas.filter(
+												(c) => c.tipo === "cursar",
+											).length === 0
+										}
+									>
+										Para Cursar
+									</TabsTrigger>
+									<TabsTrigger
+										value="rendir"
+										className="flex-1"
+										disabled={
+											materia.correlativas.filter(
+												(c) => c.tipo === "rendir",
+											).length === 0
+										}
+									>
+										Para Rendir
+									</TabsTrigger>
+								</TabsList>
+								<TabsContent
+									value="cursar"
+									className="mt-4 flex flex-col gap-2"
+								>
+									{(() => {
+										const cursarGrp =
+											materia.correlativas.find(
+												(c) => c.tipo === "cursar",
+											);
+										if (
+											!cursarGrp ||
+											cursarGrp.condiciones.length === 0
+										) {
+											return (
+												<div className="text-muted-foreground py-2 text-center text-sm">
+													No tiene requisitos para
+													cursar.
+												</div>
+											);
+										}
+										return (
+											<ListadoRequisitos
+												condiciones={
+													cursarGrp.condiciones
+												}
+											/>
+										);
+									})()}
+								</TabsContent>
+								<TabsContent
+									value="rendir"
+									className="mt-4 flex flex-col gap-2"
+								>
+									{(() => {
+										const rendirGrp =
+											materia.correlativas.find(
+												(c) => c.tipo === "rendir",
+											);
+										if (
+											!rendirGrp ||
+											rendirGrp.condiciones.length === 0
+										) {
+											return (
+												<div className="text-muted-foreground py-2 text-center text-sm">
+													No tiene requisitos para
+													rendir.
+												</div>
+											);
+										}
+										return (
+											<ListadoRequisitos
+												condiciones={
+													rendirGrp.condiciones
+												}
+											/>
+										);
+									})()}
+								</TabsContent>
+							</Tabs>
+						)}
+					</CollapsibleContent>
+				</Collapsible>
+				<Separator />
+				<Select
+					value={getEstado(materia.idMateriaPlan) || "Sin cursar"}
+					onValueChange={(value) =>
+						actualizarAvance(
+							materia.idMateriaPlan,
+							value as EstadoMateria,
 						)
-					})}
-				</span>
-			</CardBody>
-			<CardFooter className="flex flex-col gap-2">
-				<section className="w-full flex flex-wrap gap-2">
-					<Button
-						iconRight={<IconArrowRight size={20} />}
-						className="flex-1 w-full"
-						href={`/carreras/${carreraSlug}/${planAnio}/${materia.slug}`}>
+					}
+				>
+					<SelectTrigger>
+						<SelectValue placeholder="Seleccionar" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="Sin cursar">
+							<IconCircleDashed />
+							Sin Cursar
+						</SelectItem>
+						<SelectItem
+							value="Cursando"
+							disabled={!cursarSatisfied}
+						>
+							<IconHourglass />
+							Cursando
+						</SelectItem>
+						<SelectItem value="Regular" disabled={!cursarSatisfied}>
+							<IconCircleDashedCheck />
+							Regular
+						</SelectItem>
+						<SelectItem
+							value="Aprobado"
+							disabled={!rendirSatisfied}
+						>
+							<IconCircleCheck />
+							Aprobado
+						</SelectItem>
+						<SelectItem value="Libre" disabled={!cursarSatisfied}>
+							<IconCircleX />
+							Libre
+						</SelectItem>
+					</SelectContent>
+				</Select>
+			</CardContent>
+			<CardFooter>
+				<Button asChild>
+					<Link
+						to={`/carreras/${carreraSlug}/${planAnio}/${materia.slug}`}
+					>
 						Ver mas
-					</Button>
-					{materia.correlativas && materia.correlativas.length > 0 && (
-						<Button
-							iconRight={showCorrelativas ? <IconChevronUp size={20} /> : <IconChevronDown size={20} />}
-							variant="outlined"
-							color="tertiary"
-							className="flex-1 w-full"
-							onClick={() => setShowCorrelativas(!showCorrelativas)}>
-							{showCorrelativas ? "Ocultar correlativas" : "Ver correlativas"}
-						</Button>
-					)}
-				</section>
-
-				{/* Listado de correlativas */}
-				{showCorrelativas && <CorrelativasList correlativas={materia.correlativas} />}
+						<IconArrowRight />
+					</Link>
+				</Button>
 			</CardFooter>
 		</Card>
-	)
+	);
 }

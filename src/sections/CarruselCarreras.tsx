@@ -1,35 +1,11 @@
-import { useEffect, useState } from "react";
-import supabase from "../utils/supabase";
-import CardCarrera from "../components/CardCarrera";
 import { Link } from "react-router-dom";
+import CardCarrera from "../components/CardCarrera";
 import Cargando from "./Cargando";
-
-interface Carreras {
-	id: number;
-	nombre: string;
-	slug: string;
-	icon: string;
-}
+import { useCarreras } from "../hooks/useCarreras";
+import { Badge } from "@/components/ui/badge";
 
 export default function CarruselCarreras() {
-	const [loading, setLoading] = useState(true);
-	const [carreras, setCarreras] = useState<Carreras[]>([]);
-
-	useEffect(() => {
-		const fetchCarreras = async () => {
-			const { data, error } = await supabase
-				.from("carreras")
-				.select("id,nombre,slug,icon");
-			if (error) {
-				console.error("Error al obtener las carreras:", error);
-				return;
-			}
-			setCarreras(data as Carreras[]);
-			setLoading(false);
-		};
-
-		fetchCarreras();
-	}, []);
+	const { carreras, loading } = useCarreras();
 
 	if (loading) {
 		return <Cargando />;
@@ -37,38 +13,35 @@ export default function CarruselCarreras() {
 
 	return (
 		<section className="container mx-auto flex flex-col items-center gap-3">
-			<span className="texto-label text-primary-400 dark:text-primary-600">
-				Carreras disponibles
-			</span>
-			<Link
-				to="/explorar"
-				onClick={() => {
-					window.scrollTo({
-						top: 0,
-						behavior: "smooth",
-					});
-				}}
-				className="w-full"
-			>
-				<h2 className="texto-headline text-text-800 dark:text-text-200 text-center">
+			<Badge variant="secondary">Carreras disponibles</Badge>
+			<Link to="/carreras" className="w-full">
+				<h2 className="scroll-m-20 text-center text-3xl font-semibold tracking-tight">
 					Todas las carreras de FaCENA
 				</h2>
 				<p className="text-text-600 dark:text-text-400 texto-title text-center text-pretty">
 					Busca tu carrera y deja de perder tiempo buscando la
 					información importante entre tantas resoluciones
 				</p>
-				<section className="relative w-full overflow-hidden py-4">
-					<div className="animate-scroll flex w-max gap-8 hover:[animation-play-state:paused]">
+				<section className="group relative w-full overflow-hidden py-4">
+					<div className="animate-scroll group-hover:paused flex w-max flex-row gap-8">
 						{[...carreras, ...carreras].map(
-							({ nombre, slug, icon }, index) => (
-								<CardCarrera
-									carrera={nombre}
-									slug={slug}
-									icon={icon}
-									key={index}
-									className="w-max *:text-nowrap"
-								/>
-							),
+							({ nombre, slug, icon }, index) => {
+								const nombreCarrera = nombre
+									.replace("Licenciatura", "Lic.")
+									.replace("Profesorado", "Prof.")
+									.replace("Tecnicatura", "Tec.")
+									.replace("Ingeniería", "Ing.");
+
+								return (
+									<CardCarrera
+										carrera={nombreCarrera}
+										slug={slug}
+										icon={icon}
+										key={index}
+										className="w-sm"
+									/>
+								);
+							},
 						)}
 					</div>
 				</section>

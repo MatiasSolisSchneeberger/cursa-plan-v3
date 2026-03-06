@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { cn } from "../utils/cn"; // Asumo que tienes esta utilidad, si no, quitala
+import { cn } from "../lib/utils"; // Asumo que tienes esta utilidad, si no, quitala
 
 export default function ButtonGroup({
 	children,

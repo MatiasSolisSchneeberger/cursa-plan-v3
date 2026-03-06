@@ -15,7 +15,7 @@ import {
 
 export const INTERNAL_LINKS = [
 	{
-		label: "Home",
+		label: "Inicio",
 		href: "/",
 		icon: <IconHome />,
 		category: "main",
@@ -28,7 +28,7 @@ export const INTERNAL_LINKS = [
 	},
 	{
 		label: "Carreras",
-		href: "/explorar",
+		href: "/carreras",
 		icon: <IconBook />,
 		category: "main",
 	},
@@ -39,8 +39,8 @@ export const INTERNAL_LINKS = [
 		category: "secondary",
 	},
 	{
-		label: "Sobre Nosotros",
-		href: "/sobre-nosotros",
+		label: "Acerca de",
+		href: "/acerca",
 		icon: <IconInfoCircleFilled />,
 		category: "secondary",
 	},

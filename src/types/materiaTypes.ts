@@ -24,6 +24,8 @@ export interface MateriaData {
 export interface Carrera {
     slug: string
     nombre: string
+    icon: string
+    id: number
 }
 
 export interface PlanEstudio {
@@ -33,6 +35,8 @@ export interface PlanEstudio {
 
 export interface MateriaDetalle {
     id: number
+    nro_optativa?: number | null
+    orientacion?: { nombre: string; slug: string } | null
     materias: MateriaData
     plan_estudio: PlanEstudio
     correlativas?: CorrelativaRaw[]

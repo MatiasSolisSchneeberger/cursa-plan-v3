@@ -1,4 +1,4 @@
-import {cn} from "../utils/cn"
+import {cn} from "../lib/utils"
 
 export default function Menu({children, className}: {children: React.ReactNode; className?: string}) {
 	return (

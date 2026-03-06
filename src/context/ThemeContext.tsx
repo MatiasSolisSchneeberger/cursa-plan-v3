@@ -1,39 +1,53 @@
-import {useEffect, useState} from "react"
-import {type Theme, ThemeContext} from "./ThemeContextData"
+import { useEffect, useState } from "react";
+import type { Theme } from "./ThemeContextData";
+import { ThemeProviderContext } from "./ThemeContextData";
 
-export function ThemeProvider({children}: {children: React.ReactNode}) {
-	// 1. Inicializamos el estado buscando en localStorage o la preferencia del sistema
-	const [theme, setTheme] = useState<Theme>(() => {
-		// ¿Ya guardó el usuario una preferencia antes?
-		const savedTheme = localStorage.getItem("theme") as Theme | null
-		if (savedTheme) {
-			return savedTheme
-		}
-		// Si no, ¿su sistema operativo está en modo oscuro?
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return "dark"
-		}
-		return "light"
-	})
+type ThemeProviderProps = {
+	children: React.ReactNode;
+	defaultTheme?: Theme;
+	storageKey?: string;
+};
 
-	// 2. Este efecto se ejecuta cada vez que cambia el tema
+export function ThemeProvider({
+	children,
+	defaultTheme = "system",
+	storageKey = "vite-ui-theme",
+	...props
+}: ThemeProviderProps) {
+	const [theme, setTheme] = useState<Theme>(
+		() => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+	);
+
 	useEffect(() => {
-		const root = window.document.documentElement
+		const root = window.document.documentElement;
 
-		// Quitamos ambas clases para evitar conflictos
-		root.classList.remove("light", "dark")
+		root.classList.remove("light", "dark");
 
-		// Agregamos la clase actual al HTML
-		root.classList.add(theme)
+		if (theme === "system") {
+			const systemTheme = window.matchMedia(
+				"(prefers-color-scheme: dark)",
+			).matches
+				? "dark"
+				: "light";
 
-		// Guardamos la preferencia para el futuro
-		localStorage.setItem("theme", theme)
-	}, [theme])
+			root.classList.add(systemTheme);
+			return;
+		}
 
-	// 3. Función para alternar entre modos
-	const toggleTheme = () => {
-		setTheme((prev) => (prev === "dark" ? "light" : "dark"))
-	}
+		root.classList.add(theme);
+	}, [theme]);
 
-	return <ThemeContext.Provider value={{theme, toggleTheme}}>{children}</ThemeContext.Provider>
+	const value = {
+		theme,
+		setTheme: (theme: Theme) => {
+			localStorage.setItem(storageKey, theme);
+			setTheme(theme);
+		},
+	};
+
+	return (
+		<ThemeProviderContext.Provider {...props} value={value}>
+			{children}
+		</ThemeProviderContext.Provider>
+	);
 }

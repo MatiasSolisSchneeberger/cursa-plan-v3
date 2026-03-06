@@ -1,34 +1,86 @@
-// src/pages/Materia.tsx
-import {useParams} from "react-router-dom"
-import {IconCheck, IconChevronDown} from "@tabler/icons-react"
+import { Link, useParams } from "react-router-dom";
+import {
+	IconHome,
+	IconCircleCheck,
+	IconCircleDashed,
+	IconCircleDashedCheck,
+	IconHourglass,
+	IconCircleX,
+	IconLock,
+	IconLockOpen,
+} from "@tabler/icons-react";
 
-import {estados, disponibilidadMaterias} from "../utils/materiaConstants"
-import Cargando from "../sections/Cargando"
-import ButtonGroup from "../components/ButtonGroup"
-import {Tabs, TabsTrigger, TabsContent} from "../components/Tabs"
-import Chip from "../components/Chip"
-import Dropdown from "../components/Dropdown"
-import DropdownTrigger from "../components/DropdownTrigger"
-import DropdownContent from "../components/DropdownContent"
-import MenuItem from "../components/MenuItem"
-import Menu from "../components/Menu"
-import MenuGroup from "../components/MenuGroup"
-import PageHeader from "../components/PageHeader"
+import Cargando from "../sections/Cargando";
 
-import {InfoTab} from "../sections/materia/InfoTab"
-import {CalendarioTab} from "../sections/materia/CalendarioTab"
-import {IconCalendar, IconFile, IconInfoCircle} from "@tabler/icons-react"
+import { useSimulador } from "../context/SimuladorContextData";
+import { getMateriaAvailability } from "../scripts/materiaUtils";
+import { useMateriaData } from "../hooks/useMateriaData";
+import { usePageTitle } from "../hooks/usePageTitle";
+import type { EstadoMateria } from "@/types/materiaTypes";
 
-import {useSimulador} from "../context/SimuladorContextData"
-import {useAuth} from "../context/AuthContextData"
-import {getMateriaAvailability} from "../scripts/materiaUtils"
-import {useMateriaData} from "../hooks/useMateriaData"
-import Button from "../components/Button"
-import Practicos from "../sections/materia/Parciales/Practicos"
-import Teoricos from "../sections/materia/Parciales/Teoricos"
-import Libres from "../sections/materia/Parciales/Libres"
-import Finales from "../sections/materia/Parciales/Finales"
-import {usePageTitle} from "../hooks/usePageTitle"
+// UI Components
+import { TypographyH1 } from "@/components/ui/Typography";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { badgeVariants, Badge } from "@/components/ui/badge";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+function BadgeEstado({ estado }: { estado: string }) {
+	switch (estado) {
+		case "Desbloqueado":
+			return (
+				<Badge
+					variant="outline"
+					className="text-green-600 select-none dark:text-green-400"
+				>
+					<IconCircleCheck className="mr-1 size-4" />
+					Disponible
+				</Badge>
+			);
+		case "Bloqueado":
+			return (
+				<Badge
+					variant="outline"
+					className="text-red-600 select-none dark:text-red-400"
+				>
+					<IconLock className="mr-1 size-4" />
+					No disponible
+				</Badge>
+			);
+		case "Solo Cursar":
+			return (
+				<Badge
+					variant="outline"
+					className="text-yellow-600 select-none dark:text-yellow-400"
+				>
+					<IconLockOpen className="mr-1 size-4" />
+					Solo Cursar
+				</Badge>
+			);
+		default:
+			return null;
+	}
+}
 
 /**
  * Componente principal de la página de detalle de una Materia.
@@ -37,192 +89,194 @@ import {usePageTitle} from "../hooks/usePageTitle"
  */
 export default function Materia() {
 	// Obtenemos los parámetros de la URL: slug de la materia, plan y carrera.
-	const {materiaSlug, planSlug, carreraSlug} = useParams()
+	const { materiaSlug, planSlug, carreraSlug } = useParams();
 
 	// Hook personalizado para obtener los datos de la materia desde Supabase.
-	const {materia, loading, correlativasFormat} = useMateriaData(materiaSlug, planSlug, carreraSlug)
+	const { materia, loading, correlativasFormat } = useMateriaData(
+		materiaSlug,
+		planSlug,
+		carreraSlug,
+	);
 
 	// Cambiando de nombre la página
-	usePageTitle(loading ? "cargando..." : `${materia?.materias?.nombre}`, true)
-
-	// Contexto de autenticación para saber si el usuario está logueado.
-	const {session} = useAuth()
+	usePageTitle(
+		loading ? "cargando..." : `${materia?.materias?.nombre}`,
+		true,
+	);
 
 	// Contexto del simulador para obtener y actualizar el estado de la materia en el plan del usuario.
-	const {getEstado, actualizarAvance} = useSimulador()
+	const { getEstado, actualizarAvance } = useSimulador();
 
 	// Si está cargando o no hay materia, mostramos el spinner.
-	if (!materia || loading) return <Cargando />
+	if (!materia || loading) return <Cargando />;
 
 	// --- LÓGICA DE DISPONIBILIDAD ---
-	const estadoActualTexto = getEstado(materia.id)
-	const {isSoloCursar, isDesbloqueado} = getMateriaAvailability(correlativasFormat, getEstado)
+	const { cursarSatisfied, rendirSatisfied, isSoloCursar, isDesbloqueado } =
+		getMateriaAvailability(correlativasFormat, getEstado);
 
-	let disponibilidadActual = disponibilidadMaterias.find((d) => d.texto === "Bloqueado")
-	if (isSoloCursar) disponibilidadActual = disponibilidadMaterias.find((d) => d.texto === "Solo Cursar")
-	if (isDesbloqueado) disponibilidadActual = disponibilidadMaterias.find((d) => d.texto === "Desbloqueado")
-
-	const estadoConfig = estados.find((e) => e.texto === estadoActualTexto) || estados[0]
-	const materiaCompleta = {...materia, correlativas: correlativasFormat}
-
-	// --- CONFIGURACIÓN DE TABS ---
-	const tabsConfig = [
-		{
-			id: "info",
-			label: "Información",
-			mobileLabel: "Info.",
-			icon: <IconInfoCircle />,
-			content: <InfoTab materiaData={materiaCompleta} />,
-			default: true,
-		},
-		{
-			id: "parciales",
-			label: "Parciales",
-			icon: <IconFile />,
-			iconRight: <IconChevronDown />,
-			children: [
-				{
-					id: "parciales",
-					label: "Parciales",
-					content: <Practicos />,
-					default: true,
-				},
-				{
-					id: "teoricos",
-					label: "Teoricos",
-					content: <Teoricos />,
-				},
-				{
-					id: "libres",
-					label: "Libres",
-					content: <Libres />,
-				},
-				{
-					id: "finales",
-					label: "Finales",
-					content: <Finales />,
-				},
-			],
-		},
-		{
-			id: "fechas",
-			label: "Fechas",
-			icon: <IconCalendar />,
-			content: (
-				<CalendarioTab
-					fechas={
-						Array.isArray(materia.materias.fechas_examenes) ? materia.materias.fechas_examenes
-						: materia.materias.fechas_examenes ?
-							[materia.materias.fechas_examenes]
-						:	[]
-					}
-					materiaNombre={materia.materias.nombre}
-				/>
-			),
-		},
-	]
+	let estadoBadge = "Bloqueado";
+	if (isDesbloqueado) estadoBadge = "Desbloqueado";
+	else if (isSoloCursar) estadoBadge = "Solo Cursar";
 
 	return (
-		<section className="flex flex-col gap-3">
-			{/* HEADER DE LA PÁGINA */}
-			<PageHeader
-				title={
-					<>
-						<h1 className="texto-title block md:hidden text-primary-600 dark:text-primary-400 w-full text-start">
+		<section className="flex w-full flex-col gap-6 pb-10">
+			<Breadcrumb>
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbLink
+							asChild
+							className={badgeVariants({ variant: "outline" })}
+						>
+							<Link to="/">
+								<IconHome className="size-4" />
+							</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link to="/carreras">Carreras</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link to={`/carreras/${carreraSlug}`}>
+								{materia.plan_estudio.carreras.nombre}
+							</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link to={`/carreras/${carreraSlug}/${planSlug}`}>
+								{materia.plan_estudio.anio_inicio}
+							</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+
+					<BreadcrumbItem>
+						<BreadcrumbPage>
 							{materia.materias.nombre}
-						</h1>
-						<h1 className="texto-headline hidden md:block text-primary-600 dark:text-primary-400 w-full text-start">
-							{materia.materias.nombre}
-						</h1>
-					</>
-				}
-				backUrl={`/carreras/${carreraSlug}?plan=${planSlug}`}>
-				{disponibilidadActual && (
-					<Chip
-						color={disponibilidadActual.color}
-						iconLeft={disponibilidadActual.icon}
-						title={!session ? "Inicia sesión para ver tu disponibilidad" : "Disponibilidad para cursar/rendir"}
-						disabled={!session}>
-						{disponibilidadActual.texto}
-					</Chip>
-				)}
+						</BreadcrumbPage>
+					</BreadcrumbItem>
+				</BreadcrumbList>
+			</Breadcrumb>
 
-				<Dropdown>
-					<DropdownTrigger>
-						<Button
-							variant="flat"
-							color={estadoConfig.color}
-							iconRight={<IconChevronDown size={18} />}
-							className="cursor-pointer"
-							title={!session ? "Inicia sesión para cambiar tu estado" : "Cambiar estado"}
-							disabled={!session}>
-							{estadoConfig.texto}
-						</Button>
-					</DropdownTrigger>
-					<DropdownContent>
-						<Menu>
-							<MenuGroup title="Estado actual">
-								{estados.map((est) => (
-									<MenuItem
-										canHover
-										key={est.texto}
-										onClick={() => actualizarAvance(materia.id, est.texto)}
-										iconLeft={est.icon}
-										iconRight={
-											estadoActualTexto === est.texto ?
-												<IconCheck className="text-success-600 dark:text-success-400" />
-											:	undefined
-										}
-										isActive={estadoActualTexto === est.texto}>
-										{est.texto}
-									</MenuItem>
-								))}
-							</MenuGroup>
-						</Menu>
-					</DropdownContent>
-				</Dropdown>
-			</PageHeader>
+			{/* CONTENIDO PRINCIPAL Y ACCIONES */}
+			<div className="mt-2 flex flex-col gap-6 md:flex-row">
+				{/* Info de la Materia */}
+				<div className="flex-1 space-y-4">
+					<TypographyH1>{materia.materias.nombre}</TypographyH1>
+					<div className="flex flex-wrap items-center gap-2">
+						<BadgeEstado estado={estadoBadge} />
+						{!!materia.nro_optativa && (
+							<Badge variant="secondary" className="font-normal">
+								Optativa{" "}
+								{materia.nro_optativa
+									? `#${materia.nro_optativa}`
+									: ""}
+							</Badge>
+						)}
+						{materia.orientacion && (
+							<Badge
+								variant="secondary"
+								className="text-muted-foreground font-normal"
+							>
+								{materia.orientacion.nombre}
+							</Badge>
+						)}
+					</div>
+				</div>
 
-			{/* CONTENIDO PRINCIPAL: Sistema de Pestañas con Configuración */}
-			<Tabs defaultValue={tabsConfig.find((t: any) => t.default)?.id || tabsConfig[0].id}>
-				<ButtonGroup>
-					{tabsConfig.map((tab) => (
-						<TabsTrigger key={tab.id} value={tab.id} iconLeft={tab.icon} iconRight={tab.iconRight}>
-							{tab.mobileLabel ?
-								<>
-									<span className="hidden md:block">{tab.label}</span>
-									<span className="md:hidden">{tab.mobileLabel}</span>
-								</>
-							:	tab.label}
-						</TabsTrigger>
-					))}
-				</ButtonGroup>
+				{/* Card para cambiar estado */}
+				<Card className="h-fit w-full md:w-80">
+					<CardHeader className="pb-4">
+						<CardTitle className="text-lg">Mi Estado</CardTitle>
+						<CardDescription>
+							Actualiza tu progreso en esta materia.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Select
+							value={getEstado(materia.id) || "Sin cursar"}
+							onValueChange={(value) =>
+								actualizarAvance(
+									materia.id,
+									value as EstadoMateria,
+								)
+							}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Seleccionar estado" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="Sin cursar">
+									<IconCircleDashed className="size-4" /> Sin
+									Cursar
+								</SelectItem>
+								<SelectItem
+									value="Cursando"
+									disabled={!cursarSatisfied}
+								>
+									<IconHourglass className="size-4" />
+									Cursando
+								</SelectItem>
+								<SelectItem
+									value="Regular"
+									disabled={!cursarSatisfied}
+								>
+									<IconCircleDashedCheck className="size-4" />
+									Regular
+								</SelectItem>
+								<SelectItem
+									value="Aprobado"
+									disabled={!rendirSatisfied}
+								>
+									<IconCircleCheck className="size-4" />
+									Aprobado
+								</SelectItem>
+								<SelectItem
+									value="Libre"
+									disabled={!cursarSatisfied}
+								>
+									<IconCircleX className="size-4" /> Libre
+								</SelectItem>
+							</SelectContent>
+						</Select>
+					</CardContent>
+				</Card>
+			</div>
 
-				{tabsConfig.map((tab) => (
-					<TabsContent key={tab.id} value={tab.id}>
-						{
-							tab.children ?
-								// Si tiene hijos, renderizamos otro sistema de Tabs anidado
-								<Tabs defaultValue={tab.children.find((c: any) => c.default)?.id || tab.children[0].id}>
-									<ButtonGroup>
-										{tab.children.map((child) => (
-											<TabsTrigger variants={["solid", "outlined"]} key={child.id} value={child.id} color="secondary">
-												{child.label}
-											</TabsTrigger>
-										))}
-									</ButtonGroup>
-									{tab.children.map((child) => (
-										<TabsContent key={child.id} value={child.id}>
-											{child.content}
-										</TabsContent>
-									))}
-								</Tabs>
-								// Si no tiene hijos, renderizamos el contenido directamente
-							:	tab.content
-						}
+			{/* SECCIÓN DE TABS PRÓXIMAMENTE */}
+			<div className="mt-4">
+				<Tabs defaultValue="tab1" className="w-full">
+					<TabsList>
+						<TabsTrigger value="tab1">Pestaña 1</TabsTrigger>
+						<TabsTrigger value="tab2">Pestaña 2</TabsTrigger>
+						<TabsTrigger value="tab3">Pestaña 3</TabsTrigger>
+					</TabsList>
+					<TabsContent
+						value="tab1"
+						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
+					>
+						Contenido de la Pestaña 1
 					</TabsContent>
-				))}
-			</Tabs>
+					<TabsContent
+						value="tab2"
+						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
+					>
+						Contenido de la Pestaña 2
+					</TabsContent>
+					<TabsContent
+						value="tab3"
+						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
+					>
+						Contenido de la Pestaña 3
+					</TabsContent>
+				</Tabs>
+			</div>
 		</section>
-	)
+	);
 }

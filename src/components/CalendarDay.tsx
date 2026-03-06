@@ -1,4 +1,4 @@
-import {cn} from "../utils/cn"
+import {cn} from "../lib/utils"
 
 export type CalendarColor = "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info" | "default"
 

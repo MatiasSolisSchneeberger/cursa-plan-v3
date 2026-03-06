@@ -2,7 +2,7 @@ import {useDropdown} from "./Dropdown"
 import {FloatingPortal} from "@floating-ui/react"
 import {AnimatePresence, motion} from "framer-motion"
 import {useParams} from "react-router-dom"
-import {cn} from "../utils/cn"
+import {cn} from "../lib/utils"
 
 export default function DropdownContent({children}: {children: React.ReactNode}) {
 	const {open, x, y, strategy, refs, getFloatingProps} = useDropdown()

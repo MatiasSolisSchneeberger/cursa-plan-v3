@@ -1,26 +1,54 @@
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-	IconMenu2,
 	IconUser,
 	IconLogout,
 	IconSettings,
 	IconUsers,
+	IconBook,
+	IconHome,
+	IconMenu2,
+	IconSparkles,
+	IconInfoCircleFilled,
+	IconQuestionMark,
+	IconFile,
+	IconFilePencil,
+	IconLogin,
+	IconUserPlus,
+	IconCalendar,
+	IconUserSquare,
+	IconLoader2,
+	IconBug,
 } from "@tabler/icons-react";
 
 import { useAuth } from "../context/AuthContextData";
-import Button from "../components/Button";
-import Menu from "../components/Menu";
-import MenuItem from "../components/MenuItem";
-import MenuGroup from "../components/MenuGroup";
-import Avatar from "../components/Avatar";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ButtonTheme from "../components/ButtonTheme";
 
 // Importamos tus componentes de Dropdown
-import Dropdown from "../components/Dropdown";
-import DropdownTrigger from "../components/DropdownTrigger";
-import DropdownContent from "../components/DropdownContent";
 import LogoPage from "../components/LogoPage";
-import { INTERNAL_LINKS } from "../utils/links";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+	NavigationMenu,
+	NavigationMenuContent,
+	NavigationMenuItem,
+	NavigationMenuLink,
+	NavigationMenuList,
+	NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { useCarreras } from "../hooks/useCarreras";
+import IconCarrera from "@/components/IconCarrera";
+import type { Carrera } from "@/types/materiaTypes";
+import { Avatar, AvatarLetter, AvatarIcon } from "@/components/ui/avatar";
+import IconAvatar from "@/components/IconAvatar";
+import { Separator } from "@/components/ui/separator";
 
 type User = {
 	id: string;
@@ -30,93 +58,256 @@ type User = {
 	icon?: string;
 };
 
-function AvatarMenu({
-	user,
-	avatarColor,
-	signOut,
-	pathname,
-}: {
-	user: User;
-	avatarColor:
-		| "primary"
-		| "secondary"
-		| "tertiary"
-		| "success"
-		| "danger"
-		| "warning"
-		| "info"
-		| "background";
-	signOut: () => void;
-	pathname: string;
-}) {
+const LINKS = [
+	{
+		label: "Novedades",
+		href: "/novedades",
+		icon: <IconSparkles />,
+		category: "secondary",
+	},
+	{
+		label: "Acerca de",
+		href: "/acerca",
+		icon: <IconInfoCircleFilled />,
+		category: "secondary",
+	},
+	{
+		label: "Preguntas Frecuentes",
+		href: "/preguntas-frecuentes",
+		icon: <IconQuestionMark />,
+		category: "secondary",
+	},
+	{
+		label: "Contacto",
+		href: "/contacto",
+		icon: <IconUsers />,
+		category: "secondary",
+	},
+	{
+		label: "Términos y Condiciones",
+		href: "/terminos-y-condiciones",
+		icon: <IconFile />,
+		category: "legal",
+	},
+	{
+		label: "Política de Privacidad",
+		href: "/politica-de-privacidad",
+		icon: <IconFilePencil />,
+		category: "legal",
+	},
+];
+
+function AvatarUser({ user, signOut }: { user: User; signOut: () => void }) {
+	const { role, username, icon } = user;
 	return (
-		<Dropdown key={`user-${pathname}`} placement="bottom-end">
-			<DropdownTrigger>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
 				<Avatar
-					color={avatarColor}
-					name={user.full_name}
-					icon={user.icon}
-				/>
-			</DropdownTrigger>
-			<DropdownContent>
-				<Menu>
-					<MenuGroup>
-						<MenuItem
-							avatar={
-								<Avatar
-									color={avatarColor}
-									name={user.full_name}
-									icon={user.icon}
-								/>
-							}
-							textHelp={`@${user.username}`}
-							className="pb-2 select-none"
-						>
-							{user.full_name}
-						</MenuItem>
-					</MenuGroup>
-					<MenuGroup title="Mi Cuenta">
-						<MenuItem
-							href="/perfil"
-							iconLeft={<IconUser size={20} />}
-						>
-							Mi Perfil
-						</MenuItem>
-						<MenuItem
-							href="/config"
-							iconLeft={<IconSettings size={20} />}
-						>
-							Configuración
-						</MenuItem>
-					</MenuGroup>
-					{user.role === "admin" && (
-						<MenuGroup title="Administrador">
-							<MenuItem
-								href="/admin"
-								iconLeft={<IconUsers size={20} />}
-							>
-								Admin
-							</MenuItem>
-						</MenuGroup>
+					size="lg"
+					className={
+						role === "admin" ? "border-primary border-2" : ""
+					}
+				>
+					{icon ? (
+						<AvatarIcon>
+							<IconAvatar icon={icon} className="size-5" />
+						</AvatarIcon>
+					) : (
+						<AvatarLetter>
+							{username.charAt(0).toUpperCase()}
+						</AvatarLetter>
 					)}
-					<MenuGroup>
-						<MenuItem
-							onClick={signOut}
-							iconLeft={<IconLogout size={20} />}
-							className="text-danger-600 hover:bg-danger-50 dark:text-danger-400 dark:hover:bg-danger-900/20"
+				</Avatar>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				<DropdownMenuGroup>
+					<DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+					<DropdownMenuItem asChild>
+						<Link
+							to="/perfil"
+							className="flex flex-row items-center gap-2"
 						>
+							<IconUser />
+							Perfil
+						</Link>
+					</DropdownMenuItem>
+					{role === "admin" && (
+						<DropdownMenuItem asChild>
+							<Link
+								to="/admin"
+								className="flex flex-row items-center gap-2"
+							>
+								<IconUserSquare />
+								Administrador
+							</Link>
+						</DropdownMenuItem>
+					)}
+				</DropdownMenuGroup>
+				<DropdownMenuSeparator />
+				<DropdownMenuGroup>
+					<DropdownMenuItem asChild>
+						<Link
+							to="/config"
+							className="flex flex-row items-center gap-2"
+						>
+							<IconSettings />
+							Configuración
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuGroup>
+				<DropdownMenuSeparator />
+				<DropdownMenuGroup>
+					<DropdownMenuItem variant="destructive" asChild>
+						<span
+							onClick={signOut}
+							className="flex flex-row items-center gap-2"
+						>
+							<IconLogout />
 							Cerrar Sesión
-						</MenuItem>
-					</MenuGroup>
-				</Menu>
-			</DropdownContent>
-		</Dropdown>
+						</span>
+					</DropdownMenuItem>
+				</DropdownMenuGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+}
+
+function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
+	return (
+		<NavigationMenu className="hidden md:flex" delayDuration={1000}>
+			<NavigationMenuList>
+				<NavigationMenuItem>
+					<NavigationMenuLink
+						asChild
+						className={buttonVariants({ variant: "outline" })}
+					>
+						<Link
+							to="/"
+							className="flex flex-row items-center gap-2"
+						>
+							<IconHome className="size-5" />
+							Inicio
+						</Link>
+					</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger
+						className={buttonVariants({ variant: "outline" })}
+					>
+						<Link
+							to="/carreras"
+							className="flex flex-row items-center gap-2"
+						>
+							<IconBook className="size-5" />
+							Carreras
+						</Link>
+					</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+							{loading ? (
+								<li>
+									<NavigationMenuLink asChild>
+										<Link to="/carreras">
+											<IconBook />
+											Cargando...
+										</Link>
+									</NavigationMenuLink>
+								</li>
+							) : (
+								carreras.map(({ icon, id, nombre, slug }) => (
+									<NavigationMenuLink asChild key={id}>
+										<Link
+											to={`/carreras/${slug}`}
+											className="flex flex-row items-center gap-2"
+										>
+											<IconCarrera
+												icon={icon}
+												className="min-h-5 min-w-5"
+											/>
+											{nombre}
+										</Link>
+									</NavigationMenuLink>
+								))
+							)}
+						</ul>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink
+						asChild
+						className={buttonVariants({ variant: "outline" })}
+					>
+						<Link
+							to="/calendario"
+							className="flex flex-row items-center gap-2"
+						>
+							<IconCalendar className="size-5" />
+							Calendario
+						</Link>
+					</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger
+						className={buttonVariants({ variant: "outline" })}
+					>
+						<IconMenu2 className="size-5" />
+						Mas
+					</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<div className="flex w-[400px] gap-2 md:w-[500px] lg:w-[600px]">
+							<ul className="w-full">
+								{LINKS.filter(
+									({ category }) => category === "secondary",
+								).map(({ label, href, icon }) => (
+									<NavigationMenuLink asChild>
+										<Link
+											to={href}
+											className="flex flex-row items-center gap-2"
+										>
+											{icon}
+											{label}
+										</Link>
+									</NavigationMenuLink>
+								))}
+							</ul>
+							<Separator orientation="vertical" />
+							<div className="w-full space-y-2">
+								<ul>
+									{LINKS.filter(
+										({ category }) => category === "legal",
+									).map(({ label, href, icon }) => (
+										<NavigationMenuLink asChild>
+											<Link
+												to={href}
+												className="flex flex-row items-center gap-2"
+											>
+												{icon}
+												{label}
+											</Link>
+										</NavigationMenuLink>
+									))}
+								</ul>
+								<Separator />
+								<NavigationMenuLink asChild>
+									<Link
+										to="/contacto?etiqueta=error"
+										className="flex flex-row items-center gap-2"
+									>
+										<IconBug />
+										Reportar error
+									</Link>
+								</NavigationMenuLink>
+							</div>
+						</div>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+		</NavigationMenu>
 	);
 }
 
 export default function NavHeader() {
-	const { pathname } = useLocation();
-	const { session, signOut, userProfile } = useAuth();
+	const { signOut, userProfile, loading: loadingAuth } = useAuth();
 
 	// data for user is now in userProfile from context
 	const user: User | null = userProfile
@@ -129,186 +320,129 @@ export default function NavHeader() {
 			}
 		: null;
 
-	// Links principales (siempre visibles en desktop)
-	const mainLinks = INTERNAL_LINKS.filter((l) => l.category === "main");
-
-	// Links secundarios (agrupados en "Más")
-	const secondaryLinks = INTERNAL_LINKS.filter(
-		(l) => l.category === "secondary",
-	);
-	const legalLinks = INTERNAL_LINKS.filter((l) => l.category === "legal");
-
-	const avatarColor = user?.role === "admin" ? "warning" : "primary";
+	// Carreras
+	const { carreras, loading } = useCarreras();
 
 	return (
 		<header className="sticky top-0 z-40 mt-2 w-full py-2">
-			<section className="bg-background-50/50 dark:bg-background-900/50 outline-background-300 dark:outline-background-700 flex flex-row gap-4 rounded-3xl p-3 shadow-lg outline-2 backdrop-blur-md transition-colors duration-300">
+			<section className="bg-card border-border flex flex-row gap-4 rounded-3xl border p-3 shadow-lg backdrop-blur-md transition-colors duration-300">
 				{/* IZQUIERDA: Logo + Navegación */}
 				<article className="flex flex-1 gap-6">
 					<LogoPage />
 
 					{/* Menú Desktop */}
-					<nav className="hidden items-center gap-2 md:flex">
-						{mainLinks.map((link) => (
-							<Button
-								key={link.href}
-								variant="outlined"
-								color={
-									pathname === link.href
-										? "primary"
-										: "secondary"
-								}
-								href={link.href}
-								iconLeft={link.icon}
-							>
-								{link.label}
-							</Button>
-						))}
-
-						{/* --- DROPDOWN "MÁS" (DESKTOP) --- */}
-						{/* Usamos key={pathname} para que se cierre al navegar */}
-						<Dropdown key={`more-desktop-${pathname}`}>
-							<DropdownTrigger>
-								<Button
-									variant="text"
-									color="secondary"
-									iconRight={<IconMenu2 size={20} />}
-								>
-									Más
-								</Button>
-							</DropdownTrigger>
-							<DropdownContent>
-								<Menu>
-									<MenuGroup title="Información">
-										{secondaryLinks.map((link) => (
-											<MenuItem
-												key={link.href}
-												href={link.href}
-												iconLeft={link.icon}
-												isActive={
-													pathname === link.href
-												}
-											>
-												{link.label}
-											</MenuItem>
-										))}
-									</MenuGroup>
-									<MenuGroup title="Legal">
-										{legalLinks.map((link) => (
-											<MenuItem
-												key={link.href}
-												href={link.href}
-												iconLeft={link.icon}
-												isActive={
-													pathname === link.href
-												}
-											>
-												{link.label}
-											</MenuItem>
-										))}
-									</MenuGroup>
-								</Menu>
-							</DropdownContent>
-						</Dropdown>
-					</nav>
+					<Nav carreras={carreras} loading={loading} />
 				</article>
 
 				{/* DERECHA: Acciones */}
-				<div className="flex items-center gap-3">
-					<ButtonTheme />
-
-					<div className="bg-background-300 dark:bg-background-700 mx-1 h-4/5 w-0.5" />
-
-					{user ? (
-						/* --- DROPDOWN USUARIO --- */
-						<AvatarMenu
-							user={user}
-							avatarColor={avatarColor}
-							signOut={signOut}
-							pathname={pathname}
-						/>
+				<article className="*:border-border flex items-center gap-2 *:border-l-2 *:pl-2 *:first:border-0 *:first:pl-0">
+					<div>
+						<ButtonTheme />
+					</div>
+					{loadingAuth ? (
+						<div>
+							<IconLoader2 className="animate-spin" />
+						</div>
+					) : user ? (
+						<div>
+							<AvatarUser signOut={signOut} user={user} />
+						</div>
 					) : (
-						<div className="hidden gap-2 md:flex">
-							<Button href="/login" variant="flat">
-								Ingresar
+						<div className="flex flex-row gap-2">
+							<Button asChild variant="secondary">
+								<Link to="/login">
+									<IconLogin />
+									Iniciar Sesión
+								</Link>
 							</Button>
-							<Button href="/register" variant="solid">
-								Registrarse
+							<Button asChild variant="default">
+								<Link to="/register">
+									<IconUserPlus />
+									Registrarte
+								</Link>
 							</Button>
 						</div>
 					)}
 
 					{/* --- DROPDOWN MÓVIL (HAMBURGUESA) --- */}
-					<div className="ml-1 md:hidden">
-						<Dropdown
-							key={`mobile-${pathname}`}
-							placement="bottom-end"
-						>
-							<DropdownTrigger>
-								<Button
-									isIconOnly
-									variant="text"
-									color="secondary"
-								>
+					<div className="md:hidden">
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="secondary" size="icon">
 									<IconMenu2 />
 								</Button>
-							</DropdownTrigger>
-							<DropdownContent>
-								<Menu className="w-64">
-									{/* Ancho fijo para menú móvil */}
-									<MenuGroup title="Navegación">
-										{mainLinks.map((link) => (
-											<MenuItem
-												key={link.href}
-												href={link.href}
-												iconLeft={link.icon}
-												isActive={
-													pathname === link.href
-												}
-											>
-												{link.label}
-											</MenuItem>
-										))}
-									</MenuGroup>
-									<MenuGroup title="Información">
-										{secondaryLinks.map((link) => (
-											<MenuItem
-												key={link.href}
-												href={link.href}
-												iconLeft={link.icon}
-												isActive={
-													pathname === link.href
-												}
-											>
-												{link.label}
-											</MenuItem>
-										))}
-									</MenuGroup>
-									{!session && (
-										<MenuGroup title="Acceso">
-											<MenuItem
-												href="/login"
-												iconLeft={
-													<IconUser size={20} />
-												}
-											>
-												Ingresar
-											</MenuItem>
-											<MenuItem
-												href="/register"
-												iconLeft={
-													<IconUser size={20} />
-												}
-											>
-												Registrarse
-											</MenuItem>
-										</MenuGroup>
-									)}
-								</Menu>
-							</DropdownContent>
-						</Dropdown>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent className="w-40" align="end">
+								<DropdownMenuGroup>
+									<DropdownMenuItem asChild>
+										<Link
+											to="/"
+											className="flex flex-row items-center gap-2"
+										>
+											<IconHome />
+											Inicio
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuItem asChild>
+										<Link
+											to="/carreras"
+											className="flex flex-row items-center gap-2"
+										>
+											<IconBook />
+											Carreras
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuItem asChild>
+										<Link
+											to="/calendario"
+											className="flex flex-row items-center gap-2"
+										>
+											<IconCalendar />
+											Calendario
+										</Link>
+									</DropdownMenuItem>
+								</DropdownMenuGroup>
+								{!user && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuGroup>
+											<DropdownMenuItem asChild>
+												<Link
+													to="/login"
+													className="flex flex-row items-center gap-2"
+												>
+													<IconLogin />
+													Iniciar Sesión
+												</Link>
+											</DropdownMenuItem>
+											<DropdownMenuItem asChild>
+												<Link
+													to="/register"
+													className="flex flex-row items-center gap-2"
+												>
+													<IconUserPlus />
+													Registrarte
+												</Link>
+											</DropdownMenuItem>
+										</DropdownMenuGroup>
+									</>
+								)}
+								<DropdownMenuSeparator />
+								<DropdownMenuGroup>
+									<DropdownMenuItem asChild>
+										<Link
+											to="/contacto?etiqueta=error"
+											className="flex flex-row items-center gap-2"
+										>
+											<IconBug />
+											Reportar error
+										</Link>
+									</DropdownMenuItem>
+								</DropdownMenuGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</div>
-				</div>
+				</article>
 			</section>
 		</header>
 	);

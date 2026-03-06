@@ -46,6 +46,8 @@ export const useMateriaData = (
                     .select(
                         `
 						id,
+						nro_optativa,
+						tipos_orientaciones(nombre, slug),
 						materias!inner(nombre, slug, fechas_examenes(fecha)),
 						plan_estudio!inner(
 							anio_inicio,

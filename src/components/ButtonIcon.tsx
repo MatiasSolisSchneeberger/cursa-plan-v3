@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import {cn} from "../utils/cn"
+import {cn} from "../lib/utils"
 
 interface ButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "solid" | "flat" | "outlined" | "text"

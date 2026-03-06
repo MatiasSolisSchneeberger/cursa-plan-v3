@@ -1,18 +1,25 @@
-import {IconLoader2} from "@tabler/icons-react"
-import {Link} from "react-router-dom"
-import {cn} from "../utils/cn"
+import { IconLoader2 } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	variant?: "solid" | "flat" | "outlined" | "text"
-	color?: "primary" | "secondary" | "tertiary" | "success" | "danger" | "warning" | "info"
-	href?: string
-	iconLeft?: React.ReactNode
-	iconRight?: React.ReactNode
-	isLoading?: boolean
-	isIconOnly?: boolean
-	size?: "sm" | "md" | "lg"
-	onClick?: () => void
-	target?: string
+	variant?: "solid" | "flat" | "outlined" | "text";
+	color?:
+		| "primary"
+		| "secondary"
+		| "tertiary"
+		| "success"
+		| "danger"
+		| "warning"
+		| "info";
+	href?: string;
+	iconLeft?: React.ReactNode;
+	iconRight?: React.ReactNode;
+	isLoading?: boolean;
+	isIconOnly?: boolean;
+	size?: "sm" | "md" | "lg";
+	onClick?: () => void;
+	target?: string;
 }
 
 /**
@@ -48,7 +55,7 @@ export default function Button({
 		sm: cn("h-8", isIconOnly && "size-8"),
 		md: cn("h-10", isIconOnly && "size-10"),
 		lg: cn("h-12", isIconOnly && "size-12"),
-	}
+	};
 
 	const colorStyles = {
 		primary: {
@@ -100,10 +107,10 @@ export default function Button({
 				"text-info-600 border-2 border-info-600 dark:text-info-400 dark:border-info-400 not-disabled:hover:bg-info-100 not-disabled:dark:hover:bg-info-800",
 			text: "text-info-600 not-disabled:hover:text-info-700 not-disabled:hover:bg-info-100 dark:text-info-400 not-disabled:dark:hover:text-info-300 not-disabled:dark:hover:bg-info-900",
 		},
-	}
+	};
 
-	const styleClasses = () => colorStyles[color]?.[variant] || ""
-	const sizeClasses = () => sizeStyles[size] || ""
+	const styleClasses = () => colorStyles[color]?.[variant] || "";
+	const sizeClasses = () => sizeStyles[size] || "";
 
 	const buttonClasses = cn(
 		"texto-label relative transition-all flex flex-row items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-text-700 dark:focus-visible:outline-text-300 focus-visible:outline-offset-2 not-disabled:active:scale-95 ease-in-out not-disabled:hover:shadow-sm",
@@ -113,7 +120,7 @@ export default function Button({
 		disabled && "opacity-50 cursor-not-allowed",
 		!isIconOnly && "px-3",
 		isIconOnly && "aspect-square",
-	)
+	);
 
 	// El componente en sí
 	if (href) {
@@ -121,30 +128,35 @@ export default function Button({
 		return (
 			<Link
 				onClick={() => {
-					window.scrollTo({top: 0, behavior: "smooth"})
-					if (onClick) onClick()
+					window.scrollTo({ top: 0, behavior: "smooth" });
+					if (onClick) onClick();
 				}}
 				className={buttonClasses}
 				to={href}
 				id={id}
-				target={target}>
+				target={target}
+			>
 				{iconLeft}
 				<span className="px-2">{children}</span>
 				{iconRight}
 			</Link>
-		)
+		);
 	}
 
 	// Renderiza <button> en cualquier otro caso
 	return (
-		<button className={buttonClasses} onClick={onClick} disabled={disabled} id={id} {...props}>
+		<button
+			className={buttonClasses}
+			onClick={onClick}
+			disabled={disabled}
+			id={id}
+			{...props}
+		>
 			<span className="pr-2">
-				{isLoading ?
-					<IconLoader2 />
-				:	iconLeft}
+				{isLoading ? <IconLoader2 /> : iconLeft}
 			</span>
 			<span>{children}</span>
 			<span className="pl-2">{iconRight}</span>
 		</button>
-	)
+	);
 }

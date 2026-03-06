@@ -14,7 +14,7 @@ import {
 } from "../scripts/transformEventos"
 import ButtonGroup from "../components/ButtonGroup"
 
-import {cn} from "../utils/cn"
+import {cn} from "../lib/utils"
 import Alert from "../components/Alert"
 import {IconExternalLink, IconInfoCircle, IconCalendar, IconSchool, IconFile, IconPencil} from "@tabler/icons-react"
 import {useAuth} from "../context/AuthContextData"
