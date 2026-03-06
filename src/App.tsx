@@ -15,7 +15,6 @@ import ContraseñaOlvidada from "./pages/auth/ContraseñaOlvidada";
 import ActualizarContraseña from "./pages/auth/ActualizarContraseña";
 import Novedades from "./pages/Novedades";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Admin from "./pages/Admin";
 
 import "@fontsource-variable/montserrat";
 import "@fontsource/poppins/400.css";
@@ -78,13 +77,6 @@ function App() {
 					<Route element={<ProtectedRoute />}>
 						<Route path="/perfil" element={<Profile />} />
 						<Route path="/config" element={<Config />} />
-					</Route>
-
-					{/* Rutas privadas | Administradores */}
-					<Route
-						element={<ProtectedRoute allowedRoles={["admin"]} />}
-					>
-						<Route path="/admin" element={<Admin />} />
 					</Route>
 
 					{/* 404 */}
