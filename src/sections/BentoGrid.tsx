@@ -2,12 +2,9 @@ import { motion } from "framer-motion";
 import {
 	IconDevicesPc,
 	IconCalendarClock,
-	IconBeach,
 	IconUserPlus,
 	IconArrowRight,
 	IconSparkles,
-	IconFlag,
-	IconFlag2,
 	IconProgressCheck,
 } from "@tabler/icons-react";
 import {

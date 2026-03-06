@@ -38,7 +38,7 @@ interface CardCarreraProps {
 	carrera: string;
 	slug: string;
 	facultad?: string;
-	planes: PlanEstudio[];
+	planes?: PlanEstudio[];
 	className?: string;
 }
 
