@@ -298,7 +298,7 @@ export default function Materia() {
 						<TabsTrigger value="examenes">Exámenes</TabsTrigger>
 					</TabsList>
 					<TabsContent value="informacion">
-						<InfoTab materiaData={materia} />
+						<InfoTab />
 					</TabsContent>
 					<TabsContent value="correlativas">
 						<CorrelativasTab
