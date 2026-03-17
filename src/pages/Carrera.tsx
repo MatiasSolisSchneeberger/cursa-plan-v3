@@ -1,22 +1,27 @@
-import { useEffect, useMemo } from "react";
+// --- IMPORTS ---
+// React
 import {
 	Link,
+	useNavigate,
 	useParams,
 	useSearchParams,
-	useNavigate,
 } from "react-router-dom";
-// import HeaderCarrera from "../sections/HeaderCarrera";
-import { usePageTitle } from "../hooks/usePageTitle";
-import AniosGrid from "../sections/AniosGrid";
-import Cargando from "../sections/Cargando";
+import { useEffect, useMemo } from "react";
+
+// Hooks
+import { useCarrera } from "@/hooks/useCarrera";
+import { usePageTitle } from "@/hooks/usePageTitle";
+
+// Iconos
 import {
 	IconCheck,
 	IconChevronDown,
 	IconExternalLink,
 	IconHome,
-	IconInfoCircle,
 } from "@tabler/icons-react";
-import { useCarrera } from "../hooks/useCarrera";
+
+// Componentes
+import { Badge, badgeVariants } from "@/components/ui/badge";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -25,18 +30,20 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { badgeVariants } from "@/components/ui/badge";
-import { TypographyH1, TypographyLead } from "@/components/ui/Typography";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardAction,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import {
 	DropdownMenu,
-	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
+	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import OrientacionSelector from "@/sections/OrientacionSelector";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Item,
 	ItemActions,
@@ -44,8 +51,18 @@ import {
 	ItemDescription,
 	ItemTitle,
 } from "@/components/ui/item";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TypographyH1, TypographySmall } from "@/components/ui/Typography";
+import LikeButton from "@/components/LikeButton";
 
+// Secciones
+import AniosGrid from "@/sections/AniosGrid";
+import Cargando from "@/sections/Cargando";
+import OrientacionSelector from "@/sections/OrientacionSelector";
+
+// --- COMPONENTE ---
 export default function Carrera() {
+	// --- HOOKS ---
 	const { carreraSlug, planAnioParam } = useParams<{
 		carreraSlug: string;
 		planAnioParam?: string;
@@ -53,14 +70,11 @@ export default function Carrera() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
-	// --- AQUÍ LA MAGIA DE TANSTACK QUERY ---
-	// isLoading: true mientras carga la primera vez
-	// data: contiene tu JSON ya transformado (o undefined si carga/error)
-	// isError: true si falló la promesa
+	// --- DATOS ---
 	const { data: carreraJson, isLoading, isError } = useCarrera(carreraSlug);
-
 	const orientacionSlugParam = searchParams.get("orientacion");
 
+	// --- EFECTOS ---
 	/**
 	 * Actualiza el título de la página.
 	 * usePageTitle automáticamente agrega " - CursaPlan" al final si no se especifica lo contrario.
@@ -109,16 +123,6 @@ export default function Carrera() {
 	// --- HANDLERS ---
 
 	/**
-	 * Maneja el cambio de plan de estudios.
-	 * @param anio - El año de inicio del nuevo plan.
-	 */
-	/*
-	const handlePlanChange = (anio: number) => {
-		setSearchParams({ plan: anio.toString() });
-	};
-	*/
-
-	/**
 	 * Maneja la selección o deselección de una orientación.
 	 * @param slug - El slug de la orientación seleccionada.
 	 */
@@ -164,7 +168,7 @@ export default function Carrera() {
 	}
 
 	return (
-		<section className="flex flex-col gap-6">
+		<section className="flex flex-col gap-12">
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
@@ -211,7 +215,7 @@ export default function Carrera() {
 													{/* icono check */}
 													{plan.anioInicio ===
 														planActivo.anioInicio && (
-														<IconCheck className="size-4 text-green-500" />
+														<IconCheck className="size-4 text-green-600 dark:text-green-400" />
 													)}
 												</Link>
 											</DropdownMenuItem>
@@ -235,26 +239,27 @@ export default function Carrera() {
 					)}
 				</BreadcrumbList>
 			</Breadcrumb>
-
-			<TypographyH1 className="py-3 text-center">
-				{carreraJson.carrera}
-			</TypographyH1>
-			<Card className="mx-auto max-w-lg">
+			<Card className="mx-auto w-full max-w-5xl">
 				<CardHeader>
-					<CardTitle className="flex items-center gap-2">
-						<span
-							className={buttonVariants({
-								variant: "secondary",
-								size: "icon-lg",
-							})}
-						>
-							<IconInfoCircle className="size-4" />
-						</span>
-						<TypographyLead>Información</TypographyLead>
+					<CardTitle>
+						<TypographyH1 className="hidden text-left md:block">
+							{carreraJson.carrera}
+						</TypographyH1>
+						<span className="md:hidden">{carreraJson.carrera}</span>
 					</CardTitle>
+					<CardAction className="flex flex-wrap items-center gap-2">
+						{carreraJson.planes.length > 1 && (
+							<Badge variant="secondary">
+								<TypographySmall>
+									Plan: {planActivo.anioInicio}
+								</TypographySmall>
+							</Badge>
+						)}
+						<LikeButton planId={planActivo.id} />
+					</CardAction>
 				</CardHeader>
-				<CardContent className="flex flex-col gap-2">
-					<Item variant="default" className="hover:bg-muted/25">
+				<CardContent className="flex flex-col gap-3">
+					<Item variant="muted">
 						<ItemContent>
 							<ItemTitle>Resoluciones | Google Drive</ItemTitle>
 							<ItemDescription>
@@ -266,7 +271,7 @@ export default function Carrera() {
 							</ItemDescription>
 						</ItemContent>
 						<ItemActions>
-							<Button variant="outline" size="sm" asChild>
+							<Button variant="link" size="sm" asChild>
 								<Link to={`#`}>
 									Abrir
 									<IconExternalLink className="size-4" />

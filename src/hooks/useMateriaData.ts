@@ -22,7 +22,8 @@ interface UseMateriaDataResult {
 export const useMateriaData = (
     materiaSlug?: string,
     planSlug?: string,
-    carreraSlug?: string
+    carreraSlug?: string,
+    orientacionSlug?: string | null
 ): UseMateriaDataResult => {
     const [loading, setLoading] = useState(true)
     const [materia, setMateria] = useState<MateriaDetalle | null>(null)
@@ -68,7 +69,6 @@ export const useMateriaData = (
                     .eq("materias.slug", materiaSlug)
                     .eq("plan_estudio.anio_inicio", planSlug)
                     .eq("plan_estudio.carreras.slug", carreraSlug)
-                    .maybeSingle()
 
                 const { data: feriados } = await supabase.from("feriados").select("fecha")
 
@@ -77,22 +77,26 @@ export const useMateriaData = (
                     setError(dbError)
                 }
 
-                if (data) {
-                    // Casteamos data a MateriaDetalle because TypeScript might complain about 'correlativas' or deep inner types
-                    // However, the structure matches our Interface roughly.
-                    // We might need to map 'correlativas' manually if it's JSON in DB but typed as object in JS
-                    setMateria(data as unknown as MateriaDetalle)
+                if (data && data.length > 0) {
+                    // Select the specific orientation if provided, fallback to the first one
+                    const matchedData = orientacionSlug 
+                        ? data.find((d: any) => d.tipos_orientaciones?.slug === orientacionSlug) || data[0]
+                        : data[0]
+
+                    const finalData = {
+                        ...matchedData,
+                        orientacion: matchedData.tipos_orientaciones || null
+                    }
+
+                    setMateria(finalData as unknown as MateriaDetalle)
 
                     // Formatear correlativas
-                    // data.correlativas is what comes from DB. Type might be any or specific via generated types.
-                    // transformData expects CorrelativaRaw[]
-                    const correlativasRaw = (data as any).correlativas || []
+                    const correlativasRaw = (matchedData as any).correlativas || []
                     const correlativasFormatted = formatearCorrelativas(correlativasRaw)
-                    // Cast result to GrupoCorrelativa[] as transformData returns any[]
                     setCorrelativasFormat(correlativasFormatted as unknown as GrupoCorrelativa[])
 
                     // Calcular próxima fecha
-                    const fechas = (data as any).materias?.fechas_examenes || []
+                    const fechas = (matchedData as any).materias?.fechas_examenes || []
                     const fechasArray = Array.isArray(fechas) ? fechas : [fechas]
                     setNextExam(fechaProxima(fechasArray, feriados || []))
                 }
@@ -105,7 +109,7 @@ export const useMateriaData = (
         }
 
         fetchMateria()
-    }, [materiaSlug, planSlug, carreraSlug])
+    }, [materiaSlug, planSlug, carreraSlug, orientacionSlug])
 
     return { materia, loading, error, nextExam, correlativasFormat }
 }

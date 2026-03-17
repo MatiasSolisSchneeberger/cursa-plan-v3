@@ -39,7 +39,7 @@ export default function AniosGrid({
 
 					{anioData.periodos.map((periodo: PeriodoJSON) => (
 						<article key={periodo.nroPeriodo} className="">
-							<TypographyLead className="border-border mb-4 border-b pb-1 text-center">
+							<TypographyLead className="border-border/75 mb-4 border-b pb-1 text-center">
 								{formatPeriodoTitle(periodo)}
 							</TypographyLead>
 							<section className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">

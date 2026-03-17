@@ -174,12 +174,15 @@ function AvatarUser({ user, signOut }: { user: User; signOut: () => void }) {
 
 function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 	return (
-		<NavigationMenu className="hidden md:flex" delayDuration={1000}>
+		<NavigationMenu className="hidden lg:flex" delayDuration={1000}>
 			<NavigationMenuList>
 				<NavigationMenuItem>
 					<NavigationMenuLink
 						asChild
-						className={buttonVariants({ variant: "outline" })}
+						className={buttonVariants({
+							className: "cursor-pointer",
+							variant: "outline",
+						})}
 					>
 						<Link
 							to="/"
@@ -192,7 +195,10 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 				</NavigationMenuItem>
 				<NavigationMenuItem>
 					<NavigationMenuTrigger
-						className={buttonVariants({ variant: "outline" })}
+						className={buttonVariants({
+							className: "cursor-pointer",
+							variant: "outline",
+						})}
 					>
 						<Link
 							to="/carreras"
@@ -235,7 +241,10 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 				<NavigationMenuItem>
 					<NavigationMenuLink
 						asChild
-						className={buttonVariants({ variant: "outline" })}
+						className={buttonVariants({
+							className: "cursor-pointer",
+							variant: "outline",
+						})}
 					>
 						<Link
 							to="/calendario"
@@ -248,7 +257,10 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 				</NavigationMenuItem>
 				<NavigationMenuItem>
 					<NavigationMenuTrigger
-						className={buttonVariants({ variant: "outline" })}
+						className={buttonVariants({
+							className: "cursor-pointer",
+							variant: "outline",
+						})}
 					>
 						<IconMenu2 className="size-5" />
 						Mas
@@ -348,24 +360,46 @@ export default function NavHeader() {
 							<AvatarUser signOut={signOut} user={user} />
 						</div>
 					) : (
-						<div className="flex flex-row gap-2">
-							<Button asChild variant="secondary">
-								<Link to="/login">
-									<IconLogin />
-									Iniciar Sesión
-								</Link>
-							</Button>
-							<Button asChild variant="default">
-								<Link to="/register">
-									<IconUserPlus />
-									Registrarte
-								</Link>
-							</Button>
-						</div>
+						<>
+							<div className="hidden flex-row gap-2 lg:flex">
+								<Button asChild variant="secondary">
+									<Link to="/login">
+										<IconLogin />
+										Iniciar Sesión
+									</Link>
+								</Button>
+								<Button asChild variant="default">
+									<Link to="/register">
+										<IconUserPlus />
+										Registrarte
+									</Link>
+								</Button>
+							</div>
+							<div className="flex flex-row gap-2 lg:hidden">
+								<Button
+									size={"icon-lg"}
+									asChild
+									variant="secondary"
+								>
+									<Link to="/login">
+										<IconLogin />
+									</Link>
+								</Button>
+								<Button
+									size={"icon-lg"}
+									asChild
+									variant="default"
+								>
+									<Link to="/register">
+										<IconUserPlus />
+									</Link>
+								</Button>
+							</div>
+						</>
 					)}
 
 					{/* --- DROPDOWN MÓVIL (HAMBURGUESA) --- */}
-					<div className="md:hidden">
+					<div className="lg:hidden">
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button variant="secondary" size="icon">

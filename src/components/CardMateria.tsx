@@ -30,7 +30,7 @@ import {
 	CollapsibleContent,
 } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TypographyLead, TypographySmall } from "@/components/ui/Typography";
+import { TypographySmall } from "@/components/ui/Typography";
 import {
 	Select,
 	SelectContent,
@@ -129,9 +129,7 @@ export default function CardMateria({
 	return (
 		<Card className="flex w-full">
 			<CardHeader>
-				<CardTitle>
-					<TypographyLead>{materia.nombre}</TypographyLead>
-				</CardTitle>
+				<CardTitle>{materia.nombre}</CardTitle>
 				<CardAction>
 					<BadgeEstado estado={estadoBadge} />
 				</CardAction>
@@ -322,7 +320,9 @@ export default function CardMateria({
 			<CardFooter>
 				<Button asChild>
 					<Link
-						to={`/carreras/${carreraSlug}/${planAnio}/${materia.slug}`}
+						to={`/carreras/${carreraSlug}/${planAnio}/${materia.slug}${
+							materia.orientacion ? `?orientacion=${materia.orientacion.slug}` : ""
+						}`}
 					>
 						Ver mas
 						<IconArrowRight />

@@ -7,7 +7,6 @@ import type {
 	RequisitoPorcentaje,
 	RequisitoNota,
 } from "../types/db";
-import { TypographySmall } from "./ui/Typography";
 import { useSimulador } from "../context/SimuladorContextData";
 import { IconCheck, IconLock } from "@tabler/icons-react";
 
@@ -93,7 +92,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 		return (
 			<Item key={`reg-${i}`} size="sm" className="bg-muted/30 w-full">
 				<RequirementIcon isMet={isMet} />
-				<ItemTitle className="text-xs">{m.nombre}</ItemTitle>
+				<ItemTitle>{m.nombre}</ItemTitle>
 			</Item>
 		);
 	});
@@ -103,7 +102,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 		return (
 			<Item key={`apr-${i}`} size="sm" className="bg-muted/30 w-full">
 				<RequirementIcon isMet={isMet} />
-				<ItemTitle className="text-xs">{m.nombre}</ItemTitle>
+				<ItemTitle>{m.nombre}</ItemTitle>
 			</Item>
 		);
 	});
@@ -111,9 +110,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 	const itemsPorcentaje = porcentajes.map((p, i) => (
 		<Item key={`porc-${i}`} size="sm" className="bg-muted/30 w-full">
 			<div className="flex w-full flex-col gap-1">
-				<ItemTitle className="text-xs">
-					{p.requisito.porcentaje}%
-				</ItemTitle>
+				<ItemTitle>{p.requisito.porcentaje}%</ItemTitle>
 				{p.condicion && (
 					<ItemDescription className="flex-wrap text-start text-xs whitespace-normal capitalize">
 						{p.condicion}
@@ -125,9 +122,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 
 	const itemsNotas = notas.map((n, i) => (
 		<Item key={`nota-${i}`} size="sm" className="bg-muted/30 w-full">
-			<ItemTitle className="text-xs">
-				Nota mayor o igual a {n.nota}
-			</ItemTitle>
+			<ItemTitle>Nota mayor o igual a {n.nota}</ItemTitle>
 		</Item>
 	));
 
@@ -139,9 +134,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 			<Item key={`otro-${i}`} size="sm" className="bg-muted/30 w-full">
 				<RequirementIcon isMet={isMet} />
 				<div className="flex w-full flex-col gap-1">
-					<ItemTitle className="text-xs">
-						{o.materia.nombre}
-					</ItemTitle>
+					<ItemTitle>{o.materia.nombre}</ItemTitle>
 					<ItemDescription className="flex-wrap text-start text-xs whitespace-normal capitalize">
 						{o.condicion}
 					</ItemDescription>
@@ -170,7 +163,7 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 		<div className="flex w-full flex-col">
 			{sections.map((section, idx) => (
 				<React.Fragment key={idx}>
-					<TypographySmall>{section}</TypographySmall>
+					{section}
 					{idx < sections.length - 1 && (
 						<Separator className="my-2" />
 					)}

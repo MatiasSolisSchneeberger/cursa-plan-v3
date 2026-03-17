@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
 	IconHome,
 	IconCircleCheck,
@@ -31,8 +31,8 @@ import {
 import { badgeVariants, Badge } from "@/components/ui/badge";
 import {
 	Card,
+	CardAction,
 	CardContent,
-	CardDescription,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -44,6 +44,16 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemTitle,
+} from "@/components/ui/item";
+import { InfoTab } from "@/sections/materia/InfoTab";
+import CorrelativasTab from "@/sections/materia/CorrelativasTab";
+import RecursosTab from "@/sections/materia/RecursosTab";
 
 function BadgeEstado({ estado }: { estado: string }) {
 	switch (estado) {
@@ -90,12 +100,15 @@ function BadgeEstado({ estado }: { estado: string }) {
 export default function Materia() {
 	// Obtenemos los parámetros de la URL: slug de la materia, plan y carrera.
 	const { materiaSlug, planSlug, carreraSlug } = useParams();
+	const [searchParams] = useSearchParams();
+	const orientacionSlug = searchParams.get("orientacion");
 
 	// Hook personalizado para obtener los datos de la materia desde Supabase.
 	const { materia, loading, correlativasFormat } = useMateriaData(
 		materiaSlug,
 		planSlug,
 		carreraSlug,
+		orientacionSlug,
 	);
 
 	// Cambiando de nombre la página
@@ -119,8 +132,8 @@ export default function Materia() {
 	else if (isSoloCursar) estadoBadge = "Solo Cursar";
 
 	return (
-		<section className="flex w-full flex-col gap-6 pb-10">
-			<Breadcrumb>
+		<section className="flex w-full flex-col items-center gap-12">
+			<Breadcrumb className="w-full">
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink
@@ -141,7 +154,7 @@ export default function Materia() {
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
 						<BreadcrumbLink asChild>
-							<Link to={`/carreras/${carreraSlug}`}>
+							<Link to={`/carreras/${carreraSlug}/${planSlug}`}>
 								{materia.plan_estudio.carreras.nombre}
 							</Link>
 						</BreadcrumbLink>
@@ -154,8 +167,21 @@ export default function Materia() {
 							</Link>
 						</BreadcrumbLink>
 					</BreadcrumbItem>
+					{materia.orientacion && (
+						<>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link
+										to={`/carreras/${carreraSlug}/${planSlug}`}
+									>
+										{materia.orientacion?.nombre}
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+						</>
+					)}
 					<BreadcrumbSeparator />
-
 					<BreadcrumbItem>
 						<BreadcrumbPage>
 							{materia.materias.nombre}
@@ -165,118 +191,128 @@ export default function Materia() {
 			</Breadcrumb>
 
 			{/* CONTENIDO PRINCIPAL Y ACCIONES */}
-			<div className="mt-2 flex flex-col gap-6 md:flex-row">
+			<Card className="mx-auto w-full max-w-5xl">
 				{/* Info de la Materia */}
-				<div className="flex-1 space-y-4">
-					<TypographyH1>{materia.materias.nombre}</TypographyH1>
-					<div className="flex flex-wrap items-center gap-2">
+				<CardHeader className="flex-1">
+					<CardTitle>
+						<TypographyH1 className="hidden text-left md:block">
+							{materia.materias.nombre}
+						</TypographyH1>
+						<span className="block text-left md:hidden">
+							{materia.materias.nombre}
+						</span>
+					</CardTitle>
+					<CardAction className="flex flex-wrap justify-end gap-2">
+						{/* Estado */}
 						<BadgeEstado estado={estadoBadge} />
-						{!!materia.nro_optativa && (
+
+						{/* Nro de Optativa */}
+						{materia.nro_optativa && (
 							<Badge variant="secondary" className="font-normal">
-								Optativa{" "}
-								{materia.nro_optativa
-									? `#${materia.nro_optativa}`
-									: ""}
+								Optativa {"#"}
+								{materia.nro_optativa}
 							</Badge>
 						)}
+
+						{/* Orientación */}
 						{materia.orientacion && (
-							<Badge
-								variant="secondary"
-								className="text-muted-foreground font-normal"
-							>
+							<Badge variant="secondary" className="font-normal">
 								{materia.orientacion.nombre}
 							</Badge>
 						)}
-					</div>
-				</div>
-
-				{/* Card para cambiar estado */}
-				<Card className="h-fit w-full md:w-80">
-					<CardHeader className="pb-4">
-						<CardTitle className="text-lg">Mi Estado</CardTitle>
-						<CardDescription>
-							Actualiza tu progreso en esta materia.
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<Select
-							value={getEstado(materia.id) || "Sin cursar"}
-							onValueChange={(value) =>
-								actualizarAvance(
-									materia.id,
-									value as EstadoMateria,
-								)
-							}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Seleccionar estado" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="Sin cursar">
-									<IconCircleDashed className="size-4" /> Sin
-									Cursar
-								</SelectItem>
-								<SelectItem
-									value="Cursando"
-									disabled={!cursarSatisfied}
-								>
-									<IconHourglass className="size-4" />
-									Cursando
-								</SelectItem>
-								<SelectItem
-									value="Regular"
-									disabled={!cursarSatisfied}
-								>
-									<IconCircleDashedCheck className="size-4" />
-									Regular
-								</SelectItem>
-								<SelectItem
-									value="Aprobado"
-									disabled={!rendirSatisfied}
-								>
-									<IconCircleCheck className="size-4" />
-									Aprobado
-								</SelectItem>
-								<SelectItem
-									value="Libre"
-									disabled={!cursarSatisfied}
-								>
-									<IconCircleX className="size-4" /> Libre
-								</SelectItem>
-							</SelectContent>
-						</Select>
-					</CardContent>
-				</Card>
-			</div>
+					</CardAction>
+				</CardHeader>
+				<CardContent>
+					{/* Card para cambiar estado */}
+					<Item variant="muted">
+						<ItemContent>
+							<ItemTitle>Mi Estado</ItemTitle>
+							<ItemDescription>
+								Actualiza tu progreso en esta materia.
+							</ItemDescription>
+						</ItemContent>
+						<ItemActions>
+							<Select
+								value={getEstado(materia.id) || "Sin cursar"}
+								onValueChange={(value) =>
+									actualizarAvance(
+										materia.id,
+										value as EstadoMateria,
+									)
+								}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Seleccionar estado" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Sin cursar">
+										<IconCircleDashed className="size-4" />
+										Sin Cursar
+									</SelectItem>
+									<SelectItem
+										value="Cursando"
+										disabled={!cursarSatisfied}
+									>
+										<IconHourglass className="size-4" />
+										Cursando
+									</SelectItem>
+									<SelectItem
+										value="Regular"
+										disabled={!cursarSatisfied}
+									>
+										<IconCircleDashedCheck className="size-4" />
+										Regular
+									</SelectItem>
+									<SelectItem
+										value="Aprobado"
+										disabled={!rendirSatisfied}
+									>
+										<IconCircleCheck className="size-4" />
+										Aprobado
+									</SelectItem>
+									<SelectItem
+										value="Libre"
+										disabled={!cursarSatisfied}
+									>
+										<IconCircleX className="size-4" />
+										Libre
+									</SelectItem>
+								</SelectContent>
+							</Select>
+						</ItemActions>
+					</Item>
+				</CardContent>
+			</Card>
 
 			{/* SECCIÓN DE TABS PRÓXIMAMENTE */}
-			<div className="mt-4">
-				<Tabs defaultValue="tab1" className="w-full">
-					<TabsList>
-						<TabsTrigger value="tab1">Pestaña 1</TabsTrigger>
-						<TabsTrigger value="tab2">Pestaña 2</TabsTrigger>
-						<TabsTrigger value="tab3">Pestaña 3</TabsTrigger>
+			<article className="w-full">
+				<Tabs defaultValue="informacion" className="w-full">
+					<TabsList className="mx-auto w-full max-w-5xl">
+						<TabsTrigger value="informacion">
+							Información
+						</TabsTrigger>
+						<TabsTrigger value="correlativas">
+							Correlativas
+						</TabsTrigger>
+						<TabsTrigger value="recursos">Recursos</TabsTrigger>
+						<TabsTrigger value="examenes">Exámenes</TabsTrigger>
 					</TabsList>
-					<TabsContent
-						value="tab1"
-						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
-					>
-						Contenido de la Pestaña 1
+					<TabsContent value="informacion">
+						<InfoTab materiaData={materia} />
 					</TabsContent>
-					<TabsContent
-						value="tab2"
-						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
-					>
-						Contenido de la Pestaña 2
+					<TabsContent value="correlativas">
+						<CorrelativasTab
+							correlativasFormat={correlativasFormat}
+						/>
 					</TabsContent>
-					<TabsContent
-						value="tab3"
-						className="text-muted-foreground mt-2 flex min-h-32 items-center justify-center rounded-md border p-4"
-					>
+					<TabsContent value="recursos">
+						<RecursosTab />
+					</TabsContent>
+					<TabsContent value="examenes">
 						Contenido de la Pestaña 3
 					</TabsContent>
 				</Tabs>
-			</div>
+			</article>
 		</section>
 	);
 }
