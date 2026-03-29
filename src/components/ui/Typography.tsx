@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { cva } from "class-variance-authority";
 
 export function TypographyH1({
 	children,
@@ -30,7 +29,7 @@ export function TypographyH2({
 	return (
 		<h2
 			className={cn(
-				"w-full scroll-m-20 border-b pb-1 text-center text-3xl font-semibold tracking-tight first:mt-0",
+				"mt-4 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
 				className,
 			)}
 		>
@@ -189,7 +188,3 @@ export function TypographyMuted({
 		</p>
 	);
 }
-
-export const variantTypografyH1 = cva(
-	"scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance",
-);

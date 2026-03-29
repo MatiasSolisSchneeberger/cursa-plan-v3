@@ -13,6 +13,8 @@ import {
 	IconBook,
 } from "@tabler/icons-react";
 
+const mail = import.meta.env.VITE_MAIL;
+
 export const INTERNAL_LINKS = [
 	{
 		label: "Inicio",
@@ -39,8 +41,8 @@ export const INTERNAL_LINKS = [
 		category: "secondary",
 	},
 	{
-		label: "Acerca de",
-		href: "/acerca",
+		label: "Sobre Nosotros",
+		href: "/sobre-nosotros",
 		icon: <IconInfoCircleFilled />,
 		category: "secondary",
 	},
@@ -83,7 +85,7 @@ export const SOCIAL_LINKS = [
 	},
 	{
 		label: "cursaplan@gmail.com",
-		href: "mailto:cursaplan@gmail.com",
+		href: `mailto:${mail}`,
 		icon: <IconMail />,
 	},
 ];

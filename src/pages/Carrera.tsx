@@ -17,19 +17,11 @@ import {
 	IconCheck,
 	IconChevronDown,
 	IconExternalLink,
-	IconHome,
 } from "@tabler/icons-react";
 
 // Componentes
-import { Badge, badgeVariants } from "@/components/ui/badge";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Badge } from "@/components/ui/badge";
+import PageLayout from "@/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -168,77 +160,55 @@ export default function Carrera() {
 	}
 
 	return (
-		<section className="flex flex-col gap-12">
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink
-							asChild
-							className={badgeVariants({ variant: "outline" })}
-						>
-							<Link to="/">
-								<IconHome className="size-4" />
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link to="/carreras">Carreras</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					{carreraJson.planes.length > 1 ? (
-						<>
-							<BreadcrumbItem>
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Link
-											to={`/carreras/${carreraSlug}`}
-											className="flex items-center gap-1"
-										>
-											{carreraJson.carrera}
-											<IconChevronDown className="size-4" />
-										</Link>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent>
-										{carreraJson.planes.map((plan) => (
-											<DropdownMenuItem
-												key={plan.anioInicio}
-												asChild
+		<PageLayout
+			className="flex flex-col gap-12"
+			breadcrumbs={[
+				{ url: "/", isHome: true },
+				{ label: "Carreras", url: "/carreras" },
+				...(carreraJson.planes.length > 1
+					? [
+							{
+								customRenderer: () => (
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Link
+												to={`/carreras/${carreraSlug}`}
+												className="flex items-center gap-1 transition-colors hover:text-foreground"
 											>
-												<Link
-													to={`/carreras/${carreraSlug}/${plan.anioInicio}`}
+												{carreraJson.carrera}
+												<IconChevronDown className="size-4" />
+											</Link>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent>
+											{carreraJson.planes.map((plan) => (
+												<DropdownMenuItem
+													key={plan.anioInicio}
+													asChild
 												>
-													{plan.anioInicio}
-
-													{/* icono check */}
-													{plan.anioInicio ===
-														planActivo.anioInicio && (
-														<IconCheck className="size-4 text-green-600 dark:text-green-400" />
-													)}
-												</Link>
-											</DropdownMenuItem>
-										))}
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbPage>
-									{planActivo.anioInicio}
-								</BreadcrumbPage>
-							</BreadcrumbItem>
-						</>
-					) : (
-						<BreadcrumbItem>
-							<BreadcrumbPage>
-								{carreraJson.carrera}
-							</BreadcrumbPage>
-						</BreadcrumbItem>
-					)}
-				</BreadcrumbList>
-			</Breadcrumb>
+													<Link
+														to={`/carreras/${carreraSlug}/${plan.anioInicio}`}
+														className="flex items-center gap-2"
+													>
+														{plan.anioInicio}
+														{plan.anioInicio ===
+															planActivo.anioInicio && (
+															<IconCheck className="size-4 text-green-600 dark:text-green-400" />
+														)}
+													</Link>
+												</DropdownMenuItem>
+											))}
+										</DropdownMenuContent>
+									</DropdownMenu>
+								),
+							},
+							{
+								label: planActivo.anioInicio,
+								isCurrentPage: true,
+							},
+					  ]
+					: [{ label: carreraJson.carrera, isCurrentPage: true }]),
+			]}
+		>
 			<Card className="mx-auto w-full max-w-5xl">
 				<CardHeader>
 					<CardTitle>
@@ -309,6 +279,6 @@ export default function Carrera() {
 					planAnio={planActivo.anioInicio}
 				/>
 			</Tabs>
-		</section>
+		</PageLayout>
 	);
 }

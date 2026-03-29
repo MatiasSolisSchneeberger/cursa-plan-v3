@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { IconArrowRight, IconHeartFilled } from "@tabler/icons-react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 /**
@@ -65,9 +65,14 @@ export default function CardCarrera({
 			<CardHeader>
 				{/* Información de la carrera */}
 				<CardTitle className="flex items-center gap-3 overflow-hidden">
-					<Button size="icon">
+					<span
+						className={buttonVariants({
+							variant: "default",
+							size: "icon-lg",
+						})}
+					>
 						<IconCarrera icon={icon} className="size-5" />
-					</Button>
+					</span>
 					{carrera}
 				</CardTitle>
 				<CardAction>

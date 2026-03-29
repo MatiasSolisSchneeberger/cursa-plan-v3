@@ -9,6 +9,11 @@ export interface Avance {
     materia_plan_id: number
     materia_id: number
     estado: EstadoMateria
+    materia_nombre?: string
+    carrera_nombre?: string
+    materia_slug?: string
+    carrera_slug?: string
+    carrera_plan?: number | string
 }
 
 export interface FechaExamen {

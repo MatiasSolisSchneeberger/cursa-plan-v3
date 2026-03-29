@@ -9,11 +9,10 @@ import Profile from "./pages/Profile";
 import Calendar from "./pages/Calendar";
 import Materia from "./pages/Materia";
 import { Analytics } from "@vercel/analytics/react";
-import MdxPage from "./pages/MdxPage";
 import Contact from "./pages/Contacto";
 import ContraseñaOlvidada from "./pages/auth/ContraseñaOlvidada";
 import ActualizarContraseña from "./pages/auth/ActualizarContraseña";
-import Novedades from "./pages/Novedades";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import "@fontsource-variable/montserrat";
@@ -24,6 +23,10 @@ import "@fontsource/poppins/600.css";
 import Config from "./pages/Config";
 import Carreras from "./pages/Carreras";
 import ScrollToTop from "./components/ScrollToTop";
+import PoliticaDePrivacidad from "./pages/landing/PoliticaDePrivacidad";
+import PreguntasFrecuentes from "./pages/landing/PreguntasFrecuentes";
+import SobreNosotros from "./pages/landing/SobreNosotros";
+import TerminosYCondiciones from "./pages/landing/TerminosYCondiciones";
 
 function App() {
 	return (
@@ -64,11 +67,20 @@ function App() {
 						element={<ActualizarContraseña />}
 					/>
 
-					{/* Novedades */}
-					<Route path="/novedades" element={<Novedades />} />
-
-					{/* MDX */}
-					<Route path="/:filename" element={<MdxPage />} />
+					{/* Páginas Estáticas */}
+					<Route
+						path="/politica-de-privacidad"
+						element={<PoliticaDePrivacidad />}
+					/>
+					<Route
+						path="/preguntas-frecuentes"
+						element={<PreguntasFrecuentes />}
+					/>
+					<Route path="/sobre-nosotros" element={<SobreNosotros />} />
+					<Route
+						path="/terminos-y-condiciones"
+						element={<TerminosYCondiciones />}
+					/>
 
 					{/* Contactos */}
 					<Route path="/contacto" element={<Contact />} />

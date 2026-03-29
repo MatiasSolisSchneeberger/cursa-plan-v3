@@ -3,15 +3,9 @@ import {
 	IconUser,
 	IconLogout,
 	IconSettings,
-	IconUsers,
 	IconBook,
 	IconHome,
 	IconMenu2,
-	IconSparkles,
-	IconInfoCircleFilled,
-	IconQuestionMark,
-	IconFile,
-	IconFilePencil,
 	IconLogin,
 	IconUserPlus,
 	IconCalendar,
@@ -58,45 +52,7 @@ type User = {
 	icon?: string;
 };
 
-const LINKS = [
-	{
-		label: "Novedades",
-		href: "/novedades",
-		icon: <IconSparkles />,
-		category: "secondary",
-	},
-	{
-		label: "Acerca de",
-		href: "/acerca",
-		icon: <IconInfoCircleFilled />,
-		category: "secondary",
-	},
-	{
-		label: "Preguntas Frecuentes",
-		href: "/preguntas-frecuentes",
-		icon: <IconQuestionMark />,
-		category: "secondary",
-	},
-	{
-		label: "Contacto",
-		href: "/contacto",
-		icon: <IconUsers />,
-		category: "secondary",
-	},
-	{
-		label: "Términos y Condiciones",
-		href: "/terminos-y-condiciones",
-		icon: <IconFile />,
-		category: "legal",
-	},
-	{
-		label: "Política de Privacidad",
-		href: "/politica-de-privacidad",
-		icon: <IconFilePencil />,
-		category: "legal",
-	},
-];
-
+import { INTERNAL_LINKS } from "@/utils/links";
 function AvatarUser({ user, signOut }: { user: User; signOut: () => void }) {
 	const { role, username, icon } = user;
 	return (
@@ -268,7 +224,7 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 					<NavigationMenuContent>
 						<div className="flex w-[400px] gap-2 md:w-[500px] lg:w-[600px]">
 							<ul className="w-full">
-								{LINKS.filter(
+								{INTERNAL_LINKS.filter(
 									({ category }) => category === "secondary",
 								).map(({ label, href, icon }) => (
 									<NavigationMenuLink asChild>
@@ -285,7 +241,7 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 							<Separator orientation="vertical" />
 							<div className="w-full space-y-2">
 								<ul>
-									{LINKS.filter(
+									{INTERNAL_LINKS.filter(
 										({ category }) => category === "legal",
 									).map(({ label, href, icon }) => (
 										<NavigationMenuLink asChild>
@@ -402,7 +358,7 @@ export default function NavHeader() {
 					<div className="lg:hidden">
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="secondary" size="icon">
+								<Button variant="secondary" size="icon-lg">
 									<IconMenu2 />
 								</Button>
 							</DropdownMenuTrigger>
@@ -461,6 +417,25 @@ export default function NavHeader() {
 										</DropdownMenuGroup>
 									</>
 								)}
+								<DropdownMenuSeparator />
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>
+										Información
+									</DropdownMenuLabel>
+									{INTERNAL_LINKS.filter(link => ["secondary", "legal"].includes(link.category)).map(({ label, href, icon }) => {
+										return (
+											<DropdownMenuItem asChild>
+												<Link
+													to={href}
+													className="flex flex-row items-center gap-2"
+												>
+													{icon}
+													{label}
+												</Link>
+											</DropdownMenuItem>
+										);
+									})}
+								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem asChild>

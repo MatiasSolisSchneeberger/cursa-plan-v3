@@ -15,7 +15,7 @@ export default function CorrelativasTab({
 					<Card className="w-full flex-1">
 						<CardHeader>
 							<CardTitle>
-								<TypographyH4>Cursar</TypographyH4>
+								<TypographyH4>Para Cursar:</TypographyH4>
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
@@ -43,14 +43,10 @@ export default function CorrelativasTab({
 					<Card className="w-full flex-1">
 						<CardHeader>
 							<CardTitle>
-								<TypographyH4>Rendir</TypographyH4>
+								<TypographyH4>Para Rendir:</TypographyH4>
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<span className="text-muted-foreground text-sm">
-								Para rendir el final o para promocionar si es
-								que la materia lo permite
-							</span>
 							{correlativasFormat
 								.filter((e) => e.tipo === "rendir")
 								.map((cursarGrp) => {

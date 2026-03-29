@@ -1,6 +1,5 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
-	IconHome,
 	IconCircleCheck,
 	IconCircleDashed,
 	IconCircleDashedCheck,
@@ -20,15 +19,8 @@ import type { EstadoMateria } from "@/types/materiaTypes";
 
 // UI Components
 import { TypographyH1 } from "@/components/ui/Typography";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { badgeVariants, Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import PageLayout from "@/layout/PageLayout";
 import {
 	Card,
 	CardAction,
@@ -51,9 +43,10 @@ import {
 	ItemDescription,
 	ItemTitle,
 } from "@/components/ui/item";
-import { InfoTab } from "@/sections/materia/InfoTab";
+// import { InfoTab } from "@/sections/materia/InfoTab";
 import CorrelativasTab from "@/sections/materia/CorrelativasTab";
-import RecursosTab from "@/sections/materia/RecursosTab";
+// import RecursosTab from "@/sections/materia/RecursosTab";
+import CalendarioTab from "@/sections/materia/CalendarioTab";
 
 function BadgeEstado({ estado }: { estado: string }) {
 	switch (estado) {
@@ -132,64 +125,30 @@ export default function Materia() {
 	else if (isSoloCursar) estadoBadge = "Solo Cursar";
 
 	return (
-		<section className="flex w-full flex-col items-center gap-12">
-			<Breadcrumb className="w-full">
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink
-							asChild
-							className={badgeVariants({ variant: "outline" })}
-						>
-							<Link to="/">
-								<IconHome className="size-4" />
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link to="/carreras">Carreras</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link to={`/carreras/${carreraSlug}/${planSlug}`}>
-								{materia.plan_estudio.carreras.nombre}
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link to={`/carreras/${carreraSlug}/${planSlug}`}>
-								{materia.plan_estudio.anio_inicio}
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					{materia.orientacion && (
-						<>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink asChild>
-									<Link
-										to={`/carreras/${carreraSlug}/${planSlug}`}
-									>
-										{materia.orientacion?.nombre}
-									</Link>
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-						</>
-					)}
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>
-							{materia.materias.nombre}
-						</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-
+		<PageLayout
+			className="flex w-full flex-col items-center gap-12"
+			breadcrumbs={[
+				{ url: "/", isHome: true },
+				{ label: "Carreras", url: "/carreras" },
+				{
+					label: materia.plan_estudio.carreras.nombre,
+					url: `/carreras/${carreraSlug}/${planSlug}`,
+				},
+				{
+					label: materia.plan_estudio.anio_inicio,
+					url: `/carreras/${carreraSlug}/${planSlug}`,
+				},
+				...(materia.orientacion
+					? [
+							{
+								label: materia.orientacion.nombre,
+								url: `/carreras/${carreraSlug}/${planSlug}`,
+							},
+						]
+					: []),
+				{ label: materia.materias.nombre, isCurrentPage: true },
+			]}
+		>
 			{/* CONTENIDO PRINCIPAL Y ACCIONES */}
 			<Card className="mx-auto w-full max-w-5xl">
 				{/* Info de la Materia */}
@@ -284,35 +243,43 @@ export default function Materia() {
 				</CardContent>
 			</Card>
 
-			{/* SECCIÓN DE TABS PRÓXIMAMENTE */}
 			<article className="w-full">
-				<Tabs defaultValue="informacion" className="w-full">
+				<Tabs defaultValue="correlativas" className="w-full">
 					<TabsList className="mx-auto w-full max-w-5xl">
-						<TabsTrigger value="informacion">
+						{/*<TabsTrigger value="informacion">
 							Información
-						</TabsTrigger>
+						</TabsTrigger>*/}
 						<TabsTrigger value="correlativas">
 							Correlativas
 						</TabsTrigger>
-						<TabsTrigger value="recursos">Recursos</TabsTrigger>
+						{/*<TabsTrigger value="recursos">Recursos</TabsTrigger>*/}
 						<TabsTrigger value="examenes">Exámenes</TabsTrigger>
 					</TabsList>
-					<TabsContent value="informacion">
+					{/*<TabsContent value="informacion">
 						<InfoTab />
-					</TabsContent>
+					</TabsContent>*/}
 					<TabsContent value="correlativas">
 						<CorrelativasTab
 							correlativasFormat={correlativasFormat}
 						/>
 					</TabsContent>
-					<TabsContent value="recursos">
+					{/*<TabsContent value="recursos">
 						<RecursosTab />
-					</TabsContent>
+					</TabsContent>*/}
 					<TabsContent value="examenes">
-						Contenido de la Pestaña 3
+						<CalendarioTab
+							fechas={
+								Array.isArray(materia.materias.fechas_examenes)
+									? materia.materias.fechas_examenes
+									: materia.materias.fechas_examenes
+										? [materia.materias.fechas_examenes]
+										: []
+							}
+							materiaNombre={materia.materias.nombre}
+						/>
 					</TabsContent>
 				</Tabs>
 			</article>
-		</section>
+		</PageLayout>
 	);
 }

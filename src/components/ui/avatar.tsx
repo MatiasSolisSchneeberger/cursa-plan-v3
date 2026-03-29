@@ -105,7 +105,7 @@ function AvatarLetter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="avatar-letter"
 			className={cn(
-				"bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs [&>svg]:size-4 group-data-[size=lg]/avatar:[&>svg]:size-5 group-data-[size=sm]/avatar:[&>svg]:size-3",
+				"bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs [&>svg:not([class*='size-'])]:size-4 group-data-[size=lg]/avatar:[&>svg:not([class*='size-'])]:size-5 group-data-[size=sm]/avatar:[&>svg:not([class*='size-'])]:size-3",
 				className,
 			)}
 			{...props}
@@ -118,7 +118,7 @@ function AvatarIcon({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="avatar-icon"
 			className={cn(
-				"bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs [&>svg]:size-4 group-data-[size=lg]/avatar:[&>svg]:size-5 group-data-[size=sm]/avatar:[&>svg]:size-3",
+				"bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs [&>svg:not([class*='size-'])]:size-4 group-data-[size=lg]/avatar:[&>svg:not([class*='size-'])]:size-5 group-data-[size=sm]/avatar:[&>svg:not([class*='size-'])]:size-3",
 				className,
 			)}
 			{...props}
