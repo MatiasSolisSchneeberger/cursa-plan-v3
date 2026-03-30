@@ -1,7 +1,8 @@
 import { IconChevronUp } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function ButtonUp() {
 	const [show, setShow] = useState(false);
@@ -29,11 +30,9 @@ export default function ButtonUp() {
 					transition={{ duration: 0.1 }}
 				>
 					<Button
-						isIconOnly
+						size="icon-lg"
 						className="hover:cursor-pointer"
-						onClick={() =>
-							window.scrollTo({ top: 0, behavior: "smooth" })
-						}
+						onClick={ScrollToTop}
 					>
 						<IconChevronUp />
 					</Button>

@@ -1,64 +1,113 @@
-import { useEffect, useState } from "react"; // 1. Importar hooks
-import CardCarrera, { CardCarreraSkeleton } from "@/components/CardCarrera";
-import supabase from "@/utils/supabase";
+import { TypographyH2 } from "@/components/ui/Typography";
+import CardCarrera from "../components/CardCarrera";
+import { useCarreras, type CarreraType } from "../hooks/useCarreras";
+import Cargando from "./Cargando";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-interface carreraType {
-	id: number;
-	nombre: string;
-	slug: string;
-	icon: string;
+function listadoCarreras({
+	carreras,
+	filtro,
+}: {
+	carreras: CarreraType[];
+	filtro: string;
+}) {
+	if (filtro === "todos") {
+		return carreras.map(({ id, nombre, slug, icon, planes }) => {
+			const formattedPlanes =
+				planes
+					?.map((p) => ({
+						anio: p.anio_inicio,
+						hasMaterias:
+							p.materia_plan && p.materia_plan.length > 0,
+					}))
+					.sort((a, b) => b.anio - a.anio) || [];
+
+			return (
+				<CardCarrera
+					key={id}
+					icon={icon}
+					slug={slug}
+					carrera={nombre}
+					planes={formattedPlanes}
+				/>
+			);
+		});
+	} else {
+		return carreras
+			.filter((c) => c.slug.includes(filtro))
+			.map(({ id, nombre, slug, icon, planes }) => {
+				const formattedPlanes =
+					planes
+						?.map((p) => ({
+							anio: p.anio_inicio,
+							hasMaterias:
+								p.materia_plan && p.materia_plan.length > 0,
+						}))
+						.sort((a, b) => b.anio - a.anio) || [];
+
+				return (
+					<CardCarrera
+						key={id}
+						icon={icon}
+						slug={slug}
+						carrera={nombre}
+						planes={formattedPlanes}
+					/>
+				);
+			});
+	}
 }
 
 export default function ListadoCarreras() {
-	// 2. Estado para guardar los datos
-	const [carreras, setCarreras] = useState<carreraType[]>([]);
-	const [loading, setLoading] = useState(true); // Opcional: para mostrar carga
+	const { carreras, loading } = useCarreras();
 
-	useEffect(() => {
-		// 3. Crear la función asíncrona DENTRO del useEffect
-		const fetchCarreras = async () => {
-			try {
-				const { data, error } = await supabase
-					.from("carreras")
-					.select("id, nombre, slug, icon")
-					.order("slug", { ascending: true });
-
-				if (error) {
-					console.log("Error al buscar carreras:", error);
-				} else {
-					setCarreras(data);
-				}
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoading(false); // Termina de cargar pase lo que pase
-			}
-		};
-
-		fetchCarreras();
-	}, []); // 4. Array vacío para que solo se ejecute al montar el componente
+	const filtros = [
+		{
+			filtro: "todos",
+			label: "Ver todos",
+		},
+		{
+			filtro: "ingenieria",
+			label: "Ingenierías",
+		},
+		{
+			filtro: "licenciatura",
+			label: "Licenciaturas",
+		},
+		{
+			filtro: "profesorado",
+			label: "Profesorados",
+		},
+	];
 
 	return (
 		<section className="relative flex w-full shrink-0 flex-col flex-wrap content-start items-center justify-center gap-6 self-stretch">
-			<h2 className="texto-headline text-text-800 dark:text-text-200 text-center">
-				Carreras
-			</h2>
-			<ul className="relative grid w-full shrink-0 grid-cols-1 flex-wrap content-start items-start justify-start gap-6 self-stretch md:grid-cols-2 lg:grid-cols-3">
-				{loading
-					? Array.from({ length: 12 }).map((_, index) => (
-							<CardCarreraSkeleton key={index} />
-						))
-					: carreras.map(({ id, nombre, slug, icon }) => {
-							return (
-								<CardCarrera
-									key={id}
-									icon={icon}
-									slug={slug}
-									carrera={nombre}
-								/>
-							);
-						})}
-			</ul>
+			<TypographyH2>Carreras</TypographyH2>
+
+			<Tabs defaultValue="todos" className="w-full">
+				<TabsList>
+					{filtros.map(({ filtro, label }) => {
+						return (
+							<TabsTrigger value={filtro}>{label}</TabsTrigger>
+						);
+					})}
+				</TabsList>
+				{filtros.map(({ filtro }) => {
+					return (
+						<TabsContent
+							key={filtro}
+							value={filtro}
+							className="relative grid w-full shrink-0 grid-cols-1 flex-wrap content-start items-start justify-start gap-6 self-stretch md:grid-cols-2 lg:grid-cols-3"
+						>
+							{loading ? (
+								<Cargando className="col-span-full" />
+							) : (
+								listadoCarreras({ carreras, filtro })
+							)}
+						</TabsContent>
+					);
+				})}
+			</Tabs>
 		</section>
 	);
 }

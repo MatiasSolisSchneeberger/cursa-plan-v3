@@ -22,7 +22,7 @@ CREATE TABLE public.calendario_clases (
   CONSTRAINT calendario_clases-v1_periodo_fkey FOREIGN KEY (periodo) REFERENCES public.tipos_periodo(id)
 );
 CREATE TABLE public.carreras (
-  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
   nombre text NOT NULL,
   slug text NOT NULL,
   icon text NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE public.fechas_examenes (
   CONSTRAINT fechas_examenes_materia_id_fkey FOREIGN KEY (materia_id) REFERENCES public.materias(id)
 );
 CREATE TABLE public.feriados (
-  id bigint NOT NULL,
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
   fecha date NOT NULL,
   tipo bigint NOT NULL,
   nombre text NOT NULL,
@@ -149,10 +149,13 @@ CREATE TABLE public.turnos_examenes (
   CONSTRAINT turnos_examenes_tipo_mesa_id_fkey FOREIGN KEY (tipo_mesa_id) REFERENCES public.tipos_mesa(id)
 );
 CREATE TABLE public.usuarios (
-  id uuid NOT NULL DEFAULT auth.uid(),
-  username text NOT NULL UNIQUE,
+  id uuid NOT NULL,
+  username text UNIQUE,
+  full_name text,
   avatar_url text,
-  full_name text NOT NULL,
+  updated_at timestamp with time zone DEFAULT now(),
+  role text NOT NULL DEFAULT 'user'::text,
+  icon text,
   CONSTRAINT usuarios_pkey PRIMARY KEY (id),
   CONSTRAINT usuarios_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
 );

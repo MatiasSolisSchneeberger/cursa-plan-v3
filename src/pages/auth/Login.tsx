@@ -1,33 +1,51 @@
+/* --- Imports --- */
+// react
 import { useEffect, useState } from "react";
-import Button from "@/components/Button";
+import { Link, useNavigate } from "react-router-dom";
+
+// supabase
 import supabase from "@/utils/supabase";
-import { useNavigate } from "react-router-dom";
-import Card from "@/components/Card";
-import CardHeader from "@/components/CardHeader";
-import CardBody from "@/components/CardBody";
-import Input from "@/components/Input";
-import CardFooter from "@/components/CardFooter";
+
+// Iconos
+import { IconEye, IconEyeOff, IconLoader2 } from "@tabler/icons-react";
+
+// context
 import { useAuth } from "@/context/AuthContextData";
-import Alert from "@/components/Alert";
-import { IconAlertCircle, IconLoader2 } from "@tabler/icons-react";
 
+// components
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+	Field,
+	FieldDescription,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+	FieldLegend,
+	FieldSet,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { TypographyH2 } from "@/components/ui/Typography";
+
+/* --- Componente --- */
 export default function Login() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-
+	/* --- Estados --- */
+	const [email, setEmail] = useState<string>("");
 	const [errorMsg, setErrorMsg] = useState<string | null>("");
-	const [loading, setLoading] = useState(false);
-	const [errorKey, setErrorKey] = useState<number>(0);
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const [loading, setLoading] = useState<boolean>(false);
+	const [password, setPassword] = useState<string>("");
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 
+	/* --- Contexto --- */
 	const { session } = useAuth();
 
+	/* --- Navegación --- */
 	const navigate = useNavigate();
 
+	/* --- Efectos --- */
 	useEffect(() => {
 		if (session) {
-			// Si ya existe sesión, lo mandamos al inicio.
-			// "replace: true" evita que pueda volver atrás con el botón del navegador.
-			// "state" es el dato secreto que enviamos a la otra página.
 			navigate("/", {
 				replace: true,
 				state: { showAlreadyLoggedInAlert: true },
@@ -35,13 +53,30 @@ export default function Login() {
 		}
 	}, [session, navigate]);
 
+	/**
+	 * Maneja el envío del formulario
+	 * @param e Evento del formulario
+	 */
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setErrorMsg(null);
+		setFieldErrors({});
 
-		if (!email || !password) {
-			setErrorMsg("Por favor ingresa tu correo y contraseña.");
-			setErrorKey((prev) => prev + 1);
+		let hasError = false;
+		const newFieldErrors: Record<string, string> = {};
+
+		if (!email) {
+			newFieldErrors.email = "Requerido";
+			hasError = true;
+		}
+		if (!password) {
+			newFieldErrors.password = "Requerido";
+			hasError = true;
+		}
+
+		if (hasError) {
+			setFieldErrors(newFieldErrors);
+			setErrorMsg("Por favor, completa todos los campos");
 			return;
 		}
 
@@ -55,12 +90,20 @@ export default function Login() {
 		setLoading(false);
 
 		if (error) {
-			// Si falla (contraseña mal, usuario no existe), mostramos el error
 			console.error(error);
-			setErrorKey((prev) => prev + 1);
 			setErrorMsg("Credenciales incorrectas. Intenta de nuevo.");
+			if (
+				error.message.toLowerCase().includes("email") ||
+				error.message.toLowerCase().includes("correo")
+			) {
+				setFieldErrors({ email: error.message });
+			} else if (
+				error.message.toLowerCase().includes("password") ||
+				error.message.toLowerCase().includes("contraseña")
+			) {
+				setFieldErrors({ password: error.message });
+			}
 		} else {
-			// Si es ÉXITO: Redirigimos al usuario al Home o Dashboard
 			console.log("Login exitoso:", data);
 			navigate("/", {
 				replace: true,
@@ -71,68 +114,134 @@ export default function Login() {
 
 	return (
 		<section className="flex flex-col items-center justify-center">
-			<Card className="w-full md:w-1/3">
-				<CardHeader color="secondary">Hola de nuevo</CardHeader>
-				<CardBody className="border-background-300 border-b-2 pb-6">
-					{errorMsg && (
-						<Alert
-							key={errorKey}
-							color="danger"
-							icon={<IconAlertCircle />}
-							title={"Error al iniciar sesión."}
-							description={errorMsg}
-							className="animate-shake mb-4"
-							onClose={() => setErrorMsg(null)}
-						/>
-					)}
+			<Card className="w-full max-w-2xl">
+				<CardContent>
 					<form
 						onSubmit={handleSubmit}
-						className="flex flex-col gap-2"
+						className="flex flex-col gap-4"
 					>
-						<Input
-							label="Email"
-							type="email"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<Input
-							label="Password"
-							type="password"
-							value={password}
-							showPassword
-							onChange={(e) => setPassword(e.target.value)}
-						/>
+						<div className="flex flex-col">
+							<FieldLegend>
+								<TypographyH2 className="border-0">
+									Iniciar sesión
+								</TypographyH2>
+							</FieldLegend>
+							<FieldDescription>
+								Ingresá a tu cuenta con tu correo electrónico y
+								contraseña
+							</FieldDescription>
+						</div>
+						<FieldSet>
+							<FieldGroup>
+								<Field data-invalid={!!fieldErrors.email}>
+									<FieldLabel htmlFor="email">
+										Correo electrónico
+									</FieldLabel>
+									<Input
+										id="email"
+										type="email"
+										autoComplete="email"
+										placeholder="tu@email.com"
+										value={email}
+										onChange={(e) =>
+											setEmail(e.target.value)
+										}
+										aria-invalid={!!fieldErrors.email}
+										required={true}
+									/>
+									{fieldErrors.email && (
+										<FieldError>
+											{fieldErrors.email}
+										</FieldError>
+									)}
+								</Field>
+							</FieldGroup>
+							<FieldGroup>
+								<Field data-invalid={!!fieldErrors.password}>
+									<FieldLabel htmlFor="password">
+										Contraseña
+									</FieldLabel>
+									<div className="flex flex-row gap-2">
+										<Input
+											id="password"
+											type={
+												showPassword
+													? "text"
+													: "password"
+											}
+											autoComplete="current-password"
+											placeholder="************"
+											value={password}
+											onChange={(e) =>
+												setPassword(e.target.value)
+											}
+											aria-invalid={
+												!!fieldErrors.password
+											}
+											required={true}
+										/>
+										<Button
+											type="button"
+											variant={
+												fieldErrors.password
+													? "destructive"
+													: "outline"
+											}
+											size="icon"
+											onClick={() =>
+												setShowPassword(!showPassword)
+											}
+										>
+											{showPassword ? (
+												<IconEyeOff size={18} />
+											) : (
+												<IconEye size={18} />
+											)}
+										</Button>
+									</div>
+									{fieldErrors.password && (
+										<FieldError>
+											{fieldErrors.password}
+										</FieldError>
+									)}
+								</Field>
+							</FieldGroup>
+							{errorMsg && <FieldError>{errorMsg}</FieldError>}
+						</FieldSet>
 						<Button
-							className="w-full"
-							variant="solid"
 							type="submit"
 							disabled={loading}
-							iconLeft={
-								loading && (
-									<IconLoader2 className="animate-spin" />
-								)
-							}
+							className="mt-2 w-full gap-2"
 						>
+							{loading && (
+								<IconLoader2
+									className="animate-spin"
+									size={20}
+								/>
+							)}
 							{loading ? "Iniciando sesión..." : "Iniciar sesión"}
 						</Button>
 					</form>
-				</CardBody>
-				<CardFooter>
-					<div className="flex flex-col gap-2 md:flex-row">
+				</CardContent>
+
+				<CardFooter className="w-full">
+					<div className="flex w-full flex-col gap-2 md:flex-row">
 						{/* TODO: Implementar flujo de recuperación de contraseña */}
 						<Button
-							variant="outlined"
-							className="w-full"
-							onClick={() =>
-								alert("Funcionalidad en desarrollo.")
-							}
+							type="button"
+							variant="outline"
+							className="w-full md:flex-1"
+							asChild
 						>
-							¿Te olvidaste la contraseña?
+							<Link to="/contraseña-olvidada">
+								¿Te olvidaste la contraseña?
+							</Link>
 						</Button>
 						<Button
-							variant="outlined"
-							className="w-full"
-							href="/register"
+							type="button"
+							variant="outline"
+							className="w-full md:flex-1"
+							onClick={() => navigate("/register")}
 						>
 							¿No tienes cuenta?
 						</Button>

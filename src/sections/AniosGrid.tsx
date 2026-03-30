@@ -1,5 +1,7 @@
-import CardMateria from "@/components/CardMateria";
-import type { AnioJSON, MateriaJSON, PeriodoJSON } from "@/types/db";
+import { TypographyH2, TypographyLead } from "@/components/ui/Typography";
+import CardMateria from "../components/CardMateria";
+import type { AnioJSON, MateriaJSON, PeriodoJSON } from "../types/db";
+import { TabsContent } from "@/components/ui/tabs";
 
 interface AniosGridProps {
 	anios: AnioJSON[];
@@ -26,23 +28,21 @@ export default function AniosGrid({
 	planAnio,
 }: AniosGridProps) {
 	return (
-		<article className="flex flex-col gap-8">
+		<>
 			{anios.map((anioData: AnioJSON) => (
-				<section
+				<TabsContent
 					key={anioData.anio}
-					id={anioData.anio.toString()}
-					className="flex scroll-mt-28 flex-col gap-4"
+					value={anioData.anio.toString()}
+					className="flex w-full flex-col gap-4"
 				>
-					<h2 className="texto-headline text-text-900 dark:text-text-100 border-background-300 dark:border-background-700 border-b-2 pb-2 text-center">
-						{anioData.anio}° Año
-					</h2>
+					<TypographyH2>{anioData.anio}° Año</TypographyH2>
 
 					{anioData.periodos.map((periodo: PeriodoJSON) => (
 						<article key={periodo.nroPeriodo} className="">
-							<h3 className="texto-title text-text-700 dark:text-text-300 border-background-300 dark:border-background-700 mb-3 border-b-2 pb-1 text-center capitalize">
+							<TypographyLead className="border-border/75 mb-4 border-b pb-1 text-center">
 								{formatPeriodoTitle(periodo)}
-							</h3>
-							<section className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+							</TypographyLead>
+							<section className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2">
 								{periodo.materias
 									.filter((materia: MateriaJSON) => {
 										// Si no hay filtro de orientación, mostramos todo
@@ -71,8 +71,8 @@ export default function AniosGrid({
 							</section>
 						</article>
 					))}
-				</section>
+				</TabsContent>
 			))}
-		</article>
+		</>
 	);
 }

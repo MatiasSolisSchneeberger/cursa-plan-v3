@@ -7,7 +7,7 @@ import {
 	IconLock,
 	IconLockOpen,
 } from "@tabler/icons-react";
-import type { EstadoMateria } from "@/types/materiaTypes";
+import type { EstadoMateria } from "../types/materiaTypes";
 
 export type EstadoMateriaConfig = {
 	texto: EstadoMateria;

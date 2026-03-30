@@ -1,6 +1,6 @@
-import BentoGrid from "@/sections/BentoGrid";
-import CarruselCarreras from "@/sections/CarruselCarreras";
-import HeroSection from "@/sections/HeroSection";
+import BentoGrid from "../sections/BentoGrid";
+import CarruselCarreras from "../sections/CarruselCarreras";
+import HeroSection from "../sections/HeroSection";
 
 export function Index() {
 	return (

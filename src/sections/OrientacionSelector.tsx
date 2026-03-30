@@ -1,12 +1,22 @@
-import { IconCheck, IconChevronDown } from "@tabler/icons-react";
-import Button from "@/components/Button";
-import Dropdown from "@/components/Dropdown";
-import DropdownTrigger from "@/components/DropdownTrigger";
-import DropdownContent from "@/components/DropdownContent";
-import Menu from "@/components/Menu";
-import MenuGroup from "@/components/MenuGroup";
-import MenuItem from "@/components/MenuItem";
-import type { PlanJSON } from "@/types/db";
+import { Label } from "@/components/ui/label";
+import type { PlanJSON } from "../types/db";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectSeparator,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 interface OrientacionSelectorProps {
 	plan: PlanJSON;
@@ -26,68 +36,76 @@ export default function OrientacionSelector({
 	if (!plan.listaOrientaciones || plan.listaOrientaciones.length === 0)
 		return null;
 
-	const currentOrientacionName =
-		plan.listaOrientaciones.find(
-			(ori) => ori.slug === currentOrientacionSlug,
-		)?.nombre || "Todas las orientaciones";
+	// Calculate which years contain subjects that have an orientation
+	const yearsWithOrientaciones = Array.from(
+		new Set(
+			plan.anios
+				.filter((anioData) =>
+					anioData.periodos.some((periodo) =>
+						periodo.materias.some((materia) => materia.orientacion),
+					),
+				)
+				.map((anioData) => anioData.anio),
+		),
+	).sort((a, b) => a - b);
+
+	const yearsText =
+		yearsWithOrientaciones.length > 0
+			? yearsWithOrientaciones.length > 1
+				? `${yearsWithOrientaciones.slice(0, -1).join(", ")} y ${yearsWithOrientaciones[yearsWithOrientaciones.length - 1]}`
+				: yearsWithOrientaciones[0].toString()
+			: "";
 
 	return (
 		<article
 			className={`flex items-center justify-center gap-3 ${showTitle ? "flex-col" : "flex-row"} ${className}`}
 		>
-			{showTitle && (
-				<span className="text-text-800 dark:text-text-200 texto-title">
-					Elegir la orientación:
-				</span>
-			)}
-			<Dropdown>
-				<DropdownTrigger>
-					<Button
-						variant="outlined"
-						color="secondary"
-						iconRight={<IconChevronDown />}
-					>
-						{currentOrientacionName}
-					</Button>
-				</DropdownTrigger>
-				<DropdownContent>
-					<Menu>
-						<MenuGroup>
-							<MenuItem
-								onClick={() => onSelect("")}
-								canHover
-								iconRight={
-									!currentOrientacionSlug ? (
-										<IconCheck className="text-success-400 dark:text-success-600" />
-									) : null
-								}
-							>
-								Todas las orientaciones
-							</MenuItem>
-						</MenuGroup>
-						<MenuGroup title="Orientaciones">
-							{plan.listaOrientaciones.map((ori) => (
-								<MenuItem
-									key={ori.id}
-									isActive={
-										ori.slug === currentOrientacionSlug
-									}
-									onClick={() => onSelect(ori.slug)}
-									// Alternatively we could use href if we wanted direct links,
-									// but preserving the onSelect callback pattern for consistency
-									iconRight={
-										ori.slug === currentOrientacionSlug ? (
-											<IconCheck className="text-success-400 dark:text-success-600" />
-										) : null
-									}
-								>
-									{ori.nombre}
-								</MenuItem>
-							))}
-						</MenuGroup>
-					</Menu>
-				</DropdownContent>
-			</Dropdown>
+			<Select
+				value={currentOrientacionSlug || "todas"}
+				onValueChange={(val) => onSelect(val === "todas" ? "" : val)}
+			>
+				{yearsWithOrientaciones.length > 0 && (
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<span className="flex items-center gap-1">
+								<Label>Orientación</Label>
+								<IconInfoCircle className="text-muted-foreground size-4" />
+							</span>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>
+								Las orientaciones se reflejan en las materias de
+								{yearsWithOrientaciones.length > 1
+									? " los años "
+									: "l año "}
+								<span className="font-semibold">
+									{yearsText}
+								</span>
+							</p>
+						</TooltipContent>
+					</Tooltip>
+				)}
+				{yearsWithOrientaciones.length === 0 && (
+					<Label>Orientación</Label>
+				)}
+				<SelectTrigger className="w-full max-w-48">
+					<SelectValue placeholder="Seleccionar orientación" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						<SelectLabel>Orientaciones</SelectLabel>
+						<SelectItem value="todas">
+							Todas las orientaciones
+						</SelectItem>
+						<SelectSeparator />
+						{plan.listaOrientaciones.map((ori) => (
+							<SelectItem key={ori.id} value={ori.slug}>
+								{ori.nombre}
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</Select>
 		</article>
 	);
 }

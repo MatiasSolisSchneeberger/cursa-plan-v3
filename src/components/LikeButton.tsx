@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { IconHeart, IconHeartFilled, IconLoader } from "@tabler/icons-react";
-import supabase from "@/utils/supabase";
-// 1. IMPORTA TU HOOK DE CONTEXTO
-import { useAuth } from "@/context/AuthContextData";
-import Button from "@/components/Button";
 
+// Supabase
+import supabase from "@/utils/supabase";
+
+// hooks
+import { useAuth } from "@/context/AuthContextData";
+
+// Componentes
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+// INTERFAZ
 interface LikeButtonProps {
 	planId: number;
 	className?: string;
 }
 
 export default function LikeButton({ planId, className }: LikeButtonProps) {
+	const [isLoading, setIsLoading] = useState(true);
 	const [isLiked, setIsLiked] = useState(false);
 	const [fetching, setFetching] = useState(false); // Estado de carga interno del botón
 
@@ -35,6 +43,8 @@ export default function LikeButton({ planId, className }: LikeButtonProps) {
 				}
 			} catch (error) {
 				console.error("Error verificando like:", error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
@@ -96,18 +106,27 @@ export default function LikeButton({ planId, className }: LikeButtonProps) {
 
 	return (
 		<Button
-			color={isLiked ? "danger" : "secondary"}
-			variant={isLiked ? "flat" : "outlined"}
-			className={className}
+			variant={isLiked ? "default" : "outline"}
+			className={cn(
+				isLiked &&
+					"bg-red-200 text-red-600 dark:bg-red-800 dark:text-red-200",
+				className,
+			)}
 			onClick={toggleLike}
-			isIconOnly
+			size="icon-lg"
 		>
-			{fetching ? (
-				<IconLoader className="animate-spin" />
+			{isLoading || fetching ? (
+				<>
+					<IconLoader className="animate-spin" />
+				</>
 			) : isLiked ? (
-				<IconHeartFilled className="text-danger-600 dark:text-danger-400" />
+				<>
+					<IconHeartFilled className="text-danger-600 dark:text-danger-400" />
+				</>
 			) : (
-				<IconHeart />
+				<>
+					<IconHeart />
+				</>
 			)}
 		</Button>
 	);

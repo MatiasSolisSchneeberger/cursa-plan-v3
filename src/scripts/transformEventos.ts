@@ -1,5 +1,13 @@
-import { type CalendarEvent } from "@/components/CalendarCard"
-import { type CalendarColor } from "@/components/CalendarDay"
+export interface CalendarEvent {
+    id: string;
+    title: string;
+    start: Date;
+    end?: Date;
+    note?: string;
+    eventType?: string;
+    period?: string;
+    isSuspended?: boolean;
+}
 
 // --- HELPERS ---
 
@@ -12,12 +20,7 @@ const parseDate = (dateStr: string): Date => {
     return new Date(year, month - 1, day)
 }
 
-// --- MAPA DE COLORES PARA FERIADOS ---
-const FERIADO_COLORS: Record<string, CalendarColor> = {
-    "Feriado Inamovible": "danger",
-    "Feriado Trasladable": "warning", // O warning si prefieres distinguir
-    "Día No Laborable": "info",
-}
+
 
 // --- TRANSFORMADORES ---
 
@@ -28,7 +31,7 @@ export function transformarFeriados(data: any[]): CalendarEvent[] {
         start: parseDate(item.fecha),
         // Los feriados suelen ser de 1 día, start = end implícito, o lo explícitas:
         end: parseDate(item.fecha),
-        color: FERIADO_COLORS[item.tipo?.nombre] || "primary",
+
         note: item.nota,
         eventType: item.tipo?.nombre || "Feriado",
     }))
@@ -48,7 +51,7 @@ export function transformarClases(data: any[]): CalendarEvent[] {
             period: periodoNombre, // Change: Use general name for filtering
             start: parseDate(item.fecha_inicio),
             end: parseDate(item.fecha_fin),
-            color: "info", // Color azul/neutro para clases
+
             note: item.nota,
             eventType: "Clases",
         }
@@ -66,7 +69,7 @@ export function transformarExamenes(data: any[]): CalendarEvent[] {
             title: title,
             start: parseDate(item.fecha_inicio),
             end: parseDate(item.fecha_fin),
-            color: "tertiary", // Color violeta/destacado para exámenes
+
             note: item.is_suspencion && "Suspende clases",
             eventType: "Exámenes",
             isSuspended: item.is_suspencion,
@@ -88,7 +91,7 @@ export function transformarInscripciones(data: any[]): CalendarEvent[] {
             period: periodoNombre, // Change: Use general name for filtering
             start: parseDate(item.fecha_inicio),
             end: parseDate(item.fecha_fin),
-            color: "success", // Verde para inscripciones (acción positiva)
+
             note: item.nota,
             eventType: "Inscripciones",
         }

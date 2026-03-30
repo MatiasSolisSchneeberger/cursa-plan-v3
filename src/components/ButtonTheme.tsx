@@ -1,40 +1,55 @@
-import { useEffect } from "react";
-import { IconMoon, IconSun } from "@tabler/icons-react";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/context/ThemeContextData";
+import { IconDeviceImac, IconMoon, IconSun } from "@tabler/icons-react";
 
 export default function ButtonTheme() {
-	const { theme, toggleTheme } = useTheme();
+	const { theme, setTheme } = useTheme();
 
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.ctrlKey && (e.key === "d" || e.key === "D")) {
-				e.preventDefault();
-				toggleTheme();
-			}
-		};
-		window.addEventListener("keydown", handleKeyDown);
-
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown);
-		};
-	}, [toggleTheme]);
-
-	// Icono dinámico según el estado
-	const getIcon = () => {
-		if (theme === "light") return <IconSun size={20} />;
-		return <IconMoon size={20} />;
+	const handleThemeChange = (value: string) => {
+		setTheme(value as "light" | "dark" | "system");
 	};
 
 	return (
-		<Button
-			isIconOnly
-			onClick={toggleTheme}
-			title={`Tema actual: ${theme === "dark" ? "Oscuro" : "Claro"}`}
-			variant="outlined"
-			color="tertiary"
-		>
-			{getIcon()}
-		</Button>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="outline" size="icon-lg">
+					<IconSun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+					<IconMoon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+					<span className="sr-only">Toggle theme</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent className="w-9" align="end">
+				<DropdownMenuGroup>
+					<DropdownMenuLabel>Tema</DropdownMenuLabel>
+
+					<DropdownMenuRadioGroup
+						value={theme}
+						onValueChange={handleThemeChange}
+					>
+						<DropdownMenuRadioItem value="light">
+							<IconSun />
+							Light
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="dark">
+							<IconMoon />
+							Dark
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="system">
+							<IconDeviceImac />
+							System
+						</DropdownMenuRadioItem>
+					</DropdownMenuRadioGroup>
+				</DropdownMenuGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }

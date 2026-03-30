@@ -1,15 +1,23 @@
 import { motion } from "framer-motion";
 import {
-	IconSchool,
+	IconDevicesPc,
+	IconCalendarClock,
+	IconUserPlus,
 	IconArrowRight,
-	IconCalendarTime,
+	IconSparkles,
+	IconProgressCheck,
 } from "@tabler/icons-react";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+	CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import Card from "@/components/Card";
-import CardBody from "@/components/CardBody";
-import Chip from "@/components/Chip";
-import CardHeader from "@/components/CardHeader";
-import Button from "@/components/Button";
 
 // Variantes de animación para que aparezcan en cascada
 const containerVariants = {
@@ -29,158 +37,157 @@ const itemVariants = {
 
 export default function BentoGrid() {
 	return (
-		<section className="container mx-auto flex flex-col items-center gap-3">
-			<span className="texto-label text-primary-400 dark:text-primary-600">
-				Nuestro sistema
-			</span>
+		<section className="container mx-auto flex flex-col items-center gap-6 px-4 py-10">
+			<Badge variant="secondary">Nuestro sistema</Badge>
 			<motion.div
 				variants={containerVariants}
 				initial="hidden"
 				whileInView="show"
 				viewport={{ once: true, margin: "-50px" }}
-				className="grid h-auto grid-cols-1 gap-4 md:h-[800px] md:grid-cols-6 md:grid-rows-3"
+				className="grid h-auto w-full grid-cols-1 gap-4 md:h-[650px] md:grid-cols-6 md:grid-rows-3"
 			>
 				{/* 1. HERO CARD - MOCKUP (Grande: ocupa 4 columnas y 2 filas) */}
 				<motion.div
 					variants={itemVariants}
-					className="group relative md:col-span-4 md:row-span-2"
+					className="col-span-1 h-full min-h-[400px] w-full md:col-span-4 md:row-span-2"
 				>
-					<Card className="h-full overflow-hidden">
-						<CardHeader>Todas las Carreras y Planes</CardHeader>
-						<CardBody className="gap-8">
-							<Chip
-								color="secondary"
-								iconLeft={<IconSchool size={18} />}
-							>
-								Académico
-							</Chip>
-							<span className="flex w-full justify-center">
-								<p className="texto-title text-text-600 dark:text-text-400 max-w-md">
-									Accede a la base de datos completa de planes
-									de estudio actualizados. Materias,
-									correlativas y optativas en un solo lugar.
-								</p>
-							</span>
+					<Card className="grid h-full grid-cols-1 md:grid-cols-2">
+						<CardHeader className="relative flex h-full flex-col justify-center gap-4">
+							<Badge variant="secondary">
+								<IconSparkles /> Nueva Plataforma
+							</Badge>
+							<CardTitle className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+								CursaPlan
+							</CardTitle>
+							<CardDescription className="text-muted-foreground mb-6 text-base md:text-lg">
+								Tu plataforma integral para gestionar
+								inscripciones, horarios y todo tu recorrido
+								académico en un solo lugar.
+							</CardDescription>
+						</CardHeader>
 
-							{/* IMAGEN MOCKUP */}
-
+						<CardContent className="">
 							<img
 								src="/images/mockup/Carreras-web.png"
-								alt="Interfaz de CursaPlan"
-								className="scale-125"
+								alt="CursaPlan Dashboard Mockup"
+								className="h-full w-full scale-125 border-t border-l border-white/20 object-cover object-top-left drop-shadow-2xl md:rounded-tl-2xl dark:border-white/10"
 							/>
-						</CardBody>
+						</CardContent>
+						<CardFooter className="flex gap-3 md:col-span-2">
+							<Button className="px-6" asChild>
+								<Link to="/carreras">Ver carreras</Link>
+							</Button>
+							<Button variant="outline" asChild>
+								<Link
+									to="/register"
+									className="flex items-center gap-2"
+								>
+									Comenzar ahora
+									<IconArrowRight size={20} />
+								</Link>
+							</Button>
+						</CardFooter>
 					</Card>
 				</motion.div>
 
-				{/* 2. Acceso desde cualquier dispositivo */}
+				{/* 2. Acceso desde cualquier dispositivo (2 columnas, 2 filas) */}
 				<motion.div
 					variants={itemVariants}
-					className="row-span-2 md:col-span-2"
+					className="col-span-1 h-full min-h-[400px] w-full md:col-span-2 md:row-span-2"
 				>
-					<Card className="h-full">
+					<Card className="group relative flex h-full w-full flex-col overflow-hidden shadow-sm dark:shadow-none">
 						<CardHeader>
-							Accede desde cualquier dispositivo
+							<CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+								<IconDevicesPc />
+								Multiplataforma
+							</CardTitle>
+							<CardDescription>
+								Accede desde tu PC, tablet o celular con la
+								misma fluidez y diseño adaptativo.
+							</CardDescription>
 						</CardHeader>
-						<CardBody className="min-h-0 flex-1 gap-6">
-							<p>
-								Guarda todo tu progreso y podes acceder desde
-								cualquier dispositivo. Para eso te tienes que
-								registrar
-							</p>
-							<span className="bg-primary-200 dark:bg-primary-950 relative min-h-[300px] w-full flex-1 overflow-hidden rounded-xl">
-								{/* Galaxy - Behind and Right */}
-								<img
-									src="/images/mockup/CarreraLSI-Galaxy.png"
-									alt="Galaxy Mockup"
-									className="absolute top-0 right-0 z-0 h-full w-9/12 scale-105 object-cover object-top opacity-90 transition-transform duration-500 hover:scale-105"
-								/>
-								{/* iPhone - Front and Left */}
-								<img
-									src="/images/mockup/CarreraLSI-iPhone.png"
-									alt="iPhone Mockup"
-									className="absolute top-24 left-0 z-10 h-full w-9/12 object-cover object-top drop-shadow-2xl transition-transform duration-500 hover:scale-105"
-								/>
-							</span>
-						</CardBody>
+						<CardContent className="relative">
+							<img
+								src="/images/mockup/CarreraLSI-iPhone&Galaxy.png"
+								alt="Mobile App Mockup"
+								className="absolute -top-6 right-1/2 h-auto translate-x-1/2 object-cover drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:translate-y-[-10px] md:w-[130%]"
+							/>
+						</CardContent>
 					</Card>
 				</motion.div>
 
-				{/* 3. PERIODOS Y FECHAS (Horizontal: 3 columnas, 1 fila) */}
+				{/* 3. PERIODOS Y FECHAS (Horizontal: 2 columnas, 1 fila) */}
 				<motion.div
 					variants={itemVariants}
-					className="md:col-span-2 md:row-span-1"
+					className="col-span-1 h-full w-full md:col-span-2 md:row-span-1"
 				>
-					<Card className="h-full overflow-hidden">
-						<CardHeader>Periodos Clave</CardHeader>
-						<CardBody className="">
-							<Chip
-								color="secondary"
-								iconLeft={<IconCalendarTime size={16} />}
+					<Link to="/calendario">
+						<Card className="group relative h-full min-h-[150px]">
+							<CardHeader className="relative z-10 flex h-full flex-col justify-center">
+								<CardTitle className="mb-1 flex items-center gap-2 text-xl font-bold">
+									<IconCalendarClock className="text-primary-200 h-6 w-6" />
+									Fechas Clave
+								</CardTitle>
+								<CardDescription>
+									Nunca más te pierdas un período de
+									inscripción o examen final.
+								</CardDescription>
+							</CardHeader>
+							<div className="pointer-events-none absolute top-[-20%] right-[-10%] opacity-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12">
+								<IconCalendarClock className="h-48 w-48" />
+							</div>
+							<Button
+								className="absolute right-4 bottom-4 translate-x-2 rounded-full p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:translate-x-0 group-hover:opacity-100"
+								size="icon"
 							>
-								Cronograma
-							</Chip>
-							<span className="flex flex-col gap-10 overflow-hidden rounded-b-xl md:flex-row md:gap-4 md:overflow-visible">
-								<p className="texto-body text-text-600 dark:text-text-400 w-full md:w-1/2">
-									Visualiza claramente cuándo son las semanas
-									de inscripción, cursada y receso.
-								</p>
-
-								{/* Mini visualización de timeline */}
-								<img
-									src="/images/mockup/862shots_so.png"
-									alt=""
-									className="h-full max-h-[400px] w-full scale-[120%] overflow-hidden object-cover object-top md:w-1/2"
-								/>
-							</span>
-						</CardBody>
-					</Card>
+								<IconArrowRight />
+							</Button>
+						</Card>
+					</Link>
 				</motion.div>
 
-				{/* 4. FERIADOS (Pequeño: 1 columna, 1 fila) */}
+				{/* 4. FERIADOS (Pequeño: 2 columnas, 1 fila) */}
 				<motion.div
 					variants={itemVariants}
-					className="md:col-span-2 md:row-span-1"
+					className="col-span-1 h-full w-full md:col-span-2 md:row-span-1"
 				>
-					<Card className="h-full overflow-hidden">
-						<CardHeader>Fecha de exámenes</CardHeader>
-						<CardBody>
-							<span className="flex flex-col gap-10 overflow-hidden rounded-b-xl md:flex-row md:gap-4 md:overflow-visible">
-								<p className="texto-body text-text-600 dark:text-text-400">
-									En cada materia hay un apartado para revisar
-									cuando son las fechas de las mesas de
-									exámenes
-								</p>
-
-								{/* Mini visualización de timeline */}
-								<img
-									src="/images/mockup/500shots_so.png"
-									alt=""
-									className="h-full max-h-[400px] w-full object-cover object-top md:w-1/2"
-								/>
-							</span>
-						</CardBody>
+					<Card className="group relative h-full">
+						<CardHeader className="relative z-20 w-[60%] p-6">
+							<CardTitle className="flex items-center gap-2 text-xl font-bold">
+								<IconProgressCheck className="text-primary h-6 w-6" />
+								Controla tu progreso
+							</CardTitle>
+							<CardDescription>
+								Guardá tu progreso de la carrera en cada materia
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="absolute right-0 bottom-0 z-10 h-[85%] w-[55%] p-0">
+							<img
+								src="/images/mockup/Tarjeta.png"
+								alt="Tarjeta Feriados Mockup"
+								className="h-full w-full translate-x-4 translate-y-2 rotate-[-5deg] object-contain object-bottom-right drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.2] group-hover:-rotate-2"
+							/>
+						</CardContent>
 					</Card>
 				</motion.div>
 
 				{/* 5. CTA REGISTRO (2 columnas, 1 fila) */}
 				<motion.div
 					variants={itemVariants}
-					className="md:col-span-2 md:row-span-1"
+					className="col-span-1 h-full w-full md:col-span-2 md:row-span-1"
 				>
-					<Link to="/register" className="group block h-full">
-						<Card className="h-full">
-							<CardHeader>Empieza Ahora</CardHeader>
-							<CardBody className="flex h-full items-center justify-between gap-6">
-								<p className="text-text-900 dark:text-text-100 texto-title">
-									Organiza tu año ahora mismo.
-								</p>
-								<Button iconRight={<IconArrowRight />}>
-									Registrate
-								</Button>
-							</CardBody>
-						</Card>
-					</Link>
+					<Card className="group hover:bg-accent flex h-full w-full cursor-pointer flex-col justify-center bg-transparent shadow-none transition-all ease-in-out">
+						<CardHeader className="p-6 text-center">
+							<CardTitle className="flex flex-col items-center gap-3 text-xl font-bold">
+								<IconUserPlus className="text-primary-600 dark:text-primary-400 h-6 w-6 transition-all ease-in-out group-hover:scale-125" />
+								Únete a CursaPlan
+							</CardTitle>
+							<CardDescription>
+								Crea tu cuenta hoy y organiza tu futuro
+								académico.
+							</CardDescription>
+						</CardHeader>
+					</Card>
 				</motion.div>
 			</motion.div>
 		</section>

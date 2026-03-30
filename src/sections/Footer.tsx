@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import LogoPage from "@/components/LogoPage";
-import MenuGroup from "@/components/MenuGroup";
-import MenuItem from "@/components/MenuItem";
+import { Link } from "react-router-dom";
+
 import supabase from "@/utils/supabase";
-import IconCarrera from "@/components/IconCarrera";
 import { INTERNAL_LINKS, SOCIAL_LINKS } from "@/utils/links";
-import Button from "@/components/Button";
+import {
+	Item,
+	ItemContent,
+	ItemGroup,
+	ItemHeader,
+	ItemTitle,
+} from "@/components/ui/item";
+import { Button } from "@/components/ui/button";
+import IconCarrera from "@/components/IconCarrera";
+import { Label } from "@/components/ui/label";
+import { TypographyP, TypographySmall } from "@/components/ui/Typography";
 
 interface Carrera {
 	id: number;
@@ -37,26 +46,34 @@ export default function Footer() {
 	}, []);
 
 	return (
-		<footer className="bg-background-100 dark:bg-background-900 outline-background-300 dark:outline-background-700 grid w-full grid-cols-1 items-start justify-center gap-6 rounded-3xl p-6 outline sm:grid-cols-2 lg:grid-cols-4">
+		<footer className="bg-background-100 dark:bg-background-900 outline-background-300 dark:outline-background-700 grid w-full grid-cols-1 items-start justify-center gap-6 rounded-3xl p-6 outline sm:grid-cols-2 md:grid-cols-3">
 			{/* Columna 1: Brand & Social */}
 			<aside className="flex flex-col gap-4">
 				<LogoPage />
 				<div className="texto-label flex flex-col gap-2">
-					<span>Esta es una pagina para los alumnos </span>
-					<span className="text-secondary-600 dark:text-secondary-400">
+					<TypographyP>
+						Esta es una pagina para los alumnos{" "}
+					</TypographyP>
+					<TypographySmall className="text-secondary-600 dark:text-secondary-400">
 						© {new Date().getFullYear()} Cursa Plan. Todos los
 						derechos reservados.
-					</span>
+					</TypographySmall>
 				</div>
 				<div className="flex gap-2">
 					{SOCIAL_LINKS.map((link) => (
 						<Button
-							variant="text"
-							color="secondary"
-							href={link.href}
-							isIconOnly
+							key={link.label}
+							variant="outline"
+							asChild
+							size={"icon-lg"}
 						>
-							{link.icon}
+							<Link
+								to={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{link.icon}
+							</Link>
 						</Button>
 					))}
 				</div>
@@ -64,65 +81,47 @@ export default function Footer() {
 
 			{/* Columna 2: Carreras */}
 			<section>
-				<MenuGroup title="Carreras">
+				<ItemGroup>
+					<Label>Carreras</Label>
 					{carreras?.map((carrera) => (
-						<MenuItem
-							className={`theme-${carrera.slug} text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900`}
-							key={carrera.id}
-							href={`/carreras/${carrera.slug}`}
-							iconLeft={
-								<IconCarrera
-									icon={carrera.icon}
-									className="text-primary-600 dark:text-primary-400"
-								/>
-							}
-						>
-							{carrera.nombre}
-						</MenuItem>
+						<Item key={carrera.id} asChild>
+							<Link to={`/carreras/${carrera.slug}`}>
+								<IconCarrera icon={carrera.icon} />
+								<ItemContent>
+									<ItemHeader>
+										<ItemTitle>{carrera.nombre}</ItemTitle>
+									</ItemHeader>
+								</ItemContent>
+							</Link>
+						</Item>
 					))}
-				</MenuGroup>
+				</ItemGroup>
 			</section>
 
 			{/* Columna 3: Navegación */}
 			<section>
-				<MenuGroup title="Navegación">
-					{INTERNAL_LINKS.filter((link) =>
-						["main", "secondary"].includes(link.category),
-					).map((link) => {
+				<ItemGroup>
+					<Label>Navegación</Label>
+					{INTERNAL_LINKS.map((link) => {
 						if (link.href !== urlActual) {
 							return (
-								<MenuItem
-									key={link.label}
-									href={link.href}
-									iconLeft={link.icon}
-								>
-									{link.label}
-								</MenuItem>
+								<Item key={link.label} asChild>
+									<Link to={link.href}>
+										{link.icon}
+										<ItemContent>
+											<ItemHeader>
+												<ItemTitle>
+													{link.label}
+												</ItemTitle>
+											</ItemHeader>
+										</ItemContent>
+									</Link>
+								</Item>
 							);
 						}
+						return null;
 					})}
-				</MenuGroup>
-			</section>
-
-			{/* Columna 4: Legales y Soporte */}
-			<section>
-				<MenuGroup title="Legales y Soporte">
-					{INTERNAL_LINKS.filter(
-						(link) => link.category === "legal",
-					).map((link) => {
-						if (link.href !== urlActual) {
-							return (
-								<MenuItem
-									key={link.label}
-									href={link.href}
-									iconLeft={link.icon}
-								>
-									{link.label}
-								</MenuItem>
-							);
-						}
-					})}
-				</MenuGroup>
+				</ItemGroup>
 			</section>
 		</footer>
 	);

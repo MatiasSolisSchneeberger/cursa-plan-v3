@@ -53,8 +53,30 @@ export const useUpdatePassword = () => {
 
             setSuccess(true)
             return { success: true, message: "Contraseña actualizada exitosamente" }
-        } catch (err: any) {
-            const msg = err.message || "Error al actualizar la contraseña"
+        } catch (err: unknown) {
+            let msg = "Error al actualizar la contraseña";
+            if (err instanceof Error) {
+                msg = err.message || msg;
+            } else if (typeof err === "string") {
+                msg = err;
+            } else if (err && typeof err === "object" && "message" in err && typeof err.message === "string") {
+                msg = err.message || msg;
+            }
+            // Mapeo de errores de Supabase a Español
+            if (typeof msg === "string") {
+                if (msg.includes("different from the old password")) {
+                    msg = "La nueva contraseña no puede ser igual a la anterior."
+                } else if (msg.includes("Auth session missing") || msg.includes("recovery token")) {
+                    msg = "El enlace ha expirado o no es válido. Por favor, solicita uno nuevo en 'Recuperar contraseña'."
+                } else if (msg.includes("weak_password")) {
+                    msg = "La contraseña es demasiado débil."
+                } else if (msg.toLowerCase().includes("user not found")) {
+                    msg = "Usuario no encontrado."
+                } else if (msg.includes("rate_limit")) {
+                    msg = "Demasiados intentos. Por favor, espera un momento y vuelve a intentarlo."
+                }
+            }
+
             setError(msg)
             return { success: false, message: msg }
         } finally {

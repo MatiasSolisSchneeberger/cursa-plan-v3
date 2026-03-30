@@ -1,19 +1,20 @@
-import {
-	IconAlertCircle,
-	IconCheck,
-	IconHelp,
-	IconLoader2,
-	IconMail,
-} from "@tabler/icons-react";
-import Button from "@/components/Button";
-import Card from "@/components/Card";
-import CardBody from "@/components/CardBody";
-import CardFooter from "@/components/CardFooter";
-import CardHeader from "@/components/CardHeader";
-import Input from "@/components/Input";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { IconCheck, IconHelp, IconLoader2, IconArrowLeft } from "@tabler/icons-react";
 import supabase from "@/utils/supabase";
-import Alert from "@/components/Alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+	Field,
+	FieldDescription,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+	FieldLegend,
+	FieldSet,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export default function ContraseñaOlvidada() {
 	const [email, setEmail] = useState("");
@@ -60,7 +61,7 @@ export default function ContraseñaOlvidada() {
 			setMessage(
 				"Si el correo está registrado en nuestra base de datos, recibirás las instrucciones para recuperar tu contraseña en breve.",
 			);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			// Incluso si hay error técnico, a veces es mejor mostrar el mensaje de éxito
 			// o un error genérico para no dar pistas.
 			console.error("Error técnico:", err);
@@ -73,69 +74,78 @@ export default function ContraseñaOlvidada() {
 	};
 
 	return (
-		<section className="flex min-h-[50vh] items-center justify-center px-4">
-			<Card className="w-full max-w-xl">
-				<CardHeader color="primary">Cambiar Contraseña</CardHeader>
-				<CardBody className="flex flex-col gap-4">
-					<span className="texto-body text-text-800 dark:text-text-200">
-						Ingresa tu correo electronico y te enviaremos un enlace
-						para restablecer tu contraseña.
-					</span>
-					{error && (
-						<Alert
-							color="danger"
-							icon={<IconAlertCircle />}
-							title="Error"
-							description={error}
-							onClose={() => setError(null)}
-						/>
-					)}
+		<section className="flex flex-col items-center justify-center">
+			<Card className="w-full max-w-2xl">
+				<CardContent>
+					<div className="flex flex-col gap-4">
+						<div className="flex flex-col">
+							<FieldLegend>Recuperar contraseña</FieldLegend>
+							<FieldDescription>
+								Ingresá tu correo electrónico y te enviaremos un enlace
+								para restablecer tu contraseña.
+							</FieldDescription>
+						</div>
 
-					{message ? (
-						<Alert
-							color="success"
-							icon={<IconCheck />}
-							title="Solicitud recibida"
-							description={message}
-							canClose={false}
-						/>
-					) : (
-						<form
-							onSubmit={handleSubmit}
-							className="flex flex-col gap-4"
-						>
-							<Input
-								label="Email"
-								type="email"
-								placeholder="tu@email.com"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								required
-							/>
-							<Button
-								type="submit"
-								className="w-full"
-								disabled={loading}
-								iconLeft={
-									loading ? (
-										<IconLoader2 className="animate-spin" />
-									) : (
-										<IconMail />
-									)
-								}
+						{message ? (
+							<div className="flex flex-col gap-4">
+								<Alert>
+									<IconCheck className="size-5 stroke-green-500" />
+									<AlertTitle>¡Correo enviado!</AlertTitle>
+									<AlertDescription>{message}</AlertDescription>
+								</Alert>
+								<Button asChild variant="outline" className="w-full gap-2 mt-2">
+									<Link to="/login">
+										<IconArrowLeft size={20} />
+										Volver al inicio de sesión
+									</Link>
+								</Button>
+							</div>
+						) : (
+							<form
+								onSubmit={handleSubmit}
+								className="flex flex-col gap-4"
 							>
-								{loading ? "Procesando..." : "Enviar enlace"}
-							</Button>
-						</form>
-					)}
-				</CardBody>
+								<FieldSet>
+									<FieldGroup>
+										<Field data-invalid={!!error}>
+											<FieldLabel htmlFor="email">
+												Correo electrónico
+											</FieldLabel>
+											<Input
+												id="email"
+												type="email"
+												placeholder="tu@email.com"
+												value={email}
+												onChange={(e) => setEmail(e.target.value)}
+												required
+												aria-invalid={!!error}
+											/>
+											{error && <FieldError>{error}</FieldError>}
+										</Field>
+									</FieldGroup>
+								</FieldSet>
+
+								<Button
+									type="submit"
+									className="mt-2 w-full gap-2"
+									disabled={loading}
+								>
+									{loading && (
+										<IconLoader2 className="animate-spin" size={20} />
+									)}
+									{loading ? "Procesando..." : "Enviar enlace"}
+								</Button>
+							</form>
+						)}
+					</div>
+				</CardContent>
 				<CardFooter>
 					<Button
 						color="secondary"
-						variant="outlined"
-						className="w-full"
-						iconRight={<IconHelp />}
+						variant="outline"
+						className="w-full gap-2"
 					>
+						<IconHelp size={20} />
 						Ayuda
 					</Button>
 				</CardFooter>

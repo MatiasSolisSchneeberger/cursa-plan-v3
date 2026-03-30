@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
-import Button from "@/components/Button";
-import CalendarCard, { type CalendarEvent } from "@/components/CalendarCard";
+import { type CalendarEvent } from "@/scripts/transformEventos";
 
 import supabase from "@/utils/supabase";
 
@@ -12,31 +11,180 @@ import {
 	transformarExamenes,
 	transformarInscripciones,
 } from "@/scripts/transformEventos";
-import ButtonGroup from "@/components/ButtonGroup";
 
-import { cn } from "@/utils/cn";
-import Alert from "@/components/Alert";
 import {
 	IconExternalLink,
-	IconInfoCircle,
 	IconCalendar,
 	IconSchool,
 	IconFile,
 	IconPencil,
 } from "@tabler/icons-react";
-import { useAuth } from "@/context/AuthContextData";
-import PageHeader from "@/components/PageHeader";
-import { Tabs, TabsContent, TabsTrigger } from "@/components/Tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+	CardContent,
+} from "@/components/ui/card";
+
+import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { TypographyH1, TypographyH4 } from "@/components/ui/Typography";
+import Cargando from "@/sections/Cargando";
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemGroup,
+	ItemMedia,
+	ItemTitle,
+} from "@/components/ui/item";
+import { cn } from "@/lib/utils";
+import PageLayout from "@/layout/PageLayout";
+
+function EventList({ eventos }: { eventos: CalendarEvent[] }) {
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
+	const upcomingEventos = eventos.filter((event) => {
+		const endDate = event.end ? new Date(event.end) : new Date(event.start);
+		endDate.setHours(0, 0, 0, 0);
+		return endDate.getTime() >= today.getTime();
+	});
+
+	if (upcomingEventos.length === 0) {
+		return (
+			<p className="text-muted-foreground p-4 text-sm">
+				No hay eventos próximos para mostrar.
+			</p>
+		);
+	}
+
+	const sortedEventos = [...upcomingEventos].sort(
+		(a, b) => a.start.getTime() - b.start.getTime(),
+	);
+
+	return (
+		<ItemGroup className="grid grid-cols-1 md:grid-cols-2">
+			{sortedEventos.map((event, idx) => {
+				const formatDate = (date: Date) =>
+					date.toLocaleDateString("es-AR", {
+						day: "2-digit",
+						month: "2-digit",
+					});
+				const isSameDay =
+					!event.end || event.start.getTime() === event.end.getTime();
+				const dateString = isSameDay
+					? formatDate(event.start)
+					: `${formatDate(event.start)} - ${formatDate(event.end!)}`;
+
+				return (
+					<Item
+						key={event.id || idx}
+						variant={idx === 0 ? "muted" : "default"}
+					>
+						<ItemContent>
+							<ItemTitle>
+								<span className="capitalize">
+									{dateString}{" "}
+									{event.note && ` - ${event.note}`}
+								</span>
+							</ItemTitle>
+							<ItemDescription>
+								{event.title}
+
+								<br />
+							</ItemDescription>
+						</ItemContent>
+						<ItemActions>
+							{event.eventType && (
+								<Badge
+									variant="outline"
+									className={cn({
+										eventType: {
+											"Feriado Inamovible":
+												"text-red-500",
+											Clase: "text-blue-500",
+											Examen: "text-green-500",
+											Inscripción: "text-purple-500",
+										},
+									})}
+								>
+									{event.eventType}
+								</Badge>
+							)}
+						</ItemActions>
+					</Item>
+				);
+			})}
+		</ItemGroup>
+	);
+}
+
+function CalendarTabContent({
+	label,
+	eventos,
+	availablePeriods,
+}: {
+	label: string;
+	eventos: CalendarEvent[];
+	availablePeriods: string[];
+}) {
+	if (availablePeriods.length > 0) {
+		return (
+			<Card>
+				<CardHeader>
+					<CardTitle>
+						<TypographyH4>{label}</TypographyH4>
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<Tabs defaultValue={availablePeriods[0]} className="w-full">
+						<TabsList>
+							{availablePeriods.map((period) => (
+								<TabsTrigger key={period} value={period}>
+									{period}
+								</TabsTrigger>
+							))}
+						</TabsList>
+						{availablePeriods.map((period) => {
+							const filteredEventos = eventos.filter(
+								(e) => e.period === period,
+							);
+							return (
+								<TabsContent key={period} value={period}>
+									<EventList eventos={filteredEventos} />
+								</TabsContent>
+							);
+						})}
+					</Tabs>
+				</CardContent>
+			</Card>
+		);
+	}
+
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>
+					<TypographyH4>{label}</TypographyH4>
+				</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<EventList eventos={eventos} />
+			</CardContent>
+		</Card>
+	);
+}
 
 export default function Calendar() {
 	const [eventos, setEventos] = useState<CalendarEvent[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
 
 	// Estado local para el tipo de calendario (pestaña activa)
 	const [tipoCalendario, setTipoCalendario] = useState<string>("feriados");
-
-	const { session } = useAuth();
 
 	usePageTitle("Calendario");
 
@@ -44,7 +192,6 @@ export default function Calendar() {
 
 	useEffect(() => {
 		setLoading(true);
-		setSelectedPeriod(null);
 
 		async function fetchData() {
 			let transformedEvents: CalendarEvent[] = [];
@@ -54,9 +201,10 @@ export default function Calendar() {
 					case "feriados": {
 						const { data, error } = await supabase.from("feriados")
 							.select(`
-                            id, fecha, nombre, slug, nota,
-                            tipo: tipos_feriado (nombre)
-                        `);
+                                id, fecha, nombre, slug, nota,
+                                tipo: tipos_feriado (nombre)
+                            `);
+
 						if (error) throw error;
 						transformedEvents = transformarFeriados(data || []);
 						break;
@@ -99,20 +247,6 @@ export default function Calendar() {
 				}
 
 				setEventos(transformedEvents);
-
-				// Calcular periodos y seleccionar por defecto "Cuatrimestre" si existe
-				const periods = Array.from(
-					new Set(
-						transformedEvents.map((e) => e.period).filter(Boolean),
-					),
-				) as string[];
-				if (periods.length > 0) {
-					const defaultPeriod =
-						periods.find((p) =>
-							p.toLowerCase().includes("cuatrimestre"),
-						) || periods[0];
-					setSelectedPeriod(defaultPeriod);
-				}
 			} catch (error) {
 				console.error("Error fetching calendar events:", error);
 			} finally {
@@ -141,8 +275,6 @@ export default function Calendar() {
 		return () => clearTimeout(timer);
 	}, [monthActual, loading]); // Se ejecuta cuando carga el componente
 
-	// if (loading) return <div>Loading...</div> // Removed to show skeleton
-
 	const calendarios = [
 		{ id: "feriados", label: "Feriados", icon: <IconCalendar /> },
 		{ id: "clases", label: "Clases", icon: <IconSchool /> },
@@ -158,165 +290,106 @@ export default function Calendar() {
 	// Filtrar eventos
 	const LINK_CALENDARIO =
 		"https://exa.unne.edu.ar/alumnos/docs/2026/RES.%202025-944-CD-EXA.pdf";
-	const AVISO_ERROR = `/contacto?etiqueta=error&mensaje=Error en el calendario. &usuario=${session?.user?.user_metadata?.full_name}&email=${session?.user?.user_metadata?.email}`;
 
 	return (
-		<section className="flex flex-col gap-3">
-			<PageHeader
-				title={
-					<>
-						<h1 className="texto-title text-primary-600 dark:text-primary-400 block w-full text-start md:hidden">
-							Calendario Académico
-						</h1>
-						<h1 className="texto-headline text-primary-600 dark:text-primary-400 hidden w-full text-start md:block">
-							Calendario Académico
-						</h1>
-					</>
-				}
-				backUrl="/"
-			>
-				<Button
-					variant="flat"
-					color="info"
-					href={LINK_CALENDARIO}
-					iconRight={<IconExternalLink size={18} />}
-					target="_blank"
-				>
-					Ver Resolución
-				</Button>
-				<Button variant="text" color="danger" href={AVISO_ERROR}>
-					Avisar error
-				</Button>
-			</PageHeader>
-
+		<PageLayout
+			className=""
+			breadcrumbs={[
+				{ url: "/", label: "Inicio", isHome: true },
+				{
+					url: "/calendario",
+					label: "Calendario",
+					isCurrentPage: true,
+				},
+			]}
+		>
+			<Card className="mb-6">
+				<CardHeader>
+					<CardTitle>
+						<TypographyH1>Calendarios</TypographyH1>
+					</CardTitle>
+					<CardDescription>
+						Toda la información ha sido extraída de la página
+						oficial de FaCENA.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<ItemGroup className="flex flex-col gap-2 sm:flex-row sm:gap-4">
+						<Item variant="muted" asChild>
+							<Link
+								to={LINK_CALENDARIO}
+								target="_blank"
+								rel="noreferrer"
+							>
+								<ItemContent>
+									<ItemTitle>
+										Resolución RES - 2025 - 944 - CD-EXA
+									</ItemTitle>
+								</ItemContent>
+								<ItemMedia>
+									<IconExternalLink className="size-4" />
+								</ItemMedia>
+							</Link>
+						</Item>
+						<Item variant="muted" asChild>
+							<Link
+								to="https://exa.unne.edu.ar/r/?page_id=3145"
+								target="_blank"
+								rel="noreferrer"
+							>
+								<ItemContent>
+									<ItemTitle>
+										Calendarios Académicos FaCENA
+									</ItemTitle>
+								</ItemContent>
+								<ItemMedia>
+									<IconExternalLink className="size-4" />
+								</ItemMedia>
+							</Link>
+						</Item>
+					</ItemGroup>
+				</CardContent>
+			</Card>
 			<Tabs
-				defaultValue="feriados"
-				value={tipoCalendario}
-				onValueChange={(val) => setTipoCalendario(val)}
+				defaultValue={calendarios[0].id}
+				onValueChange={setTipoCalendario}
+				className="w-full"
 			>
-				<ButtonGroup className="w-full md:w-auto">
-					{calendarios.map((cal) => (
-						<TabsTrigger
-							key={cal.id}
-							value={cal.id}
-							iconLeft={cal.icon}
-						>
-							{cal.label}
-						</TabsTrigger>
-					))}
-				</ButtonGroup>
-
-				{calendarios.map((cal) => (
-					<TabsContent key={cal.id} value={cal.id}>
-						{availablePeriods.length > 0 ? (
-							<Tabs
-								defaultValue={availablePeriods[0]}
-								value={selectedPeriod || ""}
-								onValueChange={(val) => setSelectedPeriod(val)}
-							>
-								<ButtonGroup>
-									{availablePeriods.map((period) => (
-										<TabsTrigger
-											key={period}
-											value={period}
-											variants={["solid", "outlined"]}
-											color="secondary"
-										>
-											{period}
-										</TabsTrigger>
-									))}
-								</ButtonGroup>
-
-								{availablePeriods.map((period) => (
-									<TabsContent key={period} value={period}>
-										<section
-											className={cn(
-												"grid grid-cols-1 items-center justify-center justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
-												loading
-													? "pointer-events-none animate-pulse opacity-50"
-													: "",
-											)}
-										>
-											{/* Renderizamos los 12 meses */}
-											{Array.from(
-												{ length: 12 },
-												(_, i) => {
-													const mesFecha = new Date(
-														2026,
-														i,
-														1,
-													); // Año hardcodeado o dinámico según necesites
-
-													return (
-														<CalendarCard
-															key={i}
-															month={mesFecha}
-															events={
-																loading
-																	? []
-																	: eventos.filter(
-																			(
-																				e,
-																			) =>
-																				e.period ===
-																				period,
-																		)
-															} // Filtramos por el periodo del tab
-															hasNavigation={
-																false
-															} // En vista anual no queremos botones prev/next
-															className="h-full"
-														/>
-													);
-												},
-											)}
-										</section>
-									</TabsContent>
-								))}
-							</Tabs>
-						) : (
-							<section
-								className={cn(
-									"grid grid-cols-1 items-center justify-center justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
-									loading
-										? "pointer-events-none animate-pulse opacity-50"
-										: "",
+				<TabsList className="mx-auto">
+					{calendarios.map(({ id, label, icon }) => {
+						return (
+							<TabsTrigger key={id} value={id}>
+								<span
+									className={cn(
+										tipoCalendario === id && "text-primary",
+									)}
+								>
+									{icon}
+								</span>
+								<span className="hidden md:block">{label}</span>
+								{tipoCalendario !== id && (
+									<span className="md:hidden">{label}</span>
 								)}
-							>
-								{/* Renderizamos los 12 meses */}
-								{Array.from({ length: 12 }, (_, i) => {
-									const mesFecha = new Date(2026, i, 1); // Año hardcodeado o dinámico según necesites
-
-									return (
-										<CalendarCard
-											key={i}
-											month={mesFecha}
-											events={loading ? [] : eventos} // Sin filtro de periodo
-											hasNavigation={false} // En vista anual no queremos botones prev/next
-											className="h-full"
-										/>
-									);
-								})}
-							</section>
-						)}
-					</TabsContent>
-				))}
+							</TabsTrigger>
+						);
+					})}
+				</TabsList>
+				{calendarios.map(({ id, label }) => {
+					return (
+						<TabsContent key={id} value={id}>
+							{loading ? (
+								<Cargando className="h-24" />
+							) : (
+								<CalendarTabContent
+									label={label}
+									eventos={eventos}
+									availablePeriods={availablePeriods}
+								/>
+							)}
+						</TabsContent>
+					);
+				})}
 			</Tabs>
-
-			<aside className="mt-4">
-				<Alert
-					color="info"
-					icon={<IconInfoCircle />}
-					title="Información Importante"
-					canClose={false}
-					description={
-						<span>
-							Fechas extraídas de la resolución:{" "}
-							<b>RES - 2025 - 944 - CD-EXA # UNNE.</b>
-						</span>
-					}
-				/>
-			</aside>
-		</section>
+		</PageLayout>
 	);
 }

@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import { Button } from "../components/ui/button";
 
 export default function NotFound() {
 	return (
@@ -7,9 +7,7 @@ export default function NotFound() {
 			<p className="texto-headline">
 				Parece que no existe la pagina, prueva volviendo al inicio.
 			</p>
-			<Button variant="solid" color="primary" href="/">
-				Volver al inicio
-			</Button>
+			<Button>Volver al inicio</Button>
 		</section>
 	);
 }

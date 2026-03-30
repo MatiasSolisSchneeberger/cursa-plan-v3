@@ -28,7 +28,9 @@ export function SimuladorProvider({ children }: { children: React.ReactNode }) {
                         materia_plan_id, 
                         estado,
                         plan:materia_plan!inner (
-                            materia_id
+                            materia_id,
+                            materias(nombre, slug),
+                            plan_estudio(anio_inicio, carreras(nombre, slug))
                         )
                     `,
 					)
@@ -38,11 +40,26 @@ export function SimuladorProvider({ children }: { children: React.ReactNode }) {
 
 				if (data) {
 					// Aplanamos el resultado para guardarlo fácil
-					const avancesFormateados = data.map((a: any) => ({
-						materia_plan_id: a.materia_plan_id,
-						estado: a.estado,
-						materia_id: a.plan?.materia_id, // Guardamos el ID genérico
-					}));
+					const avancesFormateados = data.map((a: any) => {
+						const planEstudio = a.plan?.plan_estudio;
+						const carreraNombre = Array.isArray(planEstudio?.carreras) 
+							? planEstudio.carreras[0]?.nombre 
+							: planEstudio?.carreras?.nombre;
+						const carreraSlug = Array.isArray(planEstudio?.carreras) 
+							? planEstudio.carreras[0]?.slug 
+							: planEstudio?.carreras?.slug;
+
+						return {
+							materia_plan_id: a.materia_plan_id,
+							estado: a.estado,
+							materia_id: a.plan?.materia_id, // Guardamos el ID genérico
+							materia_nombre: a.plan?.materias?.nombre,
+							carrera_nombre: carreraNombre,
+							materia_slug: a.plan?.materias?.slug,
+							carrera_slug: carreraSlug,
+							carrera_plan: planEstudio?.anio_inicio,
+						};
+					});
 					setAvances(avancesFormateados);
 				}
 			} catch (error) {
