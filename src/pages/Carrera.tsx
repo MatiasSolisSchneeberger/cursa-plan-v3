@@ -44,7 +44,7 @@ import {
 	ItemTitle,
 } from "@/components/ui/item";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TypographyH1, TypographySmall } from "@/components/ui/Typography";
+import { TypographyH2, TypographySmall } from "@/components/ui/Typography";
 import LikeButton from "@/components/LikeButton";
 
 // Secciones
@@ -173,7 +173,7 @@ export default function Carrera() {
 										<DropdownMenuTrigger asChild>
 											<Link
 												to={`/carreras/${carreraSlug}`}
-												className="flex items-center gap-1 transition-colors hover:text-foreground"
+												className="hover:text-foreground flex items-center gap-1 transition-colors"
 											>
 												{carreraJson.carrera}
 												<IconChevronDown className="size-4" />
@@ -205,17 +205,16 @@ export default function Carrera() {
 								label: planActivo.anioInicio,
 								isCurrentPage: true,
 							},
-					  ]
+						]
 					: [{ label: carreraJson.carrera, isCurrentPage: true }]),
 			]}
 		>
 			<Card className="mx-auto w-full max-w-5xl">
 				<CardHeader>
 					<CardTitle>
-						<TypographyH1 className="hidden text-left md:block">
+						<TypographyH2 className="border-0 p-0 text-left">
 							{carreraJson.carrera}
-						</TypographyH1>
-						<span className="md:hidden">{carreraJson.carrera}</span>
+						</TypographyH2>
 					</CardTitle>
 					<CardAction className="flex flex-wrap items-center gap-2">
 						{carreraJson.planes.length > 1 && (
@@ -249,6 +248,46 @@ export default function Carrera() {
 							</Button>
 						</ItemActions>
 					</Item>
+					{carreraJson.planes.length > 1 &&
+						(() => {
+							const otroPlan = carreraJson.planes.find(
+								(p) => p.anioInicio !== planActivo.anioInicio,
+							);
+							return (
+								<Item variant="outline">
+									<ItemContent>
+										<ItemTitle>
+											Esta carrera tiene dos planes
+											vigentes
+										</ItemTitle>
+										<ItemDescription>
+											Estás viendo el plan{" "}
+											<strong>
+												{planActivo.anioInicio}
+											</strong>
+											. También existe el plan{" "}
+											<strong>
+												{otroPlan?.anioInicio}
+											</strong>
+											.
+										</ItemDescription>
+									</ItemContent>
+									<ItemActions>
+										<Button
+											variant="link"
+											size="sm"
+											asChild
+										>
+											<Link
+												to={`/carreras/${carreraSlug}/${otroPlan?.anioInicio}`}
+											>
+												Ver plan {otroPlan?.anioInicio}
+											</Link>
+										</Button>
+									</ItemActions>
+								</Item>
+							);
+						})()}
 				</CardContent>
 			</Card>
 			<Tabs

@@ -30,7 +30,7 @@ import {
 	CollapsibleContent,
 } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TypographySmall } from "@/components/ui/Typography";
+import { TypographyH3, TypographySmall } from "@/components/ui/Typography";
 import {
 	Select,
 	SelectContent,
@@ -69,7 +69,7 @@ function BadgeEstado({ estado }: { estado: string }) {
 			return (
 				<Badge
 					variant="outline"
-					className="text-green-600 select-none dark:text-green-400"
+					className="text-success border-success select-none"
 				>
 					<IconCircleCheck />
 					Disponible
@@ -79,7 +79,7 @@ function BadgeEstado({ estado }: { estado: string }) {
 			return (
 				<Badge
 					variant="outline"
-					className="text-red-600 select-none dark:text-red-400"
+					className="text-destructive border-destructive select-none"
 				>
 					<IconLock />
 					No disponible
@@ -89,7 +89,7 @@ function BadgeEstado({ estado }: { estado: string }) {
 			return (
 				<Badge
 					variant="outline"
-					className="text-yellow-600 select-none dark:text-yellow-400"
+					className="text-warning border-warning select-none"
 				>
 					<IconLockOpen />
 					Solo Cursar
@@ -127,9 +127,11 @@ export default function CardMateria({
 	else if (isSoloCursar) estadoBadge = "Solo Cursar";
 
 	return (
-		<Card className="flex w-full">
+		<Card className="flex w-full shadow-sm transition-all ease-in-out hover:shadow-md">
 			<CardHeader>
-				<CardTitle>{materia.nombre}</CardTitle>
+				<CardTitle>
+					<TypographyH3>{materia.nombre}</TypographyH3>
+				</CardTitle>
 				<CardAction>
 					<BadgeEstado estado={estadoBadge} />
 				</CardAction>
@@ -161,7 +163,7 @@ export default function CardMateria({
 						materia.correlativas.length === 0
 					}
 				>
-					<CollapsibleTrigger className="bg-muted/30 group data-[state=open]:bg-muted/50 focus-visible:ring-ring flex w-full items-center gap-2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 data-disabled:pointer-events-none data-disabled:opacity-50">
+					<CollapsibleTrigger className="group border-border/50 data-[state=open]:bg-muted/75 focus-visible:ring-ring hover:bg-muted/50 flex w-full items-center gap-2 rounded-md border p-2 transition-all focus-visible:ring-2 data-disabled:pointer-events-none data-disabled:opacity-75 data-disabled:hover:cursor-not-allowed">
 						<IconGitBranch className="text-muted-foreground transition-transform duration-200" />
 						<TypographySmall className="font-medium">
 							{!materia.correlativas ||
@@ -171,7 +173,7 @@ export default function CardMateria({
 						</TypographySmall>
 						<IconChevronDown className="text-muted-foreground ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
 					</CollapsibleTrigger>
-					<CollapsibleContent className="border-border mt-1 rounded-md px-2 pb-2 data-[state=open]:border">
+					<CollapsibleContent className="data-[state=open]:bg-background mt-1 rounded-md px-2 py-2">
 						{!materia.correlativas ||
 						materia.correlativas.length === 0 ? (
 							<div className="text-muted-foreground p-4 text-center text-sm">
@@ -186,7 +188,7 @@ export default function CardMateria({
 										? "cursar"
 										: "rendir"
 								}
-								className="mt-2 w-full"
+								className="w-full"
 							>
 								<TabsList className="w-full">
 									<TabsTrigger
@@ -321,7 +323,9 @@ export default function CardMateria({
 				<Button asChild>
 					<Link
 						to={`/carreras/${carreraSlug}/${planAnio}/${materia.slug}${
-							materia.orientacion ? `?orientacion=${materia.orientacion.slug}` : ""
+							materia.orientacion
+								? `?orientacion=${materia.orientacion.slug}`
+								: ""
 						}`}
 					>
 						Ver mas

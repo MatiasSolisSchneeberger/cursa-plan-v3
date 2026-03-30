@@ -25,6 +25,7 @@ import {
 	FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { TypographyH2 } from "@/components/ui/Typography";
 
 /* --- Componente --- */
 export default function Login() {
@@ -120,7 +121,11 @@ export default function Login() {
 						className="flex flex-col gap-4"
 					>
 						<div className="flex flex-col">
-							<FieldLegend>Iniciar sesión</FieldLegend>
+							<FieldLegend>
+								<TypographyH2 className="border-0">
+									Iniciar sesión
+								</TypographyH2>
+							</FieldLegend>
 							<FieldDescription>
 								Ingresá a tu cuenta con tu correo electrónico y
 								contraseña
@@ -219,13 +224,13 @@ export default function Login() {
 					</form>
 				</CardContent>
 
-				<CardFooter>
+				<CardFooter className="w-full">
 					<div className="flex w-full flex-col gap-2 md:flex-row">
 						{/* TODO: Implementar flujo de recuperación de contraseña */}
 						<Button
 							type="button"
 							variant="outline"
-							className="flex-1"
+							className="w-full md:flex-1"
 							asChild
 						>
 							<Link to="/contraseña-olvidada">
@@ -235,7 +240,7 @@ export default function Login() {
 						<Button
 							type="button"
 							variant="outline"
-							className="flex-1"
+							className="w-full md:flex-1"
 							onClick={() => navigate("/register")}
 						>
 							¿No tienes cuenta?

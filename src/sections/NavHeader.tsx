@@ -293,7 +293,7 @@ export default function NavHeader() {
 
 	return (
 		<header className="sticky top-0 z-40 mt-2 w-full py-2">
-			<section className="bg-card border-border flex flex-row gap-4 rounded-3xl border p-3 shadow-lg backdrop-blur-md transition-colors duration-300">
+			<section className="bg-card border-border flex flex-row gap-4 rounded-3xl border p-3 shadow-md backdrop-blur-md transition-colors duration-300">
 				{/* IZQUIERDA: Logo + Navegación */}
 				<article className="flex flex-1 gap-6">
 					<LogoPage />
@@ -422,7 +422,11 @@ export default function NavHeader() {
 									<DropdownMenuLabel>
 										Información
 									</DropdownMenuLabel>
-									{INTERNAL_LINKS.filter(link => ["secondary", "legal"].includes(link.category)).map(({ label, href, icon }) => {
+									{INTERNAL_LINKS.filter((link) =>
+										["secondary", "legal"].includes(
+											link.category,
+										),
+									).map(({ label, href, icon }) => {
 										return (
 											<DropdownMenuItem asChild>
 												<Link

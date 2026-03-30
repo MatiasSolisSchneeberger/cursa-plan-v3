@@ -9,6 +9,7 @@ import type {
 } from "../types/db";
 import { useSimulador } from "../context/SimuladorContextData";
 import { IconCheck, IconLock } from "@tabler/icons-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface ListadoRequisitosProps {
 	condiciones: Condicion[];
@@ -80,10 +81,32 @@ export function ListadoRequisitos({ condiciones }: ListadoRequisitosProps) {
 
 	const RequirementIcon = ({ isMet }: { isMet: boolean }) => {
 		if (isMet) {
-			return <IconCheck className="shrink-0 text-green-500" size={16} />;
+			return (
+				<Tooltip>
+					<TooltipTrigger>
+						<IconCheck
+							className="shrink-0 text-green-500"
+							size={16}
+						/>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>Cumplís con el requisito</p>
+					</TooltipContent>
+				</Tooltip>
+			);
 		}
 		return (
-			<IconLock className="text-muted-foreground shrink-0" size={16} />
+			<Tooltip>
+				<TooltipTrigger>
+					<IconLock
+						className="text-muted-foreground shrink-0"
+						size={16}
+					/>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>No cumplís con el requisito</p>
+				</TooltipContent>
+			</Tooltip>
 		);
 	};
 

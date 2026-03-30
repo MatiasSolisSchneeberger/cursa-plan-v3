@@ -26,6 +26,7 @@ import {
 	FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { TypographyH2 } from "@/components/ui/Typography";
 
 /* --- Componente --- */
 export default function Register() {
@@ -197,7 +198,11 @@ export default function Register() {
 						className="flex flex-col gap-4"
 					>
 						<div className="flex flex-col">
-							<FieldLegend>Crear cuenta</FieldLegend>
+							<FieldLegend>
+								<TypographyH2 className="border-0">
+									Crear cuenta
+								</TypographyH2>
+							</FieldLegend>
 							<FieldDescription>
 								Ingresa tus datos personales y una contraseña
 								para crear tu cuenta (los campos marcados con{" "}

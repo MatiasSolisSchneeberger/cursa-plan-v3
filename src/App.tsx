@@ -1,32 +1,40 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./layout/Layout";
-import Carrera from "./pages/Carrera";
-import { Index } from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import Profile from "./pages/Profile";
-import Calendar from "./pages/Calendar";
-import Materia from "./pages/Materia";
-import { Analytics } from "@vercel/analytics/react";
-import Contact from "./pages/Contacto";
-import ContraseñaOlvidada from "./pages/auth/ContraseñaOlvidada";
-import ActualizarContraseña from "./pages/auth/ActualizarContraseña";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-
+/* --- Fuentes --- */
 import "@fontsource-variable/montserrat";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/600.css";
 
-import Config from "./pages/Config";
-import Carreras from "./pages/Carreras";
-import ScrollToTop from "./components/ScrollToTop";
-import PoliticaDePrivacidad from "./pages/landing/PoliticaDePrivacidad";
-import PreguntasFrecuentes from "./pages/landing/PreguntasFrecuentes";
-import SobreNosotros from "./pages/landing/SobreNosotros";
-import TerminosYCondiciones from "./pages/landing/TerminosYCondiciones";
+/* --- Vercel --- */
+import { Analytics } from "@vercel/analytics/react";
+
+/* --- React Router --- */
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+/* --- Páginas --- */
+import { Index } from "@/pages/Index";
+import ActualizarContraseña from "@/pages/auth/ActualizarContraseña";
+import Calendar from "@/pages/Calendar";
+import Carrera from "@/pages/Carrera";
+import Carreras from "@/pages/Carreras";
+import Config from "@/pages/Config";
+import Contact from "@/pages/Contacto";
+import ContraseñaOlvidada from "@/pages/auth/ContraseñaOlvidada";
+import Login from "@/pages/auth/Login";
+import Materia from "@/pages/Materia";
+import NotFound from "@/pages/NotFound";
+import PoliticaDePrivacidad from "@/pages/landing/PoliticaDePrivacidad";
+import PreguntasFrecuentes from "@/pages/landing/PreguntasFrecuentes";
+import Profile from "@/pages/Profile";
+import Register from "@/pages/auth/Register";
+import SobreNosotros from "@/pages/landing/SobreNosotros";
+import TerminosYCondiciones from "@/pages/landing/TerminosYCondiciones";
+
+/* --- Componentes --- */
+import ProtectedRoute from "@/components/ProtectedRoute";
+import ScrollToTop from "@/components/ScrollToTop";
+
+/* --- Layout --- */
+import Layout from "@/layout/Layout";
 
 function App() {
 	return (

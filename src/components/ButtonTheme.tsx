@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/context/ThemeContextData";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { IconDeviceImac, IconMoon, IconSun } from "@tabler/icons-react";
 
 export default function ButtonTheme() {
 	const { theme, setTheme } = useTheme();
@@ -27,7 +27,7 @@ export default function ButtonTheme() {
 					<span className="sr-only">Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-32" align="end">
+			<DropdownMenuContent className="w-9" align="end">
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>Tema</DropdownMenuLabel>
 
@@ -36,12 +36,15 @@ export default function ButtonTheme() {
 						onValueChange={handleThemeChange}
 					>
 						<DropdownMenuRadioItem value="light">
+							<IconSun />
 							Light
 						</DropdownMenuRadioItem>
 						<DropdownMenuRadioItem value="dark">
+							<IconMoon />
 							Dark
 						</DropdownMenuRadioItem>
 						<DropdownMenuRadioItem value="system">
+							<IconDeviceImac />
 							System
 						</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
