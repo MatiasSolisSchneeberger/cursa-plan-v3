@@ -123,19 +123,36 @@ export default function CalendarioTab({
 									}
 								}
 
-								const linkGoogleCalendar = `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(
+								// --- NUEVA LÓGICA DEL LINK ---
+								const formatGoogleCalendarDate = (
+									date: Date,
+								) => {
+									const year = date.getFullYear();
+									const month = String(
+										date.getMonth() + 1,
+									).padStart(2, "0");
+									const day = String(date.getDate()).padStart(
+										2,
+										"0",
+									);
+									return `${year}${month}${day}`;
+								};
+
+								const dateString = formatGoogleCalendarDate(
+									item.parsedDate,
+								);
+
+								// El evento dura todo el día, por lo que el endDate es el día siguiente
+								const endDate = new Date(item.parsedDate);
+								endDate.setDate(endDate.getDate() + 1);
+								const endDateString =
+									formatGoogleCalendarDate(endDate);
+
+								const linkGoogleCalendar = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
 									`Mesa de examen de ${materiaNombre}`,
-								)}&dates=${encodeURIComponent(
-									item.parsedDate
-										.toISOString()
-										.replace(/-|:|\.\d\d\d/g, "")
-										.slice(0, 8),
-								)}/${encodeURIComponent(
-									item.parsedDate
-										.toISOString()
-										.replace(/-|:|\.\d\d\d/g, "")
-										.slice(0, 8),
-								)}&details=${encodeURIComponent(`Mesa de examen de ${materiaNombre}`)}`;
+								)}&dates=${dateString}/${endDateString}&details=${encodeURIComponent(
+									`Mesa de examen de ${materiaNombre}`,
+								)}`;
 
 								return (
 									<Item
@@ -192,6 +209,8 @@ export default function CalendarioTab({
 															to={
 																linkGoogleCalendar
 															}
+															rel="noopener noreferrer"
+															target="_blank"
 														>
 															<IconCalendarPlus />
 															Agendar

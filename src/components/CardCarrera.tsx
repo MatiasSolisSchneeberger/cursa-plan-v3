@@ -60,7 +60,7 @@ export default function CardCarrera({
 	className,
 }: CardCarreraProps) {
 	return (
-		<Card className={cn("shadow-xs hover:shadow-sm", className)}>
+		<Card className={cn(`shadow-xs hover:shadow-sm theme-${slug}`, className)}>
 			{/* Cabecera: Icono y Textos */}
 			<CardHeader>
 				{/* Información de la carrera */}

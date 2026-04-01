@@ -85,8 +85,14 @@ export default function Footer() {
 					<Label>Carreras</Label>
 					{carreras?.map((carrera) => (
 						<Item key={carrera.id} asChild>
-							<Link to={`/carreras/${carrera.slug}`}>
-								<IconCarrera icon={carrera.icon} />
+							<Link
+								to={`/carreras/${carrera.slug}`}
+								className={`theme-${carrera.slug}`}
+							>
+								<IconCarrera
+									icon={carrera.icon}
+									className="text-primary"
+								/>
 								<ItemContent>
 									<ItemHeader>
 										<ItemTitle>{carrera.nombre}</ItemTitle>

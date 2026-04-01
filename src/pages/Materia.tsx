@@ -126,7 +126,7 @@ export default function Materia() {
 
 	return (
 		<PageLayout
-			className="flex w-full flex-col items-center gap-12"
+			className={`flex w-full flex-col items-center gap-12 theme-${carreraSlug}`}
 			breadcrumbs={[
 				{ url: "/", isHome: true },
 				{ label: "Carreras", url: "/carreras" },

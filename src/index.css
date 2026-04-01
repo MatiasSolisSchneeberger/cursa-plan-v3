@@ -7,6 +7,8 @@
 @import "@fontsource-variable/roboto";
 @import "@fontsource-variable/inter";
 
+@import "@/theme.css";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -16,22 +18,6 @@
 	--primary-l: 49.976%;
 	--primary-c: 0.0961;
 	--primary-h: 247.87;
-
-	--theme-profesorado-en-matematica: calc(((360 / 13) * 1));
-	--theme-ingenieria-en-agrimensura: calc(((360 / 13) * 2));
-	--theme-ingenieria-electrica: calc(((360 / 13) * 3));
-	--theme-profesorado-en-biologia: calc(((360 / 13) * 4));
-	--theme-bioquimica: calc(((360 / 13) * 5));
-	--theme-licenciatura-en-ciencias-biologicas: calc(((360 / 13) * 6));
-	--theme-licenciatura-en-ciencias-quimicas: calc(((360 / 13) * 7));
-	--theme-ingenieria-en-electronica: calc(((360 / 13) * 8));
-	--theme-licenciatura-en-sistemas-de-informacion: calc(((360 / 13) * 9));
-	--theme-licenciatura-en-matematica: calc(((360 / 13) * 10));
-	--theme-profesorado-en-fisica: calc(((360 / 13) * 11));
-	--theme-licenciatura-en-ciencias-fisicas: calc(((360 / 13) * 12));
-	--theme-profesorado-en-ciencias-quimicas-y-del-ambiente: calc(
-		((360 / 13) * 13)
-	);
 
 	--base-primary: oklch(var(--primary-l) var(--primary-c) var(--primary-h));
 	--base-secondary: oklch(from var(--base-primary) l c calc(h + 60));

@@ -161,7 +161,7 @@ export default function Carrera() {
 
 	return (
 		<PageLayout
-			className="flex flex-col gap-12"
+			className={`flex flex-col gap-12 theme-${carreraSlug}`}
 			breadcrumbs={[
 				{ url: "/", isHome: true },
 				{ label: "Carreras", url: "/carreras" },
