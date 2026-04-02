@@ -189,11 +189,11 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 									<NavigationMenuLink asChild key={id}>
 										<Link
 											to={`/carreras/${slug}`}
-											className="flex flex-row items-center gap-2"
+											className={`flex flex-row items-center gap-2 theme-${slug}`}
 										>
 											<IconCarrera
 												icon={icon}
-												className="min-h-5 min-w-5"
+												className="text-primary size-5 min-h-5 min-w-5"
 											/>
 											{nombre}
 										</Link>
