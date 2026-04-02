@@ -1,25 +1,10 @@
+/* --- Imports --- */
+// React
 import { Link } from "react-router-dom";
-import {
-	IconUser,
-	IconLogout,
-	IconSettings,
-	IconBook,
-	IconHome,
-	IconMenu2,
-	IconLogin,
-	IconUserPlus,
-	IconCalendar,
-	IconUserSquare,
-	IconLoader2,
-	IconBug,
-} from "@tabler/icons-react";
 
-import { useAuth } from "../context/AuthContextData";
+// Componentes
+import { Avatar, AvatarLetter, AvatarIcon } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
-import ButtonTheme from "../components/ButtonTheme";
-
-// Importamos tus componentes de Dropdown
-import LogoPage from "../components/LogoPage";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -37,12 +22,36 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { useCarreras } from "../hooks/useCarreras";
-import IconCarrera from "@/components/IconCarrera";
-import type { Carrera } from "@/types/materiaTypes";
-import { Avatar, AvatarLetter, AvatarIcon } from "@/components/ui/avatar";
-import IconAvatar from "@/components/IconAvatar";
 import { Separator } from "@/components/ui/separator";
+import ButtonTheme from "@/components/ButtonTheme";
+import IconAvatar from "@/components/IconAvatar";
+import IconCarrera from "@/components/IconCarrera";
+import LogoPage from "@/components/LogoPage";
+
+// Iconos
+import {
+	IconBook,
+	IconBug,
+	IconCalendar,
+	IconHome,
+	IconLoader2,
+	IconLogin,
+	IconLogout,
+	IconMenu2,
+	IconSettings,
+	IconUser,
+	IconUserPlus,
+	IconUserSquare,
+} from "@tabler/icons-react";
+
+// Context
+import { useAuth } from "@/context/AuthContextData";
+
+// hooks
+import { useCarreras } from "@/hooks/useCarreras";
+
+// types
+import type { Carrera } from "@/types/materiaTypes";
 
 type User = {
 	id: string;
