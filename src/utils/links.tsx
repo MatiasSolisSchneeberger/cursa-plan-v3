@@ -76,17 +76,17 @@ export const SOCIAL_LINKS = [
 	{
 		label: "Github",
 		href: "https://github.com/MatiasSolisSchneeberger/cursa-plan-v3",
-		icon: <IconBrandGithub />,
+		icon: <IconBrandGithub className="size-5" />,
 	},
 	{
 		label: "LinkedIn",
 		href: "https://www.linkedin.com/in/matias-solis-schneeberger-40a6842ab",
-		icon: <IconBrandLinkedin />,
+		icon: <IconBrandLinkedin className="size-5" />,
 	},
 	{
-		label: "cursaplan@gmail.com",
+		label: mail,
 		href: `mailto:${mail}`,
-		icon: <IconMail />,
+		icon: <IconMail className="size-5" />,
 	},
 ];
 
