@@ -14,7 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import IconCarrera from "@/components/IconCarrera";
 import { Label } from "@/components/ui/label";
-import { TypographyP, TypographySmall } from "@/components/ui/Typography";
+import {
+	TypographyLarge,
+	TypographyP,
+	TypographySmall,
+} from "@/components/ui/Typography";
 
 interface Carrera {
 	id: number;
@@ -46,7 +50,7 @@ export default function Footer() {
 	}, []);
 
 	return (
-		<footer className="bg-background-100 dark:bg-background-900 outline-background-300 dark:outline-background-700 grid w-full grid-cols-1 items-start justify-center gap-6 rounded-3xl p-6 outline sm:grid-cols-2 md:grid-cols-3">
+		<footer className="bg-card border-border grid w-full grid-cols-1 items-start justify-center gap-6 rounded-3xl p-6 outline sm:grid-cols-2 md:grid-cols-3">
 			{/* Columna 1: Brand & Social */}
 			<aside className="flex flex-col gap-4">
 				<LogoPage />
@@ -54,7 +58,7 @@ export default function Footer() {
 					<TypographyP>
 						Esta es una pagina para los alumnos{" "}
 					</TypographyP>
-					<TypographySmall className="text-secondary-600 dark:text-secondary-400">
+					<TypographySmall>
 						© {new Date().getFullYear()} Cursa Plan. Todos los
 						derechos reservados.
 					</TypographySmall>
@@ -82,7 +86,9 @@ export default function Footer() {
 			{/* Columna 2: Carreras */}
 			<section>
 				<ItemGroup>
-					<Label>Carreras</Label>
+					<Label>
+						<TypographyLarge>Carreras</TypographyLarge>
+					</Label>
 					{carreras?.map((carrera) => (
 						<Item key={carrera.id} asChild>
 							<Link
@@ -107,7 +113,9 @@ export default function Footer() {
 			{/* Columna 3: Navegación */}
 			<section>
 				<ItemGroup>
-					<Label>Navegación</Label>
+					<Label>
+						<TypographyLarge>Navegación</TypographyLarge>
+					</Label>
 					{INTERNAL_LINKS.map((link) => {
 						if (link.href !== urlActual) {
 							return (
