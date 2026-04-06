@@ -72,12 +72,27 @@ export function SimuladorProvider({ children }: { children: React.ReactNode }) {
 		cargarAvances();
 	}, [session]); // Se ejecuta cada vez que cambia 'session'
 
-	// 2. Función para guardar (Upsert)
+	// 2. Función para guardar (Upsert) o eliminar
 	const actualizarAvance = async (
 		materiaId: number,
 		nuevoEstado: EstadoMateria,
 	) => {
 		if (!session) return;
+
+		if (nuevoEstado === "Sin cursar") {
+			// Actualizamos optimísticamente el UI (eliminando el avance)
+			setAvances((prev) => prev.filter((a) => a.materia_plan_id !== materiaId));
+
+			// Eliminamos en BD
+			const { error } = await supabase
+				.from("avances")
+				.delete()
+				.eq("user_id", session.user.id)
+				.eq("materia_plan_id", materiaId);
+
+			if (error) console.error("Error eliminando avance:", error);
+			return;
+		}
 
 		// Actualizamos optimísticamente el UI (para que se sienta instantáneo)
 		setAvances((prev) => {
