@@ -55,7 +55,9 @@ function AvancesCard({
 	const [open, setOpen] = useState(false);
 
 	const filteredAvances = estado
-		? avances.filter((a) => a.estado === estado)
+		? avances.filter(
+				(a) => a.estado === estado && a.estado !== "Sin cursar",
+			)
 		: avances;
 
 	return (
@@ -68,12 +70,11 @@ function AvancesCard({
 						</CardTitle>
 						<CardAction
 							className={buttonVariants({
-								variant: "secondary",
+								variant: "outline",
+								size: "icon-lg",
 							})}
 						>
-							<Icon
-								className={`h-4 w-4 ${iconClassName || ""}`}
-							/>
+							<Icon className={`size-5 ${iconClassName || ""}`} />
 						</CardAction>
 					</CardHeader>
 					<CardContent>{value}</CardContent>
@@ -92,6 +93,7 @@ function AvancesCard({
 										key={a.materia_plan_id}
 										className="text-sm"
 										asChild
+										variant="outline"
 									>
 										<Link
 											to={`/carreras/${a.carrera_slug}/${a.carrera_plan}/${a.materia_slug}`}
@@ -148,7 +150,7 @@ export default function ResumenTab() {
 			<AvancesCard
 				title="Materias Regulares"
 				icon={IconBook2}
-				iconClassName="text-blue-500"
+				iconClassName="text-info"
 				value={regulares}
 				avances={avances}
 				estado="Regular"
@@ -156,7 +158,7 @@ export default function ResumenTab() {
 			<AvancesCard
 				title="En Curso"
 				icon={IconChartBar}
-				iconClassName="text-yellow-500"
+				iconClassName="text-warning"
 				value={enCurso}
 				avances={avances}
 				estado="Cursando"
@@ -164,7 +166,7 @@ export default function ResumenTab() {
 			<AvancesCard
 				title="Total de Avances"
 				icon={IconSchool}
-				iconClassName="text-muted-foreground"
+				iconClassName="text-secondary"
 				value={totales}
 				avances={avances}
 			/>
