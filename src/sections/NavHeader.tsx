@@ -1,6 +1,6 @@
 /* --- Imports --- */
 // React
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // Componentes
 import { Avatar, AvatarLetter, AvatarIcon } from "@/components/ui/avatar";
@@ -137,7 +137,15 @@ function AvatarUser({ user, signOut }: { user: User; signOut: () => void }) {
 	);
 }
 
-function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
+function Nav({
+	carreras,
+	loading,
+	path,
+}: {
+	carreras: Carrera[];
+	loading: boolean;
+	path?: string;
+}) {
 	return (
 		<NavigationMenu className="hidden lg:flex" delayDuration={1000}>
 			<NavigationMenuList>
@@ -186,7 +194,13 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 								</li>
 							) : (
 								carreras.map(({ icon, id, nombre, slug }) => (
-									<NavigationMenuLink asChild key={id}>
+									<NavigationMenuLink
+										asChild
+										key={id}
+										className={
+											slug === path ? "bg-muted" : ""
+										}
+									>
 										<Link
 											to={`/carreras/${slug}`}
 											className={`flex flex-row items-center gap-2 theme-${slug}`}
@@ -284,6 +298,7 @@ function Nav({ carreras, loading }: { carreras: Carrera[]; loading: boolean }) {
 }
 
 export default function NavHeader() {
+	const { carreraSlug: path } = useParams<{ carreraSlug: string }>();
 	const { signOut, userProfile, loading: loadingAuth } = useAuth();
 
 	// data for user is now in userProfile from context
@@ -308,7 +323,7 @@ export default function NavHeader() {
 					<LogoPage />
 
 					{/* Menú Desktop */}
-					<Nav carreras={carreras} loading={loading} />
+					<Nav carreras={carreras} loading={loading} path={path} />
 				</article>
 
 				{/* DERECHA: Acciones */}

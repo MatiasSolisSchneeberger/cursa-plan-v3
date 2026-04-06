@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LogoPage from "@/components/LogoPage";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import supabase from "@/utils/supabase";
 import { INTERNAL_LINKS, SOCIAL_LINKS } from "@/utils/links";
@@ -28,6 +28,7 @@ interface Carrera {
 }
 
 export default function Footer() {
+	const { carreraSlug } = useParams<{ carreraSlug: string }>();
 	const [carreras, SetCarreras] = useState<Carrera[]>([]);
 
 	const urlActual = window.location.pathname;
@@ -90,7 +91,15 @@ export default function Footer() {
 						<TypographyLarge>Carreras</TypographyLarge>
 					</Label>
 					{carreras?.map((carrera) => (
-						<Item key={carrera.id} asChild>
+						<Item
+							key={carrera.id}
+							asChild
+							variant={
+								carrera.slug === carreraSlug
+									? "muted"
+									: "default"
+							}
+						>
 							<Link
 								to={`/carreras/${carrera.slug}`}
 								className={`theme-${carrera.slug}`}
