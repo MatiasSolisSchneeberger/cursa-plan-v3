@@ -1,25 +1,39 @@
+//--- IMPORTS ---
+
+// React
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+// Hooks
 import { usePageTitle } from "@/hooks/usePageTitle";
 
+// Tipos
 import { type CalendarEvent } from "@/scripts/transformEventos";
 
+// Supabase
 import supabase from "@/utils/supabase";
 
+// Scripts
 import {
-	transformarFeriados,
 	transformarClases,
 	transformarExamenes,
+	transformarFeriados,
 	transformarInscripciones,
 } from "@/scripts/transformEventos";
 
+// Iconos
 import {
-	IconExternalLink,
 	IconCalendar,
-	IconSchool,
+	IconExternalLink,
 	IconFile,
 	IconPencil,
+	IconSchool,
 } from "@tabler/icons-react";
+
+// Componentes
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TypographyH1, TypographyH4 } from "@/components/ui/Typography";
 import {
 	Card,
 	CardHeader,
@@ -27,11 +41,6 @@ import {
 	CardDescription,
 	CardContent,
 } from "@/components/ui/card";
-
-import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { TypographyH1, TypographyH4 } from "@/components/ui/Typography";
-import Cargando from "@/sections/Cargando";
 import {
 	Item,
 	ItemActions,
@@ -41,9 +50,22 @@ import {
 	ItemMedia,
 	ItemTitle,
 } from "@/components/ui/item";
+
+// Utils
 import { cn } from "@/lib/utils";
+
+// Layout
 import PageLayout from "@/layout/PageLayout";
 
+// Sections
+import Cargando from "@/sections/Cargando";
+
+// --- COMPONENTES ---
+/**
+ * Componente que renderiza una lista de eventos próximos.
+ * @param eventos - Array de eventos a renderizar.
+ * @returns Componente que renderiza una lista de eventos próximos.
+ */
 function EventList({ eventos }: { eventos: CalendarEvent[] }) {
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
@@ -105,10 +127,10 @@ function EventList({ eventos }: { eventos: CalendarEvent[] }) {
 									className={cn({
 										eventType: {
 											"Feriado Inamovible":
-												"text-red-500",
-											Clase: "text-blue-500",
-											Examen: "text-green-500",
-											Inscripción: "text-purple-500",
+												"text-destructive",
+											Clase: "text-info",
+											Examen: "text-success",
+											Inscripción: "text-warning",
 										},
 									})}
 								>
@@ -123,6 +145,13 @@ function EventList({ eventos }: { eventos: CalendarEvent[] }) {
 	);
 }
 
+/**
+ * Componente que renderiza el contenido de una pestaña del calendario.
+ * @param label - Etiqueta de la pestaña.
+ * @param eventos - Array de eventos a renderizar.
+ * @param availablePeriods - Array de períodos disponibles.
+ * @returns Componente que renderiza el contenido de una pestaña del calendario.
+ */
 function CalendarTabContent({
 	label,
 	eventos,
@@ -179,6 +208,10 @@ function CalendarTabContent({
 	);
 }
 
+/**
+ * Componente principal de la página de calendario.
+ * @returns Componente que renderiza la página de calendario.
+ */
 export default function Calendar() {
 	const [eventos, setEventos] = useState<CalendarEvent[]>([]);
 	const [loading, setLoading] = useState(true);
