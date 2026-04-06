@@ -22,6 +22,7 @@ import ContraseñaOlvidada from "@/pages/auth/ContraseñaOlvidada";
 import Login from "@/pages/auth/Login";
 import Materia from "@/pages/Materia";
 import NotFound from "@/pages/NotFound";
+import Novedades from "@/pages/Novedades";
 import PoliticaDePrivacidad from "@/pages/landing/PoliticaDePrivacidad";
 import PreguntasFrecuentes from "@/pages/landing/PreguntasFrecuentes";
 import Profile from "@/pages/Profile";
@@ -89,6 +90,8 @@ function App() {
 						path="/terminos-y-condiciones"
 						element={<TerminosYCondiciones />}
 					/>
+
+					<Route path="/novedades" element={<Novedades />} />
 
 					{/* Contactos */}
 					<Route path="/contacto" element={<Contact />} />
